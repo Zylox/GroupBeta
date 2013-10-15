@@ -4,7 +4,7 @@ import org.newdawn.slick.state.BasicGameState;
 
 public enum STATES {
 
-	MAIN(new Main(1));
+	MAIN_GAMEPLAY(new Main_Gameplay(1));
 	
 	private int id;
 	private BasicGameState state;
