@@ -6,10 +6,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 
-public class Core extends StateBasedGame {
+public class TinyTank extends StateBasedGame {
 
 	
-	public Core(String name) {
+	public TinyTank(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
@@ -17,7 +17,7 @@ public class Core extends StateBasedGame {
 	public static void main(String[] args){
 		
 		try{
-		AppGameContainer app = new AppGameContainer(new Core(""));
+		AppGameContainer app = new AppGameContainer(new TinyTank(""));
 		
 
 		app.setDisplayMode(800, 600, false);
