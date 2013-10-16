@@ -17,6 +17,7 @@ public class Main_Gameplay extends BasicGameState{
 	private TerrainMap map;
 	private Input input;
 	
+	int ppp=10;
 	
 	public Main_Gameplay(int id){
 		this.id = id;
@@ -51,9 +52,19 @@ public class Main_Gameplay extends BasicGameState{
 		
 		//tests collision detection
 		//System.out.println(input.getMouseX() + ", " + input.getMouseY());
-		//if(map.collision(new Vector2f(input.getMouseX(), input.getMouseY()))){
-			//System.out.println("collides");
-		//}
+		/*
+		if(map.collision(new Vector2f(input.getMouseX(), input.getMouseY()))){
+			System.out.println("collides");
+		}*/
+		
+		/*ClickTest for exsplosion
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+			ppp++;
+			map.circleExplosion(input.getMouseX(), input.getMouseY(), ppp);
+			map.update();
+		}else{
+			ppp=10;
+		}*/
 	}
 
 	@Override
