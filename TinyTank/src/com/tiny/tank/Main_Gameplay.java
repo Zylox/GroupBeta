@@ -5,6 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -43,10 +44,16 @@ public class Main_Gameplay extends BasicGameState{
 			throws SlickException {
 		// TODO Auto-generated method stub
 		
-		if(input.isKeyPressed(Input.KEY_Q)){
+		if(input.isKeyDown(Input.KEY_Q)){
 			//regenerates terrain//for testing only
 			map = new TerrainMap(container.getWidth(), container.getHeight());
 		}
+		
+		//tests collision detection
+		//System.out.println(input.getMouseX() + ", " + input.getMouseY());
+		//if(map.collision(new Vector2f(input.getMouseX(), input.getMouseY()))){
+			//System.out.println("collides");
+		//}
 	}
 
 	@Override

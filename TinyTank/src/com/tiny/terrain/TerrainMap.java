@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * The land for our game. Uses a image buffer for pixel operations and an image for rendering.
@@ -51,7 +52,7 @@ public class TerrainMap {
 	
 	
 	/**
-	 * Generation algorithm still needed
+	 * Placeholder generation algorithm. Creates a heightmap then fills map.
 	 * @param x width
 	 * @param y height
 	 * @return The generated map
@@ -106,12 +107,6 @@ public class TerrainMap {
 	}
 	
 	
-	private double function(double x, double y){
-		//return ((x-width/2)*(x-width/2))/(height-y);
-		//return height/2*Math.sin((x*-width/2)/100)-((height-y));
-		return ((x-width/2)*(x-width/2))/((height-y));
-	}
-	
 	/**
 	 * Call when effecting map. Particularly with weapons.
 	 * Make sure to grab a new picture.
@@ -119,6 +114,18 @@ public class TerrainMap {
 	public void update(){
 		//TODO
 		image = map.getImage();
+	}
+	
+	public boolean collision(Vector2f point){
+		
+		int x = (int)point.x;
+		int y = (int)point.y;
+		
+		if(map.getRGBA()[((x + (y * map.getTexWidth())) * 4)] == (byte)255){
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public Image getImage() {
