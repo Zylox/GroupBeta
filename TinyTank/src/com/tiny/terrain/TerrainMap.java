@@ -1,5 +1,7 @@
 package com.tiny.terrain;
 
+import java.util.Random;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 
@@ -15,6 +17,7 @@ public class TerrainMap {
 	private Image image;
 	private int height;
 	private int width;
+	
 	
 	/**
 	 * Generates a bytemap and an image representing it.
@@ -55,22 +58,58 @@ public class TerrainMap {
 	 */
 	private ImageBuffer generate(int x, int y){
 		//TODO
+		int[] heightmap = new int[x];
+		Random ran = new Random();
 		
-		ImageBuffer genMap = new ImageBuffer(x,y);
-		for(int j = 0; j<height; j++){
-			for(int i = 0; i<width;i++){
-				if(function(i,j)>1){
-					genMap.setRGBA(i,j, 255, 50, 50, 255);
-				}
+		float tolRange=50;
+		float randRange=50;
+		float tolmax = 100;
+		
+		int k = y/2;
+		float tolerance = 0;
+		for(int i = 0; i<x; i++){
+			tolerance += ran.nextFloat()*randRange-randRange/2;
+			/////
+			if(tolerance < -tolmax){
+				tolerance +=tolmax;
+			}else if (tolerance > tolmax){
+				tolerance -= tolmax;
+			}
+			/////
+			if(tolerance<-tolRange){
+				k-=1;
+				heightmap[i] = k;
+			}else if(tolerance>tolRange){
+				k+=1;
+				heightmap[i] = k;
+			}else{
+				heightmap[i] = k;
 			}
 		}
+		
+		for(int p : heightmap){
+			System.out.println(p);
+		}
+		
+		ImageBuffer genMap = new ImageBuffer(x,y);
+		
+		for(int i = 0; i<x; i++){
+			k = heightmap[i];
+			while(k<y){
+				genMap.setRGBA(i, k, 255, 0, 0, 255);
+				k++;
+			}
+		}
+		
 		
 		return genMap;
 	}
 	
+	
 	private double function(double x, double y){
 		//return ((x-width/2)*(x-width/2))/(height-y);
-		return height/2*Math.sin((x*-width/2))-((height-y));
+		//return height/2*Math.sin((x*-width/2)/100)-((height-y));
+		return ((x-width/2)*(x-width/2))/((height-y));
 	}
 	
 	/**
