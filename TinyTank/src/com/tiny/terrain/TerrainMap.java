@@ -97,7 +97,7 @@ public class TerrainMap {
 		for(int i = 0; i<x; i++){
 			k = heightmap[i];
 			while(k<y){
-				genMap.setRGBA(i, k, 255, 0, 0, 255);
+				genMap.setRGBA(i, k, 118, 114, 40, 255);
 				k++;
 			}
 		}
@@ -121,7 +121,7 @@ public class TerrainMap {
 		int x = (int)point.x;
 		int y = (int)point.y;
 		
-		if(map.getRGBA()[((x + (y * map.getTexWidth())) * 4)] == (byte)255){
+		if(map.getRGBA()[((x + (y * map.getTexWidth())) * 4)] == (byte)118){
 			return true;
 		}
 		
