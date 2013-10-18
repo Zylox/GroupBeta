@@ -32,6 +32,7 @@ public abstract class CircularShot extends Shot{
 			for(int j = y-radius;j<y+radius;j++){
 				
 				if((x-i)*(x-i)  + (y-j)*(y-j)< radius*radius){
+					if(i < Main_Gameplay.map.getMap().getWidth() && i >= 0 && j < Main_Gameplay.map.getMap().getHeight() && j >=0)
 					Main_Gameplay.map.getMap().setRGBA(i, j, 0, 0, 0, 0);
 				}
 			}
