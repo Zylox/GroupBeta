@@ -16,7 +16,7 @@ public abstract class Shot {
 	protected boolean isAlive;
 	protected boolean isAnimating;
 	protected boolean isShot;
-	
+	protected String shotName;
 
 
 	/**
@@ -26,15 +26,20 @@ public abstract class Shot {
 	 * @param areaOfEffect Radius that the explosion will effect.
 	 * @param graphicalRep Graphical representation
 	 */
-	public Shot(Vector2f pos, Shape areaOfEffect, Object graphicalRep){
+	public Shot(Vector2f pos, Shape areaOfEffect, Object graphicalRep, String shotName){
 		this.pos = pos;
 		this.areaOfEffect = areaOfEffect;
 		this.graphicalRep = graphicalRep;
+		this.shotName = shotName;
 		this.isAlive = true;
 		this.isAnimating = false;
 		this.isShot = false;
 	}
 	 
+	
+	
+
+
 
 	/**
 	 * Checks if the positions of the center intersect the terrain. Uses point-point collision.
@@ -42,6 +47,18 @@ public abstract class Shot {
 	 */
 	public final boolean pointCollision(){
 		return Main_Gameplay.map.collision(pos);
+	}
+	
+	
+	public String getShotName() {
+		return shotName;
+	}
+	
+	
+	
+	
+	public void setShotName(String shotName) {
+		this.shotName = shotName;
 	}
 	
 	
