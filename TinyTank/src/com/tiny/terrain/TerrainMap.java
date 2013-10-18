@@ -89,9 +89,11 @@ public class TerrainMap {
 			
 		}
 		
+		/*
 		for(int p : heightmap){
 			System.out.println(p);
 		}
+		*/
 		
 		ImageBuffer genMap = new ImageBuffer(x,y);
 		
