@@ -14,7 +14,7 @@ import com.tiny.terrain.TerrainMap;
 public class Main_Gameplay extends BasicGameState{
 
 	private int id;
-	private TerrainMap map;
+	public static TerrainMap map;
 	private Input input;
 	
 	int ppp=10;
