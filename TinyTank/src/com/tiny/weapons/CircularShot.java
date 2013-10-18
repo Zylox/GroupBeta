@@ -11,8 +11,8 @@ public abstract class CircularShot extends Shot{
 	protected int initialRadius;
 	private int storedRadius;
 	
-	public CircularShot(Vector2f pos, int radiusOfEffect, int intialRadius, Object graphicalRep) {
-		super(pos, new Circle(pos.x, pos.y, radiusOfEffect), graphicalRep);
+	public CircularShot(Vector2f pos, int radiusOfEffect, int intialRadius, Object graphicalRep, String shotName) {
+		super(pos, new Circle(pos.x, pos.y, radiusOfEffect), graphicalRep, shotName);
 		// TODO Auto-generated constructor stub
 		this.radiusOfEffect = radiusOfEffect;
 		this.storedRadius = initialRadius;
