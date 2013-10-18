@@ -79,13 +79,14 @@ public class TerrainMap {
 			/////
 			if(tolerance<-tolRange){
 				k-=1;
-				heightmap[i] = k;
+				if (k < 0){k=0;}
 			}else if(tolerance>tolRange){
 				k+=1;
-				heightmap[i] = k;
-			}else{
-				heightmap[i] = k;
+				if(k >= height){k=height-1;}
 			}
+		
+			heightmap[i] = k;
+			
 		}
 		
 		for(int p : heightmap){
