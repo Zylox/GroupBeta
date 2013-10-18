@@ -12,11 +12,11 @@ import com.tiny.weapons.CircularShot;
 
 public class NormalShot extends CircularShot{
 
-	private final float animationLimit = 1;
+	private final float animationLimit = 5;
 	private float animationCounter;
 	
-	public NormalShot(Vector2f pos, int radiusOfEffect, int initialRadius, Object graphicalRep) {
-		super(pos, radiusOfEffect, initialRadius, graphicalRep);
+	public NormalShot(Vector2f pos, int radiusOfEffect, int initialRadius, Object graphicalRep, String shotName) {
+		super(pos, radiusOfEffect, initialRadius, graphicalRep, shotName);
 		// TODO Auto-generated constructor stub
 		animationCounter = 0;
 	}
@@ -63,6 +63,10 @@ public class NormalShot extends CircularShot{
 			//temporary
 			pos.x = pos.x+0;
 			pos.y = pos.y+1;
+			if(pos.y > Main_Gameplay.map.getMap().getHeight()){
+				isAnimating = true;
+				areaOfEffect = new Circle(pos.x,Main_Gameplay.map.getMap().getHeight()-1, initialRadius);
+			}
 		}
 		
 		return isAlive;
