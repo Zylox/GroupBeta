@@ -6,11 +6,21 @@ import com.tiny.weapons.Shot;
 
 public enum Shots {
 
-	NORMAL_SHOT(new NormalShot(new Vector2f(0,0), 10, 1, null)),
-	BIG_SHOT(new NormalShot(new Vector2f(0,0), 30, 1, null));
+	NORMAL_SHOT(new NormalShot(new Vector2f(0,0), 10, 1, null, "normal shot")),
+	BIG_SHOT(new NormalShot(new Vector2f(0,0), 30, 1, null, "big shot"));
+	
+	Shot shot;
 	
 	Shots(Shot shot){
-		
+		this.shot = shot;
+	}
+
+	public Shot getShot() {
+		return shot;
+	}
+
+	public void setShot(Shot shot) {
+		this.shot = shot;
 	}
 	
 }
