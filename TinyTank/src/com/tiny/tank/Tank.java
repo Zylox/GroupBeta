@@ -6,13 +6,6 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.tiny.weapons.Shot;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-//package Bot.Main;
-
-
 public class Tank {
     
     
@@ -22,21 +15,37 @@ public class Tank {
     private float barrelAng;
     //previous angle of the player
     private float prevAng;
+    private int direction;
     private int health;
     //index of the player
     private int index;
     private ArrayList<Shot> shots;
     
-    public void TankInfo(float playerX, float playerY, float playerAng, int health, ArrayList<Shot> shots, int index) {
+    /**
+     * Our good old players
+     * @param playerX X position of top right
+     * @param playerY Y position of top right
+     * @param barrelAng The angle of the barrel
+     * @param health Player health
+     * @param shots List of weapons
+     * @param index Player number
+     */
+    public void TankInfo(float playerX, float playerY, float barrelAng, int health, ArrayList<Shot> shots, int index) {
         
         this.pos = new Vector2f(playerX, playerY);
-        this.barrelAng = playerAng;
-        this.prevAng = playerAng;
+        this.barrelAng = barrelAng;
+        this.prevAng = barrelAng;
         this.health = health;
         this.index = index;
         this.shots = shots;
+        if(index == 1){
+        	direction = 1;
+        }else{
+        	direction = 2;
+        }
  
     }
+    
 
     public int getIndex() {
         return index;
