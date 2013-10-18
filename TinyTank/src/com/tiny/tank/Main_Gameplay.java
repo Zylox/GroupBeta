@@ -10,6 +10,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.terrain.TerrainMap;
+import com.tiny.weapons.shots.NormalShot;
 
 public class Main_Gameplay extends BasicGameState{
 
@@ -17,7 +18,10 @@ public class Main_Gameplay extends BasicGameState{
 	public static TerrainMap map;
 	private Input input;
 	
-	int ppp=10;
+	private final int timeStep = 100;
+	private int timeCounter;
+	
+	private NormalShot test;
 	
 	public Main_Gameplay(int id){
 		this.id = id;
@@ -29,6 +33,8 @@ public class Main_Gameplay extends BasicGameState{
 		// TODO Auto-generated method stub
 		map = new TerrainMap(container.getWidth(),container.getHeight());
 		input = container.getInput();
+		timeCounter = 0;
+		test = new NormalShot(new Vector2f(0,0), 50, 10, null);
 	}
 
 	@Override
@@ -37,7 +43,7 @@ public class Main_Gameplay extends BasicGameState{
 		// TODO Auto-generated method stub
 		g.setBackground(Color.gray);
 		map.getImage().draw();
-		
+		test.render(container, game, g);
 	}
 
 	@Override
@@ -50,21 +56,18 @@ public class Main_Gameplay extends BasicGameState{
 			map = new TerrainMap(container.getWidth(), container.getHeight());
 		}
 		
-		//tests collision detection
-		//System.out.println(input.getMouseX() + ", " + input.getMouseY());
-		
-		if(map.collision(new Vector2f(input.getMouseX(), input.getMouseY()))){
-			System.out.println("collides");
+		timeCounter+=delta;
+		if(timeCounter>timeStep){
+			
+			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				test.init(new Vector2f(input.getMouseX(),input.getMouseY()));
+			}
+			
+			test.update();
+			
+			timeCounter-=delta;
 		}
 		
-		//ClickTest for exsplosion
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-			ppp++;
-			map.circleExplosion(input.getMouseX(), input.getMouseY(), ppp);
-			map.update();
-		}else{
-			ppp=10;
-		}
 	}
 
 	@Override
