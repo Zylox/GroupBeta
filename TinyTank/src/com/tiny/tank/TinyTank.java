@@ -8,6 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class TinyTank extends StateBasedGame {
 
+	private static int previousState;
 	
 	public TinyTank(String name) {
 		super(name);
@@ -36,7 +37,16 @@ public class TinyTank extends StateBasedGame {
 		for(STATES s : STATES.values()){
 			this.addState(s.getState());
 		}
-		
 	}
+
+	public static int getPreviousState() {
+		return previousState;
+	}
+
+	public static void setPreviousState(int previousState) {
+		TinyTank.previousState = previousState;
+	}
+	
+	
 
 }
