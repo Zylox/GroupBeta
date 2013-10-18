@@ -2,28 +2,28 @@ package com.tiny.weapons;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.tank.Main_Gameplay;
-import com.tiny.terrain.TerrainMap;
 
 public abstract class Shot {
 	
 	protected Vector2f pos;
-	protected int radiusOfEffect;
+	protected Shape areaOfEffect;
 	protected Object graphicalRep;
 	
 	/**
 	 * Sets basic values for the weapons.
 	 * The graphical representation object is just a placeholder for now.
 	 * @param pos Position of center
-	 * @param radiusOfEffect Radius that the explosion will effect.
-	 * @param graphicalRep 
+	 * @param areaOfEffect Radius that the explosion will effect.
+	 * @param graphicalRep Graphical representation
 	 */
-	public Shot(Vector2f pos, int radiusOfEffect, Object graphicalRep){
+	public Shot(Vector2f pos, Shape areaOfEffect, Object graphicalRep){
 		this.pos = pos;
-		this.radiusOfEffect = radiusOfEffect;
+		this.areaOfEffect = areaOfEffect;
 		this.graphicalRep = graphicalRep;
 	}
 	 
@@ -44,12 +44,12 @@ public abstract class Shot {
 		this.pos = pos;
 	}
 	
-	public int getRadiusOfEffect() {
-		return radiusOfEffect;
+	public Shape getAreaOfEffect() {
+		return areaOfEffect;
 	}
 	
-	public void setRadiusOfEffect(int radiusOfEffect) {
-		this.radiusOfEffect = radiusOfEffect;
+	public void setAreaOfEffect(Shape areaOfEffect) {
+		this.areaOfEffect = areaOfEffect;
 	}
 	
 	public abstract void onCollisionEffect();
