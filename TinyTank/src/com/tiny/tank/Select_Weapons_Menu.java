@@ -17,9 +17,12 @@ public class Select_Weapons_Menu extends BasicGameState {
 	private int id;
 
 	private Image title = null;
+	private Image p1_title=null;
+	private Image p2_title=null;
 	private Image button_play= null;
 	private Image button_menu= null;
-	public String mouse = "No input Yet";
+	private Image ammo_title= null;
+	
 	
 	 Image background = null;
 
@@ -36,7 +39,10 @@ public class Select_Weapons_Menu extends BasicGameState {
 			title = new Image("res/Weapon_Select_ title.png");
 			button_play= new Image("res/play_button.png");
 			button_menu= new Image("res/back_button.png");
-			
+			p1_title= new Image("res/P1.png");
+			p2_title= new Image("res/P2.png");
+			ammo_title= new Image("res/ammo.png");
+
 
 		}
 
@@ -48,7 +54,9 @@ public class Select_Weapons_Menu extends BasicGameState {
 			title.draw(0,0);
 			button_play.draw(500,520);
 			button_menu.draw(80,520);
-			
+			p1_title.draw(30, 150);
+			p2_title.draw(540,150);
+			ammo_title.draw(235,80);
 		
 		}
 
