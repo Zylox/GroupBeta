@@ -62,6 +62,7 @@ public class TerrainMap {
 		int[] heightmap = new int[x];
 		Random ran = new Random();
 		
+		
 		float tolRange=50;
 		float randRange=50;
 		float tolmax = 100;
@@ -100,7 +101,8 @@ public class TerrainMap {
 		for(int i = 0; i<x; i++){
 			k = heightmap[i];
 			while(k<y){
-				genMap.setRGBA(i, k, 118, 114, 40, 255);
+
+				genMap.setRGBA(i, k, 50, 114, 40, 255);
 				k++;
 			}
 		}
