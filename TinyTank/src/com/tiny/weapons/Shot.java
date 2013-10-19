@@ -13,7 +13,12 @@ public abstract class Shot {
 	protected Vector2f pos;
 	protected Shape areaOfEffect;
 	protected Object graphicalRep;
-	
+	protected boolean isAlive;
+	protected boolean isAnimating;
+	protected boolean isShot;
+	protected String shotName;
+
+
 	/**
 	 * Sets basic values for the weapons.
 	 * The graphical representation object is just a placeholder for now.
@@ -21,12 +26,21 @@ public abstract class Shot {
 	 * @param areaOfEffect Radius that the explosion will effect.
 	 * @param graphicalRep Graphical representation
 	 */
-	public Shot(Vector2f pos, Shape areaOfEffect, Object graphicalRep){
+	public Shot(Vector2f pos, Shape areaOfEffect, Object graphicalRep, String shotName){
 		this.pos = pos;
 		this.areaOfEffect = areaOfEffect;
 		this.graphicalRep = graphicalRep;
+		this.shotName = shotName;
+		this.isAlive = true;
+		this.isAnimating = false;
+		this.isShot = false;
 	}
 	 
+	
+	
+
+
+
 	/**
 	 * Checks if the positions of the center intersect the terrain. Uses point-point collision.
 	 * @return true if colliding
@@ -35,6 +49,27 @@ public abstract class Shot {
 		return Main_Gameplay.map.collision(pos);
 	}
 	
+	
+	public String getShotName() {
+		return shotName;
+	}
+	
+	
+	
+	
+	public void setShotName(String shotName) {
+		this.shotName = shotName;
+	}
+	
+	
+	public boolean isAnimating() {
+		return isAnimating;
+	}
+	
+	
+	public void setAnimating(boolean isAnimating) {
+		this.isAnimating = isAnimating;
+	}
 	
 	public Vector2f getPos() {
 		return pos;
@@ -52,12 +87,40 @@ public abstract class Shot {
 		this.areaOfEffect = areaOfEffect;
 	}
 	
+	public boolean isAlive() {
+		return isAlive;
+	}
+	
+	public void setAlive(boolean isAlive) {
+		this.isAlive = isAlive;
+	}
+
+	public boolean isShot() {
+		return isShot;
+	}
+	
+	
+	public void setShot(boolean isShot) {
+		this.isShot = isShot;
+	}
+	
+	public void init(Vector2f pos){
+		this.pos = pos;
+		this.isAlive = true;
+		this.isAnimating = false;
+		this.isShot = true;
+	}
+	
+
+
 	public abstract void onCollisionEffect();
 
+	
 	/**
 	 * Flight behavior should be included in here
+	 * @returns isAlive
 	 */
-	public abstract void update();
+	public abstract boolean update();
 	
 	/**
 	 * All parameters passed are directly from render method in Main_Gameplay state.

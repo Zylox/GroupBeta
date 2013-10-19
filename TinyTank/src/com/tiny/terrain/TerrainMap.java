@@ -89,9 +89,11 @@ public class TerrainMap {
 			
 		}
 		
+		/*
 		for(int p : heightmap){
 			System.out.println(p);
 		}
+		*/
 		
 		ImageBuffer genMap = new ImageBuffer(x,y);
 		
@@ -129,17 +131,7 @@ public class TerrainMap {
 		return false;
 	}
 	
-	public void circleExplosion(int x, int y, int radius){
-		
-		for(int i =x-radius;i<x+radius;i++){
-			for(int j = y-radius;j<y+radius;j++){
-				
-				if((x-i)*(x-i)  + (y-j)*(y-j)< radius*radius){
-					map.setRGBA(i, j, 0, 0, 0, 0);
-				}
-			}
-		}
-	}
+
 	public Image getImage() {
 		return image;
 	}
