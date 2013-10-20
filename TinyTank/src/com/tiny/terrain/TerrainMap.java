@@ -18,6 +18,7 @@ public class TerrainMap {
 	private Image image;
 	private int height;
 	private int width;
+	private int[] linearHeightmap;
 	
 	
 	/**
@@ -58,9 +59,9 @@ public class TerrainMap {
 	 * @return The generated map
 	 */
 	private ImageBuffer generate(int x, int y){
-		//TODO
-		int[] heightmap = new int[x];
+		linearHeightmap = new int[x];
 		Random ran = new Random();
+		
 		
 		float tolRange=50;
 		float randRange=50;
@@ -79,25 +80,29 @@ public class TerrainMap {
 			/////
 			if(tolerance<-tolRange){
 				k-=1;
-				heightmap[i] = k;
+				if (k < 0){k=0;}
 			}else if(tolerance>tolRange){
 				k+=1;
-				heightmap[i] = k;
-			}else{
-				heightmap[i] = k;
+				if(k >= height){k=height-1;}
 			}
+		
+			linearHeightmap[i] = k;
+			
 		}
 		
-		for(int p : heightmap){
+		/*
+		for(int p : linearHeightmap){
 			System.out.println(p);
 		}
+		*/
 		
 		ImageBuffer genMap = new ImageBuffer(x,y);
 		
 		for(int i = 0; i<x; i++){
-			k = heightmap[i];
+			k = linearHeightmap[i];
 			while(k<y){
-				genMap.setRGBA(i, k, 118, 114, 40, 255);
+
+				genMap.setRGBA(i, k, 50, 114, 40, 255);
 				k++;
 			}
 		}
@@ -107,6 +112,7 @@ public class TerrainMap {
 	}
 	
 	
+
 	/**
 	 * Call when effecting map. Particularly with weapons.
 	 * Make sure to grab a new picture.
@@ -116,29 +122,62 @@ public class TerrainMap {
 		image = map.getImage();
 	}
 	
+	//gets if there is a collision of a point on the map
 	public boolean collision(Vector2f point){
 		
 		int x = (int)point.x;
 		int y = (int)point.y;
 		
-		if(map.getRGBA()[((x + (y * map.getTexWidth())) * 4)] == (byte)118){
+		if(map.getRGBA()[((x + (y * map.getTexWidth())) * 4)] == (byte)50){
 			return true;
 		}
 		
 		return false;
 	}
 	
-	public void circleExplosion(int x, int y, int radius){
-		
-		for(int i =x-radius;i<x+radius;i++){
-			for(int j = y-radius;j<y+radius;j++){
-				
-				if((x-i)*(x-i)  + (y-j)*(y-j)< radius*radius){
-					map.setRGBA(i, j, 0, 0, 0, 0);
-				}
+	/**
+	 * Gets the max value of the map in range given
+	 * @param start Start of range
+	 * @param finish End of range
+	 * @return max value
+	 */
+	public int getMaxInRange(float start, float finish){
+		int max = linearHeightmap[(int) start];
+		for(int i = (int) (start+1); i<finish;i++){
+			//seems like a wierd way to find max but remember y is inverted;
+			if( max >linearHeightmap[i]){
+				max = linearHeightmap[i];
 			}
 		}
+		
+		return max;
 	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	
+	public int[] getLinearHeightmap() {
+		return linearHeightmap;
+	}
+	
+	
+	public void setLinearHeightmapPoint(int i, int k) {
+		linearHeightmap[i] = k;
+	}
+
 	public Image getImage() {
 		return image;
 	}
