@@ -4,14 +4,16 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.weapons.Shot;
 
-/*
- * Player class. Tanks 
+/**
+ * Player class. Tanks
  */
 public class Tank {
 
@@ -26,20 +28,20 @@ public class Tank {
 	private float barrelAng;
 	// previous angle of the player
 	private float prevAng;
-
 	private int direction;
 	private int health;
 	// index of the player
 	private int index;
 	private ArrayList<Shot> shots;
 	private Rectangle hitbox;
-	//x and y ranges of numbers. Will be usefull when we get rotations
+	private Image image;
+	// x and y ranges of numbers. Will be usefull when we get rotations
 	private float[] xRange;
 	private float[] yRange;
 	private boolean isMoving;
 	private boolean isFalling;
 	private boolean isShooting;
-	//Needs to change when moved or falling
+	// Needs to change when moved or falling
 	private boolean hasRangeChanged;
 
 	/**
@@ -67,24 +69,41 @@ public class Tank {
 		this.health = health;
 		this.index = index;
 		this.shots = shots;
-		//player1 looks right, player 2 looks left
+		// player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
+			try {
+				image = new Image("res/BlueTank.png");
+				image.setFilter(Image.FILTER_NEAREST);
+				image = image.getScaledCopy(tankWidth, tankHeight);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			direction = 2;
+			try {
+				image = new Image("res/RedTank.png");
+				 image.setFilter(Image.FILTER_NEAREST);
+				 image = image.getScaledCopy(tankWidth,tankHeight);
+
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		isMoving = false;
 		isFalling = false;
 		isShooting = false;
-		
+
 		hitbox = new Rectangle(playerX, playerY, tankWidth, tankHeight);
 		xRange = new float[2];
 		yRange = new float[2];
 		calculateXRange();
 		calculateYRange();
 		hasRangeChanged = false;
-		
+
 		animationCounter = 0;
 	}
 
@@ -102,7 +121,7 @@ public class Tank {
 	 */
 	public void update() {
 
-		//state handeling if falling
+		// state handeling if falling
 		if (isFalling) {
 			animationCounter += 1;
 			if (animationCounter > animationLimit) {
@@ -119,7 +138,7 @@ public class Tank {
 				animationCounter -= animationLimit;
 			}
 		}
-		//state handeling if shooting
+		// state handeling if shooting
 		if (isShooting) {
 			for (int i = 0; i < shots.size(); i++) {
 				if (shots.get(i).isShot()) {
@@ -127,22 +146,22 @@ public class Tank {
 				}
 			}
 		}
-		
-		//states to be added: changing barrel angles, moving
+
+		// states to be added: changing barrel angles, moving
 
 	}
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		//current graphical representation
-		g.fill(hitbox);
+		// current graphical representation
+		image.draw(pos.x, pos.y);
 	}
 
 	public boolean checkCollision() {
 
-		//adjusts range if needbe
+		// adjusts range if needbe
 		checkRange();
 
-		//checks if outside the map
+		// checks if outside the map
 		if (hitbox.getMaxX() > Main_Gameplay.map.getWidth() - 1
 				|| hitbox.getMinX() < 0
 				|| hitbox.getMaxY() > Main_Gameplay.map.getHeight() - 1
@@ -150,10 +169,10 @@ public class Tank {
 			return true;
 		}
 
-		//gets teh highest point under the tank
+		// gets teh highest point under the tank
 		int mapMaxInRange = Main_Gameplay.map.getMaxInRange(xRange[0],
 				xRange[1]);
-		//if lowest corner is below mapmax does collision check
+		// if lowest corner is below mapmax does collision check
 		if (yRange[1] > mapMaxInRange) {
 			for (int i = (int) xRange[0]; i < xRange[1]; i++) {
 				for (int j = (int) yRange[0]; j < yRange[1]; j++) {

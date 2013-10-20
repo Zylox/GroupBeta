@@ -69,8 +69,9 @@ public class TerrainMap {
 		
 		int k = y/2;
 		float tolerance = 0;
+		int change = 3;
 		for(int i = 0; i<x; i++){
-			tolerance += ran.nextFloat()*randRange-randRange/2;
+			tolerance += ran.nextFloat()*randRange-randRange/2;		
 			/////
 			if(tolerance < -tolmax){
 				tolerance +=tolmax;
@@ -90,6 +91,10 @@ public class TerrainMap {
 			
 		}
 		
+		//for(int i =0;i<x/2;i++){
+			//linearHeightmap[x/4+i] +=i;
+			//linearHeightmap[3*x/4-i] +=i;
+		//}
 		/*
 		for(int p : linearHeightmap){
 			System.out.println(p);
