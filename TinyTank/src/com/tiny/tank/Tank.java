@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.weapons.Shot;
 
-/*
+/**
  * Player class. Tanks 
  */
 public class Tank {
@@ -26,13 +28,13 @@ public class Tank {
 	private float barrelAng;
 	// previous angle of the player
 	private float prevAng;
-
 	private int direction;
 	private int health;
 	// index of the player
 	private int index;
 	private ArrayList<Shot> shots;
 	private Rectangle hitbox;
+	private Image image;
 	//x and y ranges of numbers. Will be usefull when we get rotations
 	private float[] xRange;
 	private float[] yRange;
@@ -70,8 +72,25 @@ public class Tank {
 		//player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
+			try {
+				image = new Image("res/BlueTank.png");
+				image.setFilter(Image.FILTER_NEAREST);
+				image = image.getScaledCopy(tankWidth,tankHeight);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			direction = 2;
+			try {
+				image = new Image("res/RedTank.png");
+				image.setFilter(Image.FILTER_NEAREST);
+				image = image.getScaledCopy(tankWidth,tankHeight);
+
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 		isMoving = false;
@@ -134,7 +153,7 @@ public class Tank {
 
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		//current graphical representation
-		g.fill(hitbox);
+		image.draw(pos.x, pos.y);
 	}
 
 	public boolean checkCollision() {
