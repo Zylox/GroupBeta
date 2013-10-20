@@ -71,8 +71,7 @@ public class Select_Weapons_Menu extends BasicGameState {
 			// If play game button is clicked on play game, enter the play game state
 			if((posX>500 && posX<720) && (posY>20 && posY<80)){
 				if(Mouse.isButtonDown(0)){
-					game.enterState(2);
-					//*********game.enterState(STATES.MAIN_GAMEPLAY.getId());
+					game.enterState(STATES.MAIN_GAMEPLAY.getId());
 				}
 				
 			}

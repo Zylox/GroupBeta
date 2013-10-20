@@ -1,5 +1,7 @@
 package com.tiny.weapons;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
@@ -7,6 +9,7 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.tank.Main_Gameplay;
+import com.tiny.tank.Tank;
 
 public abstract class Shot {
 	
@@ -53,8 +56,6 @@ public abstract class Shot {
 	public String getShotName() {
 		return shotName;
 	}
-	
-	
 	
 	
 	public void setShotName(String shotName) {
@@ -104,15 +105,21 @@ public abstract class Shot {
 		this.isShot = isShot;
 	}
 	
+	/**
+	 * Initializes the position upon firing.
+	 * Override and call super if more needs to be done
+	 * @param pos
+	 */
 	public void init(Vector2f pos){
 		this.pos = pos;
 		this.isAlive = true;
 		this.isAnimating = false;
 		this.isShot = true;
 	}
-	
 
-
+	/**
+	 * Every shot needs an onCollisionEffect
+	 */
 	public abstract void onCollisionEffect();
 
 	
@@ -131,6 +138,9 @@ public abstract class Shot {
 	 */
 	public abstract void render(GameContainer container, StateBasedGame game, Graphics g);
 	
-	
+	/**
+	 * Cleanup and finishing shots.
+	 */
+	public abstract void finished();	
 	
 }
