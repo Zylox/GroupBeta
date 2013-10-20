@@ -2,6 +2,7 @@ package com.tiny.tank;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,7 +17,8 @@ import com.tiny.weapons.Shot;
 import com.tiny.weapons.shots.Shots;
 
 public class Main_Gameplay extends BasicGameState{
-
+	Image pause;
+	
 	private int id;
 	public static TerrainMap map;
 	private Input input;
@@ -38,7 +40,7 @@ public class Main_Gameplay extends BasicGameState{
 		map = new TerrainMap(container.getWidth(),container.getHeight());
 		input = container.getInput();
 		timeCounter = 0;
-		
+		pause=new Image("res/menu.png");
 		players = new ArrayList<Tank>();
 		
 	}
@@ -102,6 +104,7 @@ public class Main_Gameplay extends BasicGameState{
 		// TODO Auto-generated method stub
 		//draw order: background,map,tanks,shots
 		g.setBackground(Color.gray);
+//		pause.draw(100,0);
 		map.getImage().draw();
 		for(int i = 0; i < numOfPlayers; i++){
 			players.get(i).render(container, game, g);
@@ -120,6 +123,10 @@ public class Main_Gameplay extends BasicGameState{
 			//regenerates terrain//for testing only
 			map = new TerrainMap(container.getWidth(), container.getHeight());
 			players = getTanks();
+		}
+		if(input.isKeyDown(Input.KEY_P)) {
+			//pause button
+			game.enterState(STATES.PAUSE_MENU.getId());
 		}
 
 		//put updates in here
