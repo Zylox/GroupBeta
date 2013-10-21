@@ -24,6 +24,7 @@ public class Main_Gameplay extends BasicGameState{
 	private final int timeStep = 10;
 	private int timeCounter;
 	
+	
 	private int numOfPlayers = 2;
 	public static ArrayList<Tank> players;
 	
