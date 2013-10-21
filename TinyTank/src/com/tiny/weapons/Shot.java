@@ -39,11 +39,6 @@ public abstract class Shot {
 		this.isShot = false;
 	}
 	 
-	
-	
-
-
-
 	/**
 	 * Checks if the positions of the center intersect the terrain. Uses point-point collision.
 	 * @return true if colliding

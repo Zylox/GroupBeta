@@ -116,6 +116,10 @@ public class TerrainMap {
 		return genMap;
 	}
 	
+	public void setFilled(int i, int j){
+		map.setRGBA(i, j, 50, 114, 40, 255);
+	}
+	
 	
 
 	/**
