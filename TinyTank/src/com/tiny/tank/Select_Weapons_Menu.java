@@ -108,6 +108,12 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			for(SimpleTempButton s : buttons){
 				s.render(container, game, g);
 			}
+			for(SimpleTempButton s : p1weapons){
+				s.render(container, game, g);
+			}
+			for(SimpleTempButton s : p2weapons){
+				s.render(container, game, g);
+			}
 			g.setColor(Color.white);
 			
 		
@@ -162,19 +168,19 @@ public class Select_Weapons_Menu extends BasicGameState  {
 					
 					p1weapons.add(new SimpleTempButton(new Vector2f(x1,y),200,spacing,s.getShot()));
 					playercount += 1;
-					System.out.println("EVEN!!  "+ playercount);
+					System.out.println("EVEN!!  selection #:"+ playercount);
 				
 				}
 				// odd number selected weapons go to Player2
 				else if (odd == 0)
 				{
-					int x2 = 500;
+					int x2 = 550;
 					
 					p2weapons.add(new SimpleTempButton(new Vector2f(x2,y),200,spacing,s.getShot()));
 					// increment Y value by 20 to put the next button below the previous
 					y+=spacing;
 					playercount += 1;
-					System.out.println("ODD!!  "+ playercount);
+					System.out.println("ODD!!  selection #:"+ playercount);
 				}
 							
 			buttons.remove(s);
