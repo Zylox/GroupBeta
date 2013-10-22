@@ -21,11 +21,13 @@ public class Main_Gameplay extends BasicGameState{
 	public static TerrainMap map;
 	private Input input;
 	
+	//update counter
 	private final int timeStep = 10;
 	private int timeCounter;
 	
 	
-	private int numOfPlayers = 2;
+	private final int numOfPlayers = 2;
+	//index of player whose turn it is.
 	private int playersTurnIndex;
 	public static ArrayList<Tank> players;
 	
@@ -35,8 +37,7 @@ public class Main_Gameplay extends BasicGameState{
 
 	
 	/**
-	 * Called only once. Initializes things in state;
-	 * 
+	 * Called only once. Initializes things in state.
 	 */
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
