@@ -47,7 +47,7 @@ public class SimpleTempButton {
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
-		g.drawString(shot.getShotName(), pos.x+20, pos.y);
+		g.drawString(shot.getShotName().toUpperCase(), pos.x+20, pos.y);
 		g.draw(button);
 	}
 

@@ -64,7 +64,7 @@ public class Select_Weapons_Menu extends BasicGameState  {
 		public void enter(GameContainer container, StateBasedGame game){
 			
 			int x = 300;
-			int y = 200;
+			int y = 155;
 
 			buttons = new ArrayList<SimpleTempButton>();
 			p1weapons = new ArrayList<SimpleTempButton>();
@@ -93,16 +93,17 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			button_menu.draw(80,520);
 			p1_title.draw(30, 150);
 			p2_title.draw(540,150);
-			ammo_title.draw(235,80);
+			ammo_title.draw(240,80);
 			
 
-			//Transparent boxes for weapon selection
+			//Transparent boxes for each player
 			g.setColor(new Color(300,300,300, 0.5f));
 			g.fillRect(60, 200, 170, 300);
 			g.fillRect(560,200, 170, 300);
 			
+			// ammunition select from box
 			g.setColor(new Color(176, 176, 176, 0.8f));
-			g.fillRect(300, 200, 200, 300);
+			g.fillRect(300, 155, 200, 345);
 			
 			g.setColor(Color.black);
 			for(SimpleTempButton s : buttons){
@@ -119,10 +120,10 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			
 			if(odd || playercount == 0)
 			{
-			select.draw(20, 120);
+			select.draw(20, 110);
 			}else
 			{
-			select.draw(600, 120);
+			select.draw(530, 110);
 			}
 				
 			
@@ -205,7 +206,7 @@ public class Select_Weapons_Menu extends BasicGameState  {
 					System.out.println("ODD!!  selection #:"+ playercount);
 				}
 			
-			// if all weapons are choosen, enable play button
+			// if all weapons are chosen, enable play button
 			if(playercount -1 >= buttons.size())
 				playButtonActive=true;
 							
