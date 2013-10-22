@@ -79,7 +79,7 @@ public class Select_Weapons_Menu extends BasicGameState {
 				// If back button is clicked, change state to main menu state		
 			if((posX>80 && posX<300) && (posY>20 && posY<80)){
 				if(Mouse.isButtonDown(0)){
-					game.enterState(0);		
+					game.enterState((STATES.MAIN_MENU).getId());		
 					//**********game.enterState(STATES.MAIN_GAMEPLAY.getId());
 				}
 			}
