@@ -32,20 +32,24 @@ public class Main_Gameplay extends BasicGameState{
 	public Main_Gameplay(int id){
 		this.id = id;
 	}
+
 	
+	/**
+	 * Called only once. Initializes things in state;
+	 * 
+	 */
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		// TODO Auto-generated method stub
 		map = new TerrainMap(container.getWidth(),container.getHeight());
 		input = container.getInput();
-		timeCounter = 0;
 		
 		players = new ArrayList<Tank>();
 		
 	}
 	
-	/*
+	/**
 	 * Called when entering the state
 	 * @see org.newdawn.slick.state.BasicGameState#enter(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
 	 */
@@ -70,9 +74,13 @@ public class Main_Gameplay extends BasicGameState{
 		
 		//sets player one to his turn
 		playersTurnIndex =0;
+		timeCounter = 0;
 	} 
 
-	
+
+	/**
+	 * Renders our objects to the screen. Renders in layers in order put.
+	 */
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
@@ -90,6 +98,9 @@ public class Main_Gameplay extends BasicGameState{
 		
 	}
 
+	/**
+	 * All gameplay logic should be triggered here.
+	 */
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
@@ -101,11 +112,15 @@ public class Main_Gameplay extends BasicGameState{
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
 		}
 
-		//put updates in here
+		/***************
+		 * Updates go in this if statement below. This type of timestep loop allows the program
+		 * to be bound by a constant timestep and not performance of a computer.
+		 ***************/
 		timeCounter+=delta;
 		if(timeCounter>timeStep){
 			//updates players and shots
 			
+			//if not players turn, switch players
 			if(!players.get(playersTurnIndex).isTurn()){
 				if(playersTurnIndex == 0){
 					playersTurnIndex = 1;
@@ -114,12 +129,13 @@ public class Main_Gameplay extends BasicGameState{
 				}
 				players.get(playersTurnIndex).onTurnSwitch();
 				onTurnSwitch();
-				System.out.println("its player "+(playersTurnIndex+1)+" Turn");
 			}
 			
+			//Updates players positions
 			for(int i = 0; i < numOfPlayers; i++){
 				players.get(i).update(input);
 			}
+			//allows player whose turn it is to move.
 			players.get(playersTurnIndex).move(input);
 
 			//test click bomb
@@ -131,16 +147,23 @@ public class Main_Gameplay extends BasicGameState{
 				//map.update();
 			}*/
 					
+			//decrease time counter
 			timeCounter-=timeStep;
 		}
 		
 	}
 	
+	/**
+	 * Anything that needs to happen on turn switches.
+	 * In the future this will include hud switching and network notifications.
+	 */
 	private void onTurnSwitch(){
 		
 	}
 
-	
+	/**
+	 * Gets the id for the this state
+	 */
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
