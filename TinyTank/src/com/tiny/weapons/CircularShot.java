@@ -31,8 +31,8 @@ public abstract class CircularShot extends Shot{
 	 * Does position and radius storing
 	 */
 	@Override
-	public void init(Vector2f pos){
-		super.init(pos);
+	public void init(Vector2f pos, Vector2f impulse){
+		super.init(pos,impulse);
 		initialRadius = storedRadius;
 		
 	}

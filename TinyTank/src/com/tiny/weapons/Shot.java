@@ -14,6 +14,7 @@ import com.tiny.tank.Tank;
 public abstract class Shot {
 	
 	protected Vector2f pos;
+	protected Vector2f impulse;
 	protected Shape areaOfEffect;
 	protected Object graphicalRep;
 	protected boolean isAlive;
@@ -43,6 +44,7 @@ public abstract class Shot {
 		this.animationLimit = animationLimit;
 		this.animationStep = animationStep;
 		this.animationCounter = 0;
+		this.impulse = new Vector2f(0,0);
 	}
 	 
 	/**
@@ -111,8 +113,9 @@ public abstract class Shot {
 	 * Override and call super if more needs to be done
 	 * @param pos
 	 */
-	public void init(Vector2f pos){
+	public void init(Vector2f pos, Vector2f impulse){
 		this.pos = pos;
+		this.impulse = impulse;
 		this.isAlive = true;
 		this.isAnimating = false;
 		this.isShot = true;

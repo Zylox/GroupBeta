@@ -15,6 +15,9 @@ import com.tiny.weapons.CircularShot;
 
 public class NormalShot extends CircularShot{
 
+	public final float gravity = .1f;
+	public final float terminalVelocity = 5;
+	
 	/**
 	 * Creates a standard circle shot with exsplosion of given radius
 	 * @param pos Position (duh)
@@ -37,8 +40,8 @@ public class NormalShot extends CircularShot{
 		Main_Gameplay.map.update();
 	}
 	
-	public void init(Vector2f pos){
-		super.init(pos);
+	public void init(Vector2f pos, Vector2f impulse){
+		super.init(pos,impulse);
 		animationCounter = 0;
 	}
 	
@@ -54,6 +57,9 @@ public class NormalShot extends CircularShot{
 		//if collides with terrain
 		if(pointCollision()){
 			isAnimating = true;
+			while(pointCollision()){
+				pos.y-=1;
+			}
 			areaOfEffect = new Circle(pos.x,pos.y, initialRadius);
 		}
 		
@@ -76,8 +82,12 @@ public class NormalShot extends CircularShot{
 			}
 		}else{ //if not otehr states, has to be falling so update
 			//temporary
-			pos.x = pos.x+0;
-			pos.y = pos.y+1;
+			impulse.y-=gravity;
+			if(impulse.y > terminalVelocity){
+				impulse.y = terminalVelocity;
+			}
+			pos.x+=impulse.x;
+			pos.y-=impulse.y;
 			if(pos.y > Main_Gameplay.map.getMap().getHeight()){
 				isAnimating = true;
 				areaOfEffect = new Circle(pos.x,Main_Gameplay.map.getMap().getHeight()-1, initialRadius);
@@ -107,9 +117,12 @@ public class NormalShot extends CircularShot{
 
 	@Override
 	public void finished(){
+	
+		
 		ArrayList<Tank> players = Main_Gameplay.players;
 		
 		for(Tank t : players){
+			t.shotDone();
 			t.setFalling(true);
 			t.setShooting(false);
 		}
