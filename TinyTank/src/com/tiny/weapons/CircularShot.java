@@ -67,7 +67,7 @@ public abstract class CircularShot extends Shot{
 				if((x-i)*(x-i)  + (y-j)*(y-j)< radius*radius){
 					if(i < Main_Gameplay.map.getMap().getWidth() && i >= 0 && j < Main_Gameplay.map.getMap().getHeight() && j >=0){
 						Main_Gameplay.map.setFilled(i, j);
-						if(Main_Gameplay.map.getLinearHeightmap()[i] == j ){
+						if(Main_Gameplay.map.getLinearHeightmap()[i] > j ){
 							Main_Gameplay.map.setLinearHeightmapPoint(i,j-1);
 						}
 					}
