@@ -150,7 +150,8 @@ public class Tank {
 	}
 	
 	/**
-	 * Shot calls when done.
+	 * What to do when done.
+	 * Currently shot calls this when done.
 	 */
 	public void shotDone(){
 		if(isShooting){
@@ -453,7 +454,7 @@ public class Tank {
 		return isTurn;
 	}
 	
-	public void setTurn(boolean isturn) {
+	public void setTurn(boolean isTurn) {
 		this.isTurn = isTurn;
 	}
 }
