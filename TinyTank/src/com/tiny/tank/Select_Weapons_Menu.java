@@ -81,10 +81,6 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			// If play game button is clicked on play game, enter the play game state
 			if((posX>500 && posX<720) && (posY>20 && posY<80)){
 				if(Mouse.isButtonDown(0)){
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/heads/Riemann
 					game.enterState(STATES.MAIN_GAMEPLAY.getId());
 				}
 				
