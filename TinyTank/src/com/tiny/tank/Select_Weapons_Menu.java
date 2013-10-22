@@ -1,6 +1,7 @@
 package com.tiny.tank;
 
 import java.util.ArrayList;
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -12,6 +13,7 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.weapons.Shot;
 import com.tiny.weapons.shots.Shots;
 
 
@@ -76,6 +78,11 @@ public class Select_Weapons_Menu extends BasicGameState  {
 				buttons.add(new SimpleTempButton(new Vector2f(x,y),200,spacing,s.getShot()));
 				y+=spacing;
 			}
+		}
+		
+		@Override
+		public void leave(GameContainer container, StateBasedGame game){
+			TinyTank.setPreviousState(id);
 		}
 			
 
@@ -215,9 +222,35 @@ public class Select_Weapons_Menu extends BasicGameState  {
 		}
 
 		
+		public ArrayList<Tank> getTanks(){
+			ArrayList<Tank> tanks = new ArrayList<Tank>();
+			for(int i = 0; i<2;i++){
+				tanks.add(new Tank());
+			}
+			tanks.get(0).TankInfo(200, 10, 70, 100, convertButtonsToShots(p1weapons), 1);
+			tanks.get(1).TankInfo(600, 10, 70, 100, convertButtonsToShots(p2weapons), 2);
+			
+			tanks.get(0).setFirstPos();
+			tanks.get(1).setFirstPos();
+			
+			return tanks;
+			
+		}
+		
+		private ArrayList<Shot> convertButtonsToShots(ArrayList<SimpleTempButton> buttons){
+			ArrayList<Shot> shots = new ArrayList<Shot>();
+			
+			for(SimpleTempButton s : buttons){
+				shots.add(s.getShot());
+			}
+			
+			return shots;
+			
+		}
+		
 
 		public int getID() {
-		return id;
+			return id;
 		}
 
 		
