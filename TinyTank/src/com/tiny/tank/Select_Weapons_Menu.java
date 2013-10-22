@@ -23,11 +23,14 @@ public class Select_Weapons_Menu extends BasicGameState  {
 	private Image button_play= null;
 	private Image button_menu= null;
 	private Image ammo_title= null;
+	private boolean playButtonActive = false;
 
 	public Shots[] shots = Shots.values();
-	private int y = 200;
+	private int ycord = 200;
 	private int playercount = 0;
-	private int spacing = 0;
+	private int spacing = 20;
+	private boolean even = false; 
+	private boolean odd = false; 
 	private Image background = null;
 	private ArrayList<SimpleTempButton> buttons;
 	private ArrayList<SimpleTempButton> p1weapons;
@@ -57,7 +60,7 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			
 			int x = 300;
 			int y = 200;
-			int spacing = 20;
+			//int spacing = 20;
 
 			buttons = new ArrayList<SimpleTempButton>();
 			p1weapons = new ArrayList<SimpleTempButton>();
@@ -77,7 +80,11 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			
 			background.draw(0,0);
 			title.draw(0,0);
-			button_play.draw(500,520);
+			if (playButtonActive)
+			{
+				button_play.draw(500,520);
+			}
+
 			button_menu.draw(80,520);
 			p1_title.draw(30, 150);
 			p2_title.draw(540,150);
@@ -104,6 +111,8 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			}
 			g.setColor(Color.white);
 			
+
+			
 		
 		}
 
@@ -120,61 +129,77 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			for(int s = 0;s<buttons.size();s++){
 				if(buttons.get(s).update(container.getInput(), clicked)){
 					System.out.println(buttons.get(s).getShot().getShotName());
-					ButtonPressed(buttons.get(s), y);
+					ButtonPressed(buttons.get(s), ycord);
 					
 					
 				}
 			}
 			
-			
-			// If play game button is clicked on play game, enter the play game state
-			if((posX>500 && posX<720) && (posY>20 && posY<80)){
-				if(Mouse.isButtonDown(0)){
-					game.enterState(STATES.MAIN_GAMEPLAY.getId());
-				}
+			if (playButtonActive)
+			{
+				// If play game button is clicked on play game, enter the play game state
+				if((posX>500 && posX<720) && (posY>20 && posY<80)){
+					if(Mouse.isButtonDown(0)){
+						game.enterState(STATES.MAIN_GAMEPLAY.getId());
+					}	
 				
-			}
-				// If back button is clicked, change state to main menu state		
-			if((posX>80 && posX<300) && (posY>20 && posY<80)){
-				if(Mouse.isButtonDown(0)){
-					game.enterState(STATES.MAIN_GAMEPLAY.getId());
 				}
+				// If back button is clicked, change state to main menu state		
+				if((posX>80 && posX<300) && (posY>20 && posY<80)){
+					if(Mouse.isButtonDown(0)){
+						game.enterState(STATES.MAIN_GAMEPLAY.getId());
+					}
+				}
+			
 			}
 			
 				
 		}
 
 		private void ButtonPressed(SimpleTempButton s, int y) {
-			int even = (playercount%2);
-			int odd = ((playercount+1)%2); 
-			 
-			
-			// even number selected weapons go to Player 1
-			if (even == 0)
-				{
-					int x1 = 50;
+		 
+			if(playercount%2 == 0)
+			{
+				even = true;
+				odd = false;
+			}
+			else
+			{
+				even = false;
+				odd = true;
+			}
 					
-					p1weapons.add(new SimpleTempButton(new Vector2f(x1,y),200,spacing,s.getShot()));
+			// even number selected weapons go to Player 1
+			if (even)
+				{
+					int x1 = 60;
+					
+					p1weapons.add(new SimpleTempButton(new Vector2f(x1,ycord),173,spacing,s.getShot()));
 					playercount += 1;
 					System.out.println("EVEN!!  selection #:"+ playercount);
 				
 				}
 				// odd number selected weapons go to Player2
-				else if (odd == 0)
+				else if (odd)
 				{
-					int x2 = 550;
+					int x2 = 560;
 					
-					p2weapons.add(new SimpleTempButton(new Vector2f(x2,y),200,spacing,s.getShot()));
+					p2weapons.add(new SimpleTempButton(new Vector2f(x2,ycord),173,spacing,s.getShot()));
 					// increment Y value by 20 to put the next button below the previous
-					y+=spacing;
+					ycord += spacing;
 					playercount += 1;
 					System.out.println("ODD!!  selection #:"+ playercount);
 				}
+			
+			// if all weapons are choosen, enable play button
+			if(playercount -1 >= buttons.size())
+				playButtonActive=true;
 							
 			buttons.remove(s);
-			
+	
 		}
 
+		
 
 		public int getID() {
 		return id;
