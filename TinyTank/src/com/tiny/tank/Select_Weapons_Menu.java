@@ -1,11 +1,8 @@
 package com.tiny.tank;
 
-import java.awt.TextField;
 import java.util.ArrayList;
-
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -18,13 +15,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.tiny.weapons.shots.Shots;
 
 
-
 public class Select_Weapons_Menu extends BasicGameState  {
 	private int id;
-	 Font font;
-	  TextField textField;
-	 
-
 	private Image title = null;
 	private Image p1_title=null;
 	private Image p2_title=null;
@@ -32,22 +24,20 @@ public class Select_Weapons_Menu extends BasicGameState  {
 	private Image button_menu= null;
 	private Image ammo_title= null;
 	public Shots[] shots = Shots.values();
-	private int total = shots.length;
+	private int playercount = 0;
 	private Image background = null;
 	private ArrayList<SimpleTempButton> buttons;
-	
-	
+	private ArrayList<SimpleTempButton> p1weapons;
+	private ArrayList<SimpleTempButton> p2weapons;
 	
 	public Select_Weapons_Menu(int id){
 			this.id = id;
 		}
 		
-	
-	
+		
 		public void init(GameContainer container, StateBasedGame game)
 		throws SlickException {
 			
-
 			background = new Image("res/bg.jpg");
 			title = new Image("res/Weapon_Select_ title.png");
 			button_play= new Image("res/play_button.png");
@@ -63,9 +53,13 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			
 			int x = 300;
 			int y = 200;
-			
-			buttons = new ArrayList<SimpleTempButton>();
 			int spacing = 20;
+
+			buttons = new ArrayList<SimpleTempButton>();
+			p1weapons = new ArrayList<SimpleTempButton>();
+			p2weapons = new ArrayList<SimpleTempButton>();
+			
+			
 			
 			for(Shots s : shots){
 				buttons.add(new SimpleTempButton(new Vector2f(x,y),200,spacing,s.getShot()));
@@ -94,8 +88,7 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			}
 			g.setColor(Color.white);
 			
-			
-			//FillWeapons(container, game, g);
+
 		
 		}
 
@@ -111,7 +104,8 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			for(int s = 0;s<buttons.size();s++){
 				if(buttons.get(s).update(container.getInput(), clicked)){
 					System.out.println(buttons.get(s).getShot().getShotName());
-					buttons.remove(s);
+					ButtonPressed(buttons.get(s));
+					
 					
 				}
 			}
@@ -131,32 +125,46 @@ public class Select_Weapons_Menu extends BasicGameState  {
 				}
 			}
 			
-			
-					
+				
 		}
 
-		/*
-		public void FillWeapons(GameContainer container, StateBasedGame game, Graphics g) throws SlickException
-		{
-			int x = 320;
-			int y = 200;
+		private void ButtonPressed(SimpleTempButton s) {
+			int even = (playercount%2);
+			int odd = ((playercount+1)%2); 
+			
+			int spacing = 20;
+				if (even == 0)
+				{
+					int x1 = 50;
+					int y1 = 200;
+					
+					p1weapons.add(new SimpleTempButton(new Vector2f(x1,y1),200,spacing,s.getShot()));
+					y1+=spacing;
+					playercount += 1;
+					//System.out.println("EVEN!!  "+ playercount);
+				
+				}
+				
+				else if (odd == 0)
+				{
+					int x2 = 500;
+					int y2 = 200;
+					
+					p2weapons.add(new SimpleTempButton(new Vector2f(x2,y2),200,spacing,s.getShot()));
+					y2+=spacing;
+					playercount += 1;
+					//System.out.println("ODD!!  "+ playercount);
+				}
+							
+			buttons.remove(s);
+			
+		}
 
-			g.setColor(Color.black);
-			for(int i=0; i<total; i++)
-			{
-				String weapon = shots[i].toString();
-				g.drawString(weapon, x, y);	
-				System.out.println(shots[i]);
-				y=y+20;// next weapon will be placed below the previous
-			}
-		}*/
+
 		public int getID() {
 		return id;
 		}
-		
-		
 
-		
 		
 		
 	}
