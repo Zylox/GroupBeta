@@ -18,8 +18,11 @@ import com.tiny.weapons.Shot;
  */
 public class Tank {
 
+	//Constants of size of tank
 	private final int tankWidth = 20;
 	private final int tankHeight = 10;
+	
+	//animation end and the counter for it.
 	private final float animationLimit = 1;
 	private float animationCounter;
 
@@ -36,21 +39,23 @@ public class Tank {
 	private int index;
 	private ArrayList<Shot> shots;
 	private Rectangle hitbox;
+	//Keeps an original incase resiszing must happen
+	private Image originalImage;
 	private Image image;
 	// x and y ranges of numbers. Will be usefull when we get rotations
 	private float[] xRange;
 	private float[] yRange;
 
+	//Only so much movement allowed per turn. 
 	private int movementCounter;
 	private int movementLimit;
 
+	//States
 	private boolean isMoving;
 	private boolean isFalling;
 	private boolean isShooting;
+	//flag for if turn
 	private boolean isTurn;
-
-	// Needs to change when moved or falling
-	// private boolean hasRangeChanged;
 
 	/**
 	 * Our good old players
@@ -81,9 +86,9 @@ public class Tank {
 		if (index == 1) {
 			direction = 1;
 			try {
-				image = new Image("res/BlueTank.png");
-				image.setFilter(Image.FILTER_NEAREST);
-				image = image.getScaledCopy(tankWidth, tankHeight);
+				originalImage = new Image("res/BlueTank.png");
+				originalImage.setFilter(Image.FILTER_NEAREST);
+				image = originalImage.getScaledCopy(tankWidth, tankHeight);
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -91,9 +96,9 @@ public class Tank {
 		} else {
 			direction = -1;
 			try {
-				image = new Image("res/RedTank.png");
-				image.setFilter(Image.FILTER_NEAREST);
-				image = image.getScaledCopy(tankWidth, tankHeight);
+				originalImage = new Image("res/RedTank.png");
+				originalImage.setFilter(Image.FILTER_NEAREST);
+				image = originalImage.getScaledCopy(tankWidth, tankHeight);
 
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
@@ -101,27 +106,30 @@ public class Tank {
 			}
 		}
 
+		//sets states
 		isMoving = false;
 		isFalling = false;
 		isShooting = false;
 
+		//sets range and hitbox
 		hitbox = new Rectangle(playerX, playerY, tankWidth, tankHeight);
 		xRange = new float[2];
 		yRange = new float[2];
 		xRange = calculateXRange(hitbox);
 		yRange = calculateYRange(hitbox);
-		// hasRangeChanged = false;
 
+		//initilizies player 1 to go first;
 		if(index == 1){
 			onTurnSwitch();
 			
 		}else{
 			isTurn = false;
 		}
+		//start animation over
 		animationCounter = 0;
 	}
 
-	/*
+	/**
 	 * Will set the position upon map creation. Puts it right on top of map
 	 */
 	public void setFirstPos() {
@@ -130,13 +138,20 @@ public class Tank {
 		hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
 	}
 
+	/**
+	 * takes care of things that happen on swith of turns. Also resets movement limit here.
+	 * This will allow for speed based attacks later (such as a movment booster).
+	 */
 	public void onTurnSwitch() {
 		movementCounter = 0;
-		movementLimit = 60;
+		movementLimit = 1000;
 		isTurn = true;
 		shotIndex = 0;
 	}
 	
+	/**
+	 * Shot calls when done.
+	 */
 	public void shotDone(){
 		if(isShooting){
 			isShooting = false;
@@ -148,6 +163,9 @@ public class Tank {
 		}
 	}
 	
+	/**
+	 * Clean up for when turn is over.
+	 */
 	public void turnEnd(){
 		isTurn = false;
 	}
@@ -166,7 +184,6 @@ public class Tank {
 
 				pos.y += 1;
 				hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
-				// hasRangeChanged = true;
 				if (checkCollision(pos)) {
 					pos.y -= 1;
 					hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
@@ -176,6 +193,7 @@ public class Tank {
 				animationCounter -= animationLimit;
 			}
 		}
+
 		// state handeling if shooting
 		if (isShooting) {
 			for (int i = 0; i < shots.size(); i++) {
@@ -185,20 +203,27 @@ public class Tank {
 			}
 		}
 		
+		//will execute if sitting essentially
 		if(!isShooting && !isFalling && !isMoving && isTurn){
+			//if the shoot key is pushed, initilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
-				System.out.println("Shot index: " + shotIndex);
 				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(1*direction,10));
 				setShooting(true);
 			}
 		}
 
-		// states to be added: changing barrel angles, movin
+		// states to be added: changing barrel angles
 
 	}
 
+	/**
+	 * Takes care of movement of tank.
+	 * @param input
+	 */
 	public void move(Input input) {
+		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
+			//checks if player has used all movement alloted this turn
 			if (movementCounter < movementLimit) {
 				float tankMovement = .5f;
 				if (input.isKeyDown(Input.KEY_A)) {
@@ -220,12 +245,20 @@ public class Tank {
 		}
 	}
 
+	/**
+	 * Does the actual movement and returns new position. 
+	 * Moves and then resolves collision.
+	 * If height change is too much, will return old pos.
+	 * @param x Amount to move in the x direction
+	 * @param y Amount to move in the y drection
+	 * @return the new position
+	 */
 	private Vector2f movePos(float x, float y) {
-		Vector2f tempPos = pos;
+		Vector2f tempPos = pos.copy();
 		tempPos.x += x;
 		tempPos.y += y;
 
-		int tolerance = 1;
+		int tolerance = 2;
 		for (int i = 0; i < tolerance; i++) {
 			if (checkCollision(tempPos)) {
 				tempPos.y -= 1;
