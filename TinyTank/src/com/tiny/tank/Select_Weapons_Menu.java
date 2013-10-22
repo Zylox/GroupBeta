@@ -1,12 +1,20 @@
 package com.tiny.tank;
 
 
+import java.awt.Button;
+import java.awt.Panel;
+import java.util.Arrays;
+
+//import javax.swing.plaf.PanelUI;
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Renderable;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -22,10 +30,8 @@ public class Select_Weapons_Menu extends BasicGameState {
 	private Image button_play= null;
 	private Image button_menu= null;
 	private Image ammo_title= null;
-	
-	
-	 Image background = null;
 
+	 Image background = null;
 	
 		public Select_Weapons_Menu(int id){
 			this.id = id;
@@ -57,6 +63,12 @@ public class Select_Weapons_Menu extends BasicGameState {
 			p1_title.draw(30, 150);
 			p2_title.draw(540,150);
 			ammo_title.draw(235,80);
+			
+			//Transparent boxes for weapon selection
+			g.setColor(new Color(300,300,300, 0.5f));
+			g.fillRect(60, 200, 170, 300);
+			g.fillRect(560,200, 170, 300);
+			
 		
 		}
 
