@@ -24,7 +24,9 @@ public class Select_Weapons_Menu extends BasicGameState  {
 	private Image button_menu= null;
 	private Image ammo_title= null;
 	public Shots[] shots = Shots.values();
+	private int y = 200;
 	private int playercount = 0;
+	private int spacing = 0;
 	private Image background = null;
 	private ArrayList<SimpleTempButton> buttons;
 	private ArrayList<SimpleTempButton> p1weapons;
@@ -99,12 +101,13 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			
 			int posX = Mouse.getX();
 			int posY = Mouse.getY();
-			
+		
+						
 			boolean clicked = container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON);
 			for(int s = 0;s<buttons.size();s++){
 				if(buttons.get(s).update(container.getInput(), clicked)){
 					System.out.println(buttons.get(s).getShot().getShotName());
-					ButtonPressed(buttons.get(s));
+					ButtonPressed(buttons.get(s), y);
 					
 					
 				}
@@ -128,32 +131,31 @@ public class Select_Weapons_Menu extends BasicGameState  {
 				
 		}
 
-		private void ButtonPressed(SimpleTempButton s) {
+		private void ButtonPressed(SimpleTempButton s, int y) {
 			int even = (playercount%2);
 			int odd = ((playercount+1)%2); 
+			 
 			
-			int spacing = 20;
-				if (even == 0)
+			// even number selected weapons go to Player 1
+			if (even == 0)
 				{
 					int x1 = 50;
-					int y1 = 200;
 					
-					p1weapons.add(new SimpleTempButton(new Vector2f(x1,y1),200,spacing,s.getShot()));
-					y1+=spacing;
+					p1weapons.add(new SimpleTempButton(new Vector2f(x1,y),200,spacing,s.getShot()));
 					playercount += 1;
-					//System.out.println("EVEN!!  "+ playercount);
+					System.out.println("EVEN!!  "+ playercount);
 				
 				}
-				
+				// odd number selected weapons go to Player2
 				else if (odd == 0)
 				{
 					int x2 = 500;
-					int y2 = 200;
 					
-					p2weapons.add(new SimpleTempButton(new Vector2f(x2,y2),200,spacing,s.getShot()));
-					y2+=spacing;
+					p2weapons.add(new SimpleTempButton(new Vector2f(x2,y),200,spacing,s.getShot()));
+					// increment Y value by 20 to put the next button below the previous
+					y+=spacing;
 					playercount += 1;
-					//System.out.println("ODD!!  "+ playercount);
+					System.out.println("ODD!!  "+ playercount);
 				}
 							
 			buttons.remove(s);
