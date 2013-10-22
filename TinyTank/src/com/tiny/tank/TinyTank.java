@@ -8,8 +8,17 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class TinyTank extends StateBasedGame {
 
+	/**
+	 * Gamewide previous state indicator.
+	 * Sloppy but neccesary for now.
+	 */
 	private static int previousState;
 	
+	/**
+	 * The constructor for our game.
+	 * Name is the thing that shows up in the top bar.
+	 * @param name
+	 */
 	public TinyTank(String name) {
 		super(name);
 		// TODO Auto-generated constructor stub
@@ -18,10 +27,10 @@ public class TinyTank extends StateBasedGame {
 	public static void main(String[] args){
 		
 		try{
-		AppGameContainer app = new AppGameContainer(new TinyTank(""));
+		AppGameContainer app = new AppGameContainer(new TinyTank("Tiny Tank"));
 		
 
-		app.setDisplayMode(801, 600, false);
+		app.setDisplayMode(800, 600, false);
 		app.setAlwaysRender(true);
 		//app.setTargetFrameRate(100);
 		app.start();
