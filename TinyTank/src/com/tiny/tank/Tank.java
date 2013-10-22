@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -30,6 +31,7 @@ public class Tank {
 	private float prevAng;
 	private int direction;
 	private int health;
+	private int shotIndex;
 	// index of the player
 	private int index;
 	private ArrayList<Shot> shots;
@@ -38,11 +40,17 @@ public class Tank {
 	// x and y ranges of numbers. Will be usefull when we get rotations
 	private float[] xRange;
 	private float[] yRange;
+
+	private int movementCounter;
+	private int movementLimit;
+
 	private boolean isMoving;
 	private boolean isFalling;
 	private boolean isShooting;
+	private boolean isTurn;
+
 	// Needs to change when moved or falling
-	private boolean hasRangeChanged;
+	// private boolean hasRangeChanged;
 
 	/**
 	 * Our good old players
@@ -81,11 +89,11 @@ public class Tank {
 				e.printStackTrace();
 			}
 		} else {
-			direction = 2;
+			direction = -1;
 			try {
 				image = new Image("res/RedTank.png");
-				 image.setFilter(Image.FILTER_NEAREST);
-				 image = image.getScaledCopy(tankWidth,tankHeight);
+				image.setFilter(Image.FILTER_NEAREST);
+				image = image.getScaledCopy(tankWidth, tankHeight);
 
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
@@ -100,10 +108,16 @@ public class Tank {
 		hitbox = new Rectangle(playerX, playerY, tankWidth, tankHeight);
 		xRange = new float[2];
 		yRange = new float[2];
-		calculateXRange();
-		calculateYRange();
-		hasRangeChanged = false;
+		xRange = calculateXRange(hitbox);
+		yRange = calculateYRange(hitbox);
+		// hasRangeChanged = false;
 
+		if(index == 1){
+			onTurnSwitch();
+			
+		}else{
+			isTurn = false;
+		}
 		animationCounter = 0;
 	}
 
@@ -116,20 +130,44 @@ public class Tank {
 		hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
 	}
 
-	/*
+	public void onTurnSwitch() {
+		movementCounter = 0;
+		movementLimit = 60;
+		isTurn = true;
+		shotIndex = 0;
+	}
+	
+	public void shotDone(){
+		if(isShooting){
+			isShooting = false;
+			isFalling = true;
+			shots.remove(shotIndex);
+			turnEnd();
+		}else{
+			isFalling = true;
+		}
+	}
+	
+	public void turnEnd(){
+		isTurn = false;
+	}
+
+
+	/**
 	 * Will update the events relating to tanks and shots
 	 */
-	public void update() {
+	public void update(Input input) {
 
 		// state handeling if falling
 		if (isFalling) {
+			isMoving = false;
 			animationCounter += 1;
 			if (animationCounter > animationLimit) {
 
 				pos.y += 1;
 				hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
-				hasRangeChanged = true;
-				if (checkCollision()) {
+				// hasRangeChanged = true;
+				if (checkCollision(pos)) {
 					pos.y -= 1;
 					hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
 					isFalling = false;
@@ -146,20 +184,81 @@ public class Tank {
 				}
 			}
 		}
+		
+		if(!isShooting && !isFalling && !isMoving && isTurn){
+			if(input.isKeyPressed(Input.KEY_SPACE)){
+				System.out.println("Shot index: " + shotIndex);
+				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(1*direction,10));
+				setShooting(true);
+			}
+		}
 
-		// states to be added: changing barrel angles, moving
+		// states to be added: changing barrel angles, movin
 
 	}
 
+	public void move(Input input) {
+		if (!isShooting && !isFalling) {
+			if (movementCounter < movementLimit) {
+				float tankMovement = .5f;
+				if (input.isKeyDown(Input.KEY_A)) {
+					movementCounter += 1;
+					isMoving = true;
+					pos = movePos(-tankMovement, 0);
+					isFalling = true;
+				} else if (input.isKeyDown(Input.KEY_D)) {
+					movementCounter += 1;
+					isMoving = true;
+					pos = movePos(tankMovement, 0);
+					isFalling = true;
+				} else {
+					isMoving = false;
+				}
+			}else{
+				isMoving = false;
+			}
+		}
+	}
+
+	private Vector2f movePos(float x, float y) {
+		Vector2f tempPos = pos;
+		tempPos.x += x;
+		tempPos.y += y;
+
+		int tolerance = 1;
+		for (int i = 0; i < tolerance; i++) {
+			if (checkCollision(tempPos)) {
+				tempPos.y -= 1;
+			} else {
+				return tempPos;
+			}
+		}
+
+		return pos;
+	}
+
+	/**
+	 * Anything needed to render the tanks goes here.
+	 * 
+	 * @param container
+	 * @param game
+	 * @param g
+	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		// current graphical representation
 		image.draw(pos.x, pos.y);
 	}
 
-	public boolean checkCollision() {
+	/**
+	 * Checks if tanks collide with terrain
+	 * 
+	 * @return
+	 */
+	public boolean checkCollision(Vector2f pos) {
 
-		// adjusts range if needbe
-		checkRange();
+		Rectangle hitbox = new Rectangle(pos.x, pos.y, tankWidth, tankHeight);
+		float[] xRange = calculateXRange(hitbox);
+		float[] yRange = calculateYRange(hitbox);
 
 		// checks if outside the map
 		if (hitbox.getMaxX() > Main_Gameplay.map.getWidth() - 1
@@ -188,33 +287,35 @@ public class Tank {
 		return false;
 	}
 
-	/*
+	/**
 	 * recalculates range if needs to
 	 */
-	private void checkRange() {
-		if (!hasRangeChanged) {
-			return;
-		}
+	/*
+	 * private void checkRange() { if (!hasRangeChanged) { return; }
+	 * 
+	 * calculateXRange(); calculateYRange(); }
+	 */
 
-		calculateXRange();
-		calculateYRange();
-	}
-
-	private void calculateXRange() {
+	private float[] calculateXRange(Rectangle hitbox) {
 
 		float left = hitbox.getMinX();
 		float right = hitbox.getMaxX();
 
+		float[] xRange = new float[2];
 		xRange[0] = left;
 		xRange[1] = right;
+		return xRange;
 	}
 
-	private void calculateYRange() {
+	private float[] calculateYRange(Rectangle hitbox) {
 
 		float top = hitbox.getMinY();
 		float bottom = hitbox.getMaxY();
+
+		float[] yRange = new float[2];
 		yRange[0] = top;
 		yRange[1] = bottom;
+		return yRange;
 	}
 
 	public int getIndex() {
@@ -315,4 +416,11 @@ public class Tank {
 		this.isFalling = isFalling;
 	}
 
+	public boolean isTurn() {
+		return isTurn;
+	}
+	
+	public void setTurn(boolean isturn) {
+		this.isTurn = isTurn;
+	}
 }
