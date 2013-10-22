@@ -158,7 +158,7 @@ public class Main_Gameplay extends BasicGameState{
 	 * In the future this will include hud switching and network notifications.
 	 */
 	private void onTurnSwitch(){
-		
+		input.clearKeyPressedRecord();
 	}
 
 	/**
