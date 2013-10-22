@@ -60,6 +60,13 @@ public abstract class CircularShot extends Shot{
 		}
 	}
 	
+	
+	/**
+	 * Fills a Cirlular area
+	 * @param x Center x
+	 * @param y Center y
+	 * @param radius 
+	 */
 	public void circleFill(int x, int y, int radius){
 		for(int i =x-radius;i<x+radius;i++){
 			for(int j = y-radius;j<y+radius;j++){

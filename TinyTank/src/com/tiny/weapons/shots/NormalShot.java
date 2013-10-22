@@ -15,6 +15,7 @@ import com.tiny.weapons.CircularShot;
 
 public class NormalShot extends CircularShot{
 
+	//fall rate and max fall rate
 	public final float gravity = .1f;
 	public final float terminalVelocity = 5;
 	
