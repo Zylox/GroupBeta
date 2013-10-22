@@ -24,6 +24,7 @@ public class Main_Gameplay extends BasicGameState{
 	private final int timeStep = 10;
 	private int timeCounter;
 	
+	
 	private int numOfPlayers = 2;
 	public static ArrayList<Tank> players;
 	
@@ -79,7 +80,7 @@ public class Main_Gameplay extends BasicGameState{
 		tanks.add(new Tank());
 		ArrayList<Shot> weapons = new ArrayList<Shot>();
 		
-		weapons.add(Shots.BIG_SHOT.getShot());
+		weapons.add(Shots.FILL_SHOT.getShot());
 		weapons.add(Shots.NORMAL_SHOT.getShot());
 		weapons.add(Shots.BIG_SHOT.getShot());
 		weapons.add(Shots.BIG_SHOT.getShot());
