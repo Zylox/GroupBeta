@@ -21,8 +21,10 @@ public class Select_Weapons_Menu extends BasicGameState  {
 	private Image p1_title=null;
 	private Image p2_title=null;
 	private Image button_play= null;
+	private Image button_play_grey= null;
 	private Image button_menu= null;
 	private Image ammo_title= null;
+	private Image select = null;
 	private boolean playButtonActive = false;
 
 	public Shots[] shots = Shots.values();
@@ -47,11 +49,14 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			
 			background = new Image("res/bg.jpg");
 			title = new Image("res/Weapon_Select_ title.png");
+			select = new Image("res/selectweapon.png");
 			button_play= new Image("res/play_button.png");
+			button_play_grey= new Image("res/play_button_grey.png");
 			button_menu= new Image("res/back_button.png");
 			p1_title= new Image("res/P1.png");
 			p2_title= new Image("res/P2.png");
 			ammo_title= new Image("res/ammo.png");
+			
 			
 		}
 		
@@ -60,7 +65,6 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			
 			int x = 300;
 			int y = 200;
-			//int spacing = 20;
 
 			buttons = new ArrayList<SimpleTempButton>();
 			p1weapons = new ArrayList<SimpleTempButton>();
@@ -83,7 +87,8 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			if (playButtonActive)
 			{
 				button_play.draw(500,520);
-			}
+			}else
+				button_play_grey.draw(500, 520);
 
 			button_menu.draw(80,520);
 			p1_title.draw(30, 150);
@@ -111,7 +116,15 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			}
 			g.setColor(Color.white);
 			
-
+			
+			if(odd || playercount == 0)
+			{
+			select.draw(20, 120);
+			}else
+			{
+			select.draw(600, 120);
+			}
+				
 			
 		
 		}
@@ -177,6 +190,7 @@ public class Select_Weapons_Menu extends BasicGameState  {
 					p1weapons.add(new SimpleTempButton(new Vector2f(x1,ycord),173,spacing,s.getShot()));
 					playercount += 1;
 					System.out.println("EVEN!!  selection #:"+ playercount);
+					
 				
 				}
 				// odd number selected weapons go to Player2
