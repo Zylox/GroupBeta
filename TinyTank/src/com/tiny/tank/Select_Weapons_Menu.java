@@ -1,11 +1,20 @@
 package com.tiny.tank;
 
 import java.awt.TextField;
+import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+
 import com.tiny.weapons.shots.Shots;
 
 
@@ -24,8 +33,8 @@ public class Select_Weapons_Menu extends BasicGameState  {
 	private Image ammo_title= null;
 	public Shots[] shots = Shots.values();
 	private int total = shots.length;
-	Image background = null;
-	
+	private Image background = null;
+	private ArrayList<SimpleTempButton> buttons;
 	
 	
 	
@@ -46,7 +55,22 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			p1_title= new Image("res/P1.png");
 			p2_title= new Image("res/P2.png");
 			ammo_title= new Image("res/ammo.png");
+			
+		}
 		
+		@Override
+		public void enter(GameContainer container, StateBasedGame game){
+			
+			int x = 300;
+			int y = 200;
+			
+			buttons = new ArrayList<SimpleTempButton>();
+			int spacing = 20;
+			
+			for(Shots s : shots){
+				buttons.add(new SimpleTempButton(new Vector2f(x,y),200,spacing,s.getShot()));
+				y+=spacing;
+			}
 		}
 			
 
@@ -64,9 +88,14 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			g.setColor(new Color(176, 176, 176, 0.8f));
 			g.fillRect(300, 200, 200, 300);
 			
+			g.setColor(Color.black);
+			for(SimpleTempButton s : buttons){
+				s.render(container, game, g);
+			}
+			g.setColor(Color.white);
 			
 			
-			FillWeapons(container, game, g);
+			//FillWeapons(container, game, g);
 		
 		}
 
@@ -77,6 +106,16 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			
 			int posX = Mouse.getX();
 			int posY = Mouse.getY();
+			
+			boolean clicked = container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON);
+			for(int s = 0;s<buttons.size();s++){
+				if(buttons.get(s).update(container.getInput(), clicked)){
+					System.out.println(buttons.get(s).getShot().getShotName());
+					buttons.remove(s);
+					
+				}
+			}
+			
 			
 			// If play game button is clicked on play game, enter the play game state
 			if((posX>500 && posX<720) && (posY>20 && posY<80)){
@@ -96,6 +135,7 @@ public class Select_Weapons_Menu extends BasicGameState  {
 					
 		}
 
+		/*
 		public void FillWeapons(GameContainer container, StateBasedGame game, Graphics g) throws SlickException
 		{
 			int x = 320;
@@ -109,7 +149,7 @@ public class Select_Weapons_Menu extends BasicGameState  {
 				System.out.println(shots[i]);
 				y=y+20;// next weapon will be placed below the previous
 			}
-		}
+		}*/
 		public int getID() {
 		return id;
 		}
