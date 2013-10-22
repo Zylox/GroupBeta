@@ -118,10 +118,10 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			g.setColor(Color.white);
 			
 			
-			if(odd || playercount == 0)
+			if(odd || playercount == 0 && (playercount -1 <= buttons.size()))
 			{
 			select.draw(20, 110);
-			}else
+			}else if (even && (playercount -1 <= buttons.size()))
 			{
 			select.draw(530, 110);
 			}
