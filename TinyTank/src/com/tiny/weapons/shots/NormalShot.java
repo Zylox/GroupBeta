@@ -16,11 +16,6 @@ import com.tiny.weapons.CircularShot;
 public class NormalShot extends CircularShot{
 
 	/**
-	 * Animation counter limit
-	 */
-	private final float animationLimit = 1;
-	private float animationCounter;
-	/**
 	 * Creates a standard circle shot with exsplosion of given radius
 	 * @param pos Position (duh)
 	 * @param radiusOfEffect Radius of final exsplosion
@@ -28,8 +23,8 @@ public class NormalShot extends CircularShot{
 	 * @param graphicalRep Unused currently
 	 * @param shotName String identifying name of shot
 	 */
-	public NormalShot(Vector2f pos, int radiusOfEffect, int initialRadius, Object graphicalRep, String shotName) {
-		super(pos, radiusOfEffect, initialRadius, graphicalRep, shotName);
+	public NormalShot(Vector2f pos, int radiusOfEffect, int initialRadius, Object graphicalRep, float animationLimit, float animationStep, String shotName) {
+		super(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep, shotName);
 		// TODO Auto-generated constructor stub
 		animationCounter = 0;
 	}
@@ -67,7 +62,7 @@ public class NormalShot extends CircularShot{
 			//as long as radius is still growing
 			if(initialRadius < radiusOfEffect){
 				
-				animationCounter+=.1; //increment counter
+				animationCounter+=animationStep; //increment counter
 				if(animationCounter > animationLimit){ //if limit time has been passed
 					initialRadius++; //increase radius
 					areaOfEffect = new Circle(pos.x,pos.y, initialRadius); //and graphical rep of it

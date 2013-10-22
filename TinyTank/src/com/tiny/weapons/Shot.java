@@ -19,6 +19,9 @@ public abstract class Shot {
 	protected boolean isAlive;
 	protected boolean isAnimating;
 	protected boolean isShot;
+	protected float animationLimit;
+	protected float animationStep;
+	protected float animationCounter;
 	protected String shotName;
 
 
@@ -29,7 +32,7 @@ public abstract class Shot {
 	 * @param areaOfEffect Radius that the explosion will effect.
 	 * @param graphicalRep Graphical representation
 	 */
-	public Shot(Vector2f pos, Shape areaOfEffect, Object graphicalRep, String shotName){
+	public Shot(Vector2f pos, Shape areaOfEffect, Object graphicalRep, float animationLimit, float animationStep, String shotName){
 		this.pos = pos;
 		this.areaOfEffect = areaOfEffect;
 		this.graphicalRep = graphicalRep;
@@ -37,6 +40,9 @@ public abstract class Shot {
 		this.isAlive = true;
 		this.isAnimating = false;
 		this.isShot = false;
+		this.animationLimit = animationLimit;
+		this.animationStep = animationStep;
+		this.animationCounter = 0;
 	}
 	 
 	/**

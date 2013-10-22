@@ -19,8 +19,8 @@ public abstract class CircularShot extends Shot{
 	 * @param graphicalRep
 	 * @param shotName
 	 */
-	public CircularShot(Vector2f pos, int radiusOfEffect, int intialRadius, Object graphicalRep, String shotName) {
-		super(pos, new Circle(pos.x, pos.y, radiusOfEffect), graphicalRep, shotName);
+	public CircularShot(Vector2f pos, int radiusOfEffect, int intialRadius, Object graphicalRep, float animationLimit, float animationStep, String shotName) {
+		super(pos, new Circle(pos.x, pos.y, radiusOfEffect), graphicalRep, animationLimit, animationStep, shotName);
 		// TODO Auto-generated constructor stub
 		this.radiusOfEffect = radiusOfEffect;
 		this.storedRadius = initialRadius;
