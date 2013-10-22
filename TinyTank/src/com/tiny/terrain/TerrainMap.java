@@ -182,10 +182,14 @@ public class TerrainMap {
 		return linearHeightmap;
 	}
 	
+	public int getLinearHeightMapPoint(int i){
+		return linearHeightmap[i];
+	}
 	
 	public void setLinearHeightmapPoint(int i, int k) {
 		linearHeightmap[i] = k;
 	}
+	
 
 	public Image getImage() {
 		return image;
