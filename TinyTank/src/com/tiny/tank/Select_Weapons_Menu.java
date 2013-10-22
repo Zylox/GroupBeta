@@ -8,8 +8,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import com.tiny.weapons.shots.Shots;
 
-
-
 public class Select_Weapons_Menu extends BasicGameState  {
 	private int id;
 	 Font font;
@@ -39,17 +37,14 @@ public class Select_Weapons_Menu extends BasicGameState  {
 		throws SlickException {
 			
 
-			background = new Image("res/bg.jpg");
-			title = new Image("res/Weapon_Select_ title.png");
-			button_play= new Image("res/play_button.png");
-			button_menu= new Image("res/back_button.png");
-			p1_title= new Image("res/P1.png");
-			p2_title= new Image("res/P2.png");
-			ammo_title= new Image("res/ammo.png");
+		g.setColor(new Color(176, 176, 176, 0.8f));
+		g.fillRect(300, 200, 200, 300);
 		
-		}
+	}
 			
 
+	public void update(GameContainer container, StateBasedGame game, int delta)
+			throws SlickException {
 		public void render(GameContainer container, StateBasedGame game, Graphics g)
 		throws SlickException {
 			
@@ -111,8 +106,19 @@ public class Select_Weapons_Menu extends BasicGameState  {
 				y=y+20;// next weapon will be placed below the previous
 			}
 		}
-		public int getID() {
-		return id;
+	}
+
+	public void FillWeapons(GameContainer container, StateBasedGame game,
+			Graphics g) throws SlickException {
+		int x = 320;
+		int y = 200;
+
+		g.setColor(Color.black);
+		for (int i = 0; i < total; i++) {
+			String weapon = shots[i].toString();
+			g.drawString(weapon, x, y);
+			System.out.println(shots[i]);
+			y = y + 20;// next weapon will be placed below the previous
 		}
 		
 		
@@ -121,3 +127,5 @@ public class Select_Weapons_Menu extends BasicGameState  {
 		
 		
 	}
+
+}
