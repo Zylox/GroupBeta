@@ -28,7 +28,7 @@ public class Button {
 //		g.draw(new Rectangle(buttonPos.x,buttonPos.y,button.getWidth(),button.getHeight()));
 	}
 	public Boolean isMouseOverButton(int mousePosX,int mousePosY) {
-		boolean mouseOver= mousePosX > buttonPos.x && mousePosX < buttonPos.x + button.getWidth() && mousePosY > buttonPos.y && mousePosY < buttonPos.y+button.getWidth(); 
+		boolean mouseOver= mousePosX > buttonPos.x && mousePosX < buttonPos.x + button.getWidth() && mousePosY > buttonPos.y && mousePosY < buttonPos.y+button.getHeight(); 
 		return mouseOver;
 	}
 	
