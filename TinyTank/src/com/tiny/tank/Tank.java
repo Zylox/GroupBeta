@@ -127,6 +127,8 @@ public class Tank {
 		}
 		//start animation over
 		animationCounter = 0;
+		
+		setFirstPos();
 	}
 
 	/**
@@ -144,7 +146,7 @@ public class Tank {
 	 */
 	public void onTurnSwitch() {
 		movementCounter = 0;
-		movementLimit = 1000;
+		movementLimit = 80;
 		isTurn = true;
 		shotIndex = 0;
 	}
@@ -281,6 +283,9 @@ public class Tank {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		// current graphical representation
 		image.draw(pos.x, pos.y);
+		if(isShooting){
+			getShots().get(shotIndex).render(container, game, g);
+		}
 	}
 
 	/**

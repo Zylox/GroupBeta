@@ -92,9 +92,7 @@ public class Main_Gameplay extends BasicGameState{
 		for(int i = 0; i < numOfPlayers; i++){
 			players.get(i).render(container, game, g);
 		}
-		if(players.get(playersTurnIndex).getShots().size() >0){
-			players.get(playersTurnIndex).getShots().get(0).render(container, game, g);
-		}
+
 			
 		
 	}
