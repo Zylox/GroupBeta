@@ -26,7 +26,7 @@ public class Main_Menu extends BasicGameState {
 			throws SlickException {
 		background = new Image("res/bg.jpg");
 		playButton= new Button("res/play_button.png",300,200);
-		quitButton= new Button("res/play_button.png",300,400);
+		quitButton= new Button("res/exit_button.png",300,400);
 	}
 
 	@Override
