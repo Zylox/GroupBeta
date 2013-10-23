@@ -141,7 +141,11 @@ public class Select_Weapons_Menu extends BasicGameState  {
 		}
 
 		
-
+		/**
+		 * Function to change the state of the game
+		 * You can either enter the game or leave to the Main Menu
+		 * 
+		 */
 		public void update(GameContainer container, StateBasedGame game, int delta)
 		throws SlickException {
 			
@@ -196,6 +200,13 @@ public class Select_Weapons_Menu extends BasicGameState  {
 				
 		}
 
+		/**
+		 * This function counts the number of players and allows the users to assign 
+		 * guns to each player. Based on the even/odd value of the players, the game will assign 
+		 * weapons in that order.
+		 * @param s
+		 * @param y
+		 */
 		private void ButtonPressed(SimpleTempButton s, int y) {
 		 
 			if(playercount%2 == 0)
@@ -240,7 +251,11 @@ public class Select_Weapons_Menu extends BasicGameState  {
 	
 		}
 
-		
+		/**
+		 * this is the function that takes the button input and assigns that button
+		 * to the weapons array of shots
+		 * @return
+		 */
 		public ArrayList<Tank> getTanks(){
 			ArrayList<Tank> tanks = new ArrayList<Tank>();
 			for(int i = 0; i<2;i++){
@@ -256,7 +271,11 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			return tanks;
 			
 		}
-		
+		/**
+		 * this is the function that takes the button and returns it as a shot
+		 * @param buttons
+		 * @return
+		 */
 		private ArrayList<Shot> convertButtonsToShots(ArrayList<SimpleTempButton> buttons){
 			ArrayList<Shot> shots = new ArrayList<Shot>();
 			
