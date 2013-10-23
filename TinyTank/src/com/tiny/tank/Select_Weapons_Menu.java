@@ -1,6 +1,7 @@
 package com.tiny.tank;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
@@ -68,6 +69,16 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			int x = 300;
 			int y = 155;
 
+			
+			int weaponsCount = 10;
+			Shots[] b = new Shots[weaponsCount];
+			Random ran = new Random();
+			for(int i =0; i<weaponsCount;i++){
+				b[i] = shots[ran.nextInt(shots.length)];
+			}
+			
+			shots = b;
+			
 			buttons = new ArrayList<SimpleTempButton>();
 			p1weapons = new ArrayList<SimpleTempButton>();
 			p2weapons = new ArrayList<SimpleTempButton>();
