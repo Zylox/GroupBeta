@@ -61,5 +61,10 @@ public class Main_Menu extends BasicGameState {
 		// TODO Auto-generated method stub
 		return id;
 	}
+	
+	@Override
+	public void leave(GameContainer container, StateBasedGame game){
+		TinyTank.setPreviousState(id);
+	}
 
 }
