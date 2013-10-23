@@ -15,19 +15,17 @@ public class Main_Menu extends BasicGameState {
 	private Button quitButton;
 	private Image background;
 	private int id;
-	private int posX;
-	private int posY;
 	
 	public Main_Menu(int id){
 		this.id = id;
 	}
 	/** creates new background image as well as new button instances*/
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
+	public void init(GameContainer game, StateBasedGame arg1)
 			throws SlickException {
 		background = new Image("res/bg.jpg");
-		playButton= new Button("res/play_button.png",300,200);
-		quitButton= new Button("res/exit_button.png",300,400);
+		playButton= new Button("res/play_button.png",300,200,game);
+		quitButton= new Button("res/exit_button.png",300,400,game);
 	}
 	/** prints background and buttons on screen */
 	@Override
@@ -39,21 +37,12 @@ public class Main_Menu extends BasicGameState {
 	}
 	/** When a button is clicked, it goes to that state*/
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		Input input = arg0.getInput();
-		posX=input.getMouseX();
-		posY=input.getMouseY();
-		
-		
-		if( playButton.isMouseOverButton(posX, posY)) {
-			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+	public void update(GameContainer game, StateBasedGame arg1, int arg2) throws SlickException {
+		if( playButton.isMouseOverButton()) {
 				arg1.enterState((STATES.SELECT_WEAPONS_MENU).getId());
-			}
 		}
-		if(quitButton.isMouseOverButton(posX, posY)) {
-			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+		if(quitButton.isMouseOverButton()) {
 				System.exit(0);
-			}
 		}
 	}
 

@@ -41,8 +41,8 @@ public class Pause_Menu extends BasicGameState {
 	}
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		playButton=new Button("res/play_button.png",300,100);
-		menuButton=new Button("res/back_button.png",300,300);
+		playButton=new Button("res/play_button.png",300,100,arg0);
+		menuButton=new Button("res/back_button.png",300,300,arg0);
 	}
 
 	@Override
@@ -63,15 +63,11 @@ public class Pause_Menu extends BasicGameState {
 		posY=input.getMouseY();
 		
 		/** if the mouse is clicked over a button, go to the state specified under the control statement*/
-		if(playButton.isMouseOverButton(posX, posY)) {
-			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+		if(playButton.isMouseOverButton()) {
 				state.enterState(STATES.MAIN_GAMEPLAY.getId());
-			}
 		}
-		if(menuButton.isMouseOverButton(posX, posY)) {
-			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+		if(menuButton.isMouseOverButton()) {
 				state.enterState(STATES.MAIN_MENU.getId());
-			}
 		}
 	}
 	@Override
