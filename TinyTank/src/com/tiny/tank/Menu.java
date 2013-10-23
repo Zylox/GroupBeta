@@ -75,4 +75,8 @@ public class Menu extends BasicGameState {
 	public int getID() {
 		return id;
 	}
+	@Override
+	public void leave(GameContainer container, StateBasedGame game){
+		TinyTank.setPreviousState(id);
+	}
 }
