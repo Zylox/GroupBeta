@@ -30,7 +30,7 @@ public class TinyTank extends StateBasedGame {
 		AppGameContainer app = new AppGameContainer(new TinyTank("Tiny Tank"));
 		
 
-		app.setDisplayMode(800, 600, false);
+		app.setDisplayMode(800, 600, true);
 		app.setAlwaysRender(true);
 		//app.setTargetFrameRate(100);
 		app.start();

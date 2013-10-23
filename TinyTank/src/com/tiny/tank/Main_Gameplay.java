@@ -2,11 +2,7 @@ package com.tiny.tank;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -16,7 +12,7 @@ import com.tiny.weapons.Shot;
 import com.tiny.weapons.shots.Shots;
 
 public class Main_Gameplay extends BasicGameState{
-
+	
 	private int id;
 	public static TerrainMap map;
 	private Input input;
@@ -45,7 +41,7 @@ public class Main_Gameplay extends BasicGameState{
 		// TODO Auto-generated method stub
 		map = new TerrainMap(container.getWidth(),container.getHeight());
 		input = container.getInput();
-		
+		timeCounter = 0;
 		players = new ArrayList<Tank>();
 		
 	}
@@ -70,7 +66,10 @@ public class Main_Gameplay extends BasicGameState{
 		
 		//this is just a placeholder till we get the weapon select up and running
 		if(previousState == STATES.SELECT_WEAPONS_MENU.getId()){
+			map = new TerrainMap(container.getWidth(),container.getHeight());
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
+			players.get(0).setFirstPos();
+			players.get(1).setFirstPos();
 		}
 		
 		//sets player one to his turn
@@ -78,6 +77,11 @@ public class Main_Gameplay extends BasicGameState{
 		timeCounter = 0;
 	} 
 
+	@Override
+	public void leave(GameContainer container, StateBasedGame game){
+		TinyTank.setPreviousState(id);
+	}
+	
 
 	/**
 	 * Renders our objects to the screen. Renders in layers in order put.
@@ -109,6 +113,10 @@ public class Main_Gameplay extends BasicGameState{
 			//regenerates terrain//for testing only
 			map = new TerrainMap(container.getWidth(), container.getHeight());
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
+		}
+		if(input.isKeyDown(Input.KEY_P)) {
+			//pause button
+			game.enterState(STATES.PAUSE_MENU.getId());
 		}
 
 		/***************

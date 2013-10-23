@@ -72,12 +72,15 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			p1weapons = new ArrayList<SimpleTempButton>();
 			p2weapons = new ArrayList<SimpleTempButton>();
 			
-			
+			ycord = 200;
+			playercount = 0;
 			
 			for(Shots s : shots){
 				buttons.add(new SimpleTempButton(new Vector2f(x,y),200,spacing,s.getShot()));
 				y+=spacing;
 			}
+			container.getInput().clearMousePressedRecord();
+			container.getInput().clearKeyPressedRecord();
 		}
 		
 		@Override
@@ -144,6 +147,22 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			
 			int posX = Mouse.getX();
 			int posY = Mouse.getY();
+			
+			// If play game button is clicked on play game, enter the play game state
+			if((posX>500 && posX<720) && (posY>20 && posY<80)){
+				if(Mouse.isButtonDown(0)){
+					game.enterState((STATES.MAIN_GAMEPLAY.getId()));
+				}
+				
+			}
+				// If back button is clicked, change state to main menu state		
+			if((posX>80 && posX<300) && (posY>20 && posY<80)){
+				if(Mouse.isButtonDown(0)){
+					game.enterState((STATES.MAIN_MENU).getId());		
+				}
+			}
+			
+			
 		
 						
 			boolean clicked = container.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON);
@@ -230,8 +249,9 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			tanks.get(0).TankInfo(200, 10, 70, 100, convertButtonsToShots(p1weapons), 1);
 			tanks.get(1).TankInfo(600, 10, 70, 100, convertButtonsToShots(p2weapons), 2);
 			
-			//tanks.get(0).setFirstPos();
-			//tanks.get(1).setFirstPos();
+			
+			tanks.get(0).setFirstPos();
+			tanks.get(1).setFirstPos();
 			
 			return tanks;
 			
