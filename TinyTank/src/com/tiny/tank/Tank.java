@@ -340,7 +340,7 @@ public class Tank {
 		xRange[1] = right;
 		return xRange;
 	}
-
+	
 	private float[] calculateYRange(Rectangle hitbox) {
 
 		float top = hitbox.getMinY();
@@ -351,7 +351,11 @@ public class Tank {
 		yRange[1] = bottom;
 		return yRange;
 	}
-
+	
+	/**
+	 * series of gets and sets to assign the variables of the tank
+	 * the given and calculated values
+	 */
 	public int getIndex() {
 		return index;
 	}
