@@ -27,7 +27,7 @@ public class Button {
 	}
 	/**Returns true of the mouse is over the button*/
 	public Boolean isMouseOverButton(int mousePosX,int mousePosY) {
-		boolean mouseOver= mousePosX > buttonPos.x && mousePosX < buttonPos.x + button.getWidth() && mousePosY > buttonPos.y && mousePosY < buttonPos.y+button.getWidth(); 
+		boolean mouseOver= mousePosX > buttonPos.x && mousePosX < buttonPos.x + button.getWidth() && mousePosY > buttonPos.y && mousePosY < buttonPos.y+button.getHeight(); 
 		return mouseOver;
 	}
 	
