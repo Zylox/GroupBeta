@@ -4,7 +4,6 @@ package com.tiny.tank;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -15,8 +14,6 @@ public class Pause_Menu extends BasicGameState {
 	private Button menuButton;
 	private Image pause_menu_background;
 	private int id; 
-	private int posX;
-	private int posY;
 	
 	public Pause_Menu(int id) {
 		this.id=id;
@@ -58,9 +55,6 @@ public class Pause_Menu extends BasicGameState {
 	public void update(GameContainer arg0, StateBasedGame state, int arg2)
 			throws SlickException {
 		/** create new input object for getting mouse coordinates*/
-		Input input=arg0.getInput();
-		posX=input.getMouseX();
-		posY=input.getMouseY();
 		
 		/** if the mouse is clicked over a button, go to the state specified under the control statement*/
 		if(playButton.isMouseOverButton()) {
