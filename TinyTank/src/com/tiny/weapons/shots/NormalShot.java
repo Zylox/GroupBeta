@@ -79,6 +79,8 @@ public class NormalShot extends CircularShot{
 			else{ //its dead jim
 				onCollisionEffect();
 				isAlive = false;
+				isShot = false;
+				isAnimating= false;
 				finished();
 			}
 		}else if(isShot){ //if not otehr states, has to be falling so update
