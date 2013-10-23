@@ -9,7 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Menu extends BasicGameState {
+public class Pause_Menu extends BasicGameState {
 	
 	private Button playButton;
 	private Button menuButton;
@@ -18,7 +18,7 @@ public class Menu extends BasicGameState {
 	private int posX;
 	private int posY;
 	
-	public Menu(int id) {
+	public Pause_Menu(int id) {
 		this.id=id;
 	}
 	
@@ -74,9 +74,5 @@ public class Menu extends BasicGameState {
 	@Override
 	public int getID() {
 		return id;
-	}
-	@Override
-	public void leave(GameContainer container, StateBasedGame game){
-		TinyTank.setPreviousState(id);
 	}
 }
