@@ -144,7 +144,7 @@ public class Tank {
 	 */
 	public void onTurnSwitch() {
 		movementCounter = 0;
-		movementLimit = 1000;
+		movementLimit = 80;
 		isTurn = true;
 		shotIndex = 0;
 	}
