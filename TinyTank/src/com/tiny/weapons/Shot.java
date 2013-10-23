@@ -119,6 +119,7 @@ public abstract class Shot {
 		this.isAlive = true;
 		this.isAnimating = false;
 		this.isShot = true;
+		this.animationCounter = 0;
 	}
 
 	/**
