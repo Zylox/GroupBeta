@@ -64,19 +64,24 @@ public class Pause_Menu extends BasicGameState {
 		
 		/** if the mouse is clicked over a button, go to the state specified under the control statement*/
 		if(playButton.isMouseOverButton(posX, posY)) {
-			if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				state.enterState(STATES.MAIN_GAMEPLAY.getId());
 			}
 		}
 		if(menuButton.isMouseOverButton(posX, posY)) {
-			if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				state.enterState(STATES.MAIN_MENU.getId());
 			}
 		}
+	}
+	@Override
+	public void leave(GameContainer container,StateBasedGame game) {
+		container.getInput().clearMousePressedRecord();
 	}
 	/** this is the state ID that specified in the STATES class*/
 	@Override
 	public int getID() {
 		return id;
 	}
+	
 }

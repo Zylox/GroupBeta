@@ -46,12 +46,12 @@ public class Main_Menu extends BasicGameState {
 		
 		
 		if( playButton.isMouseOverButton(posX, posY)) {
-			if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				arg1.enterState((STATES.SELECT_WEAPONS_MENU).getId());
 			}
 		}
 		if(quitButton.isMouseOverButton(posX, posY)) {
-			if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				System.exit(0);
 			}
 		}
