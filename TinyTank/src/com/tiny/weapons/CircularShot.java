@@ -19,8 +19,8 @@ public abstract class CircularShot extends Shot{
 	 * @param graphicalRep
 	 * @param shotName
 	 */
-	public CircularShot(Vector2f pos, int radiusOfEffect, int intialRadius, Object graphicalRep, String shotName) {
-		super(pos, new Circle(pos.x, pos.y, radiusOfEffect), graphicalRep, shotName);
+	public CircularShot(Vector2f pos, int radiusOfEffect, int intialRadius, Object graphicalRep, float animationLimit, float animationStep, String shotName) {
+		super(pos, new Circle(pos.x, pos.y, radiusOfEffect), graphicalRep, animationLimit, animationStep, shotName);
 		// TODO Auto-generated constructor stub
 		this.radiusOfEffect = radiusOfEffect;
 		this.storedRadius = initialRadius;
@@ -31,8 +31,8 @@ public abstract class CircularShot extends Shot{
 	 * Does position and radius storing
 	 */
 	@Override
-	public void init(Vector2f pos){
-		super.init(pos);
+	public void init(Vector2f pos, Vector2f impulse){
+		super.init(pos,impulse);
 		initialRadius = storedRadius;
 		
 	}
@@ -58,6 +58,29 @@ public abstract class CircularShot extends Shot{
 				}
 			}
 		}
+	}
+	
+	
+	/**
+	 * Fills a Cirlular area
+	 * @param x Center x
+	 * @param y Center y
+	 * @param radius 
+	 */
+	public void circleFill(int x, int y, int radius){
+		for(int i =x-radius;i<x+radius;i++){
+			for(int j = y-radius;j<y+radius;j++){
+				
+				if((x-i)*(x-i)  + (y-j)*(y-j)< radius*radius){
+					if(i < Main_Gameplay.map.getMap().getWidth() && i >= 0 && j < Main_Gameplay.map.getMap().getHeight() && j >=0){
+						Main_Gameplay.map.setFilled(i, j);
+						if(Main_Gameplay.map.getLinearHeightmap()[i] > j ){
+							Main_Gameplay.map.setLinearHeightmapPoint(i,j-1);
+						}
+					}
+				}
+			}
+		}		
 	}
 	
 }

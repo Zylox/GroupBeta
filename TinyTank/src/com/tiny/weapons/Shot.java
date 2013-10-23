@@ -14,11 +14,15 @@ import com.tiny.tank.Tank;
 public abstract class Shot {
 	
 	protected Vector2f pos;
+	protected Vector2f impulse;
 	protected Shape areaOfEffect;
 	protected Object graphicalRep;
 	protected boolean isAlive;
 	protected boolean isAnimating;
 	protected boolean isShot;
+	protected float animationLimit;
+	protected float animationStep;
+	protected float animationCounter;
 	protected String shotName;
 
 
@@ -29,7 +33,7 @@ public abstract class Shot {
 	 * @param areaOfEffect Radius that the explosion will effect.
 	 * @param graphicalRep Graphical representation
 	 */
-	public Shot(Vector2f pos, Shape areaOfEffect, Object graphicalRep, String shotName){
+	public Shot(Vector2f pos, Shape areaOfEffect, Object graphicalRep, float animationLimit, float animationStep, String shotName){
 		this.pos = pos;
 		this.areaOfEffect = areaOfEffect;
 		this.graphicalRep = graphicalRep;
@@ -37,13 +41,12 @@ public abstract class Shot {
 		this.isAlive = true;
 		this.isAnimating = false;
 		this.isShot = false;
+		this.animationLimit = animationLimit;
+		this.animationStep = animationStep;
+		this.animationCounter = 0;
+		this.impulse = new Vector2f(0,0);
 	}
 	 
-	
-	
-
-
-
 	/**
 	 * Checks if the positions of the center intersect the terrain. Uses point-point collision.
 	 * @return true if colliding
@@ -110,8 +113,9 @@ public abstract class Shot {
 	 * Override and call super if more needs to be done
 	 * @param pos
 	 */
-	public void init(Vector2f pos){
+	public void init(Vector2f pos, Vector2f impulse){
 		this.pos = pos;
+		this.impulse = impulse;
 		this.isAlive = true;
 		this.isAnimating = false;
 		this.isShot = true;

@@ -4,19 +4,25 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.weapons.Shot;
 
-/*
- * Player class. Tanks 
+/**
+ * Player class. Tanks
  */
 public class Tank {
 
+	//Constants of size of tank
 	private final int tankWidth = 20;
 	private final int tankHeight = 10;
+	
+	//animation end and the counter for it.
 	private final float animationLimit = 1;
 	private float animationCounter;
 
@@ -26,21 +32,30 @@ public class Tank {
 	private float barrelAng;
 	// previous angle of the player
 	private float prevAng;
-
 	private int direction;
 	private int health;
+	private int shotIndex;
 	// index of the player
 	private int index;
 	private ArrayList<Shot> shots;
 	private Rectangle hitbox;
-	//x and y ranges of numbers. Will be usefull when we get rotations
+	//Keeps an original incase resiszing must happen
+	private Image originalImage;
+	private Image image;
+	// x and y ranges of numbers. Will be usefull when we get rotations
 	private float[] xRange;
 	private float[] yRange;
+
+	//Only so much movement allowed per turn. 
+	private int movementCounter;
+	private int movementLimit;
+
+	//States
 	private boolean isMoving;
 	private boolean isFalling;
 	private boolean isShooting;
-	//Needs to change when moved or falling
-	private boolean hasRangeChanged;
+	//flag for if turn
+	private boolean isTurn;
 
 	/**
 	 * Our good old players
@@ -67,28 +82,54 @@ public class Tank {
 		this.health = health;
 		this.index = index;
 		this.shots = shots;
-		//player1 looks right, player 2 looks left
+		// player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
+			try {
+				originalImage = new Image("res/BlueTank.png");
+				originalImage.setFilter(Image.FILTER_NEAREST);
+				image = originalImage.getScaledCopy(tankWidth, tankHeight);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
-			direction = 2;
+			direction = -1;
+			try {
+				originalImage = new Image("res/RedTank.png");
+				originalImage.setFilter(Image.FILTER_NEAREST);
+				image = originalImage.getScaledCopy(tankWidth, tankHeight);
+
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
+		//sets states
 		isMoving = false;
 		isFalling = false;
 		isShooting = false;
-		
+
+		//sets range and hitbox
 		hitbox = new Rectangle(playerX, playerY, tankWidth, tankHeight);
 		xRange = new float[2];
 		yRange = new float[2];
-		calculateXRange();
-		calculateYRange();
-		hasRangeChanged = false;
-		
+		xRange = calculateXRange(hitbox);
+		yRange = calculateYRange(hitbox);
+
+		//initilizies player 1 to go first;
+		if(index == 1){
+			onTurnSwitch();
+			
+		}else{
+			isTurn = false;
+		}
+		//start animation over
 		animationCounter = 0;
 	}
 
-	/*
+	/**
 	 * Will set the position upon map creation. Puts it right on top of map
 	 */
 	public void setFirstPos() {
@@ -97,20 +138,54 @@ public class Tank {
 		hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
 	}
 
-	/*
+	/**
+	 * takes care of things that happen on swith of turns. Also resets movement limit here.
+	 * This will allow for speed based attacks later (such as a movment booster).
+	 */
+	public void onTurnSwitch() {
+		movementCounter = 0;
+		movementLimit = 1000;
+		isTurn = true;
+		shotIndex = 0;
+	}
+	
+	/**
+	 * What to do when done.
+	 * Currently shot calls this when done.
+	 */
+	public void shotDone(){
+		if(isShooting){
+			isShooting = false;
+			isFalling = true;
+			shots.remove(shotIndex);
+			turnEnd();
+		}else{
+			isFalling = true;
+		}
+	}
+	
+	/**
+	 * Clean up for when turn is over.
+	 */
+	public void turnEnd(){
+		isTurn = false;
+	}
+
+
+	/**
 	 * Will update the events relating to tanks and shots
 	 */
-	public void update() {
+	public void update(Input input) {
 
-		//state handeling if falling
+		// state handeling if falling
 		if (isFalling) {
+			isMoving = false;
 			animationCounter += 1;
 			if (animationCounter > animationLimit) {
 
 				pos.y += 1;
 				hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
-				hasRangeChanged = true;
-				if (checkCollision()) {
+				if (checkCollision(pos)) {
 					pos.y -= 1;
 					hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
 					isFalling = false;
@@ -119,7 +194,8 @@ public class Tank {
 				animationCounter -= animationLimit;
 			}
 		}
-		//state handeling if shooting
+
+		// state handeling if shooting
 		if (isShooting) {
 			for (int i = 0; i < shots.size(); i++) {
 				if (shots.get(i).isShot()) {
@@ -128,21 +204,97 @@ public class Tank {
 			}
 		}
 		
-		//states to be added: changing barrel angles, moving
+		//will execute if sitting essentially
+		if(!isShooting && !isFalling && !isMoving && isTurn){
+			//if the shoot key is pushed, initilize shot and start shooting
+			if(input.isKeyPressed(Input.KEY_SPACE)){
+				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(1*direction,10));
+				setShooting(true);
+			}
+		}
+
+		// states to be added: changing barrel angles
 
 	}
 
+	/**
+	 * Takes care of movement of tank.
+	 * @param input
+	 */
+	public void move(Input input) {
+		//wont move is shooting or falling
+		if (!isShooting && !isFalling) {
+			//checks if player has used all movement alloted this turn
+			if (movementCounter < movementLimit) {
+				float tankMovement = .5f;
+				if (input.isKeyDown(Input.KEY_A)) {
+					movementCounter += 1;
+					isMoving = true;
+					pos = movePos(-tankMovement, 0);
+					isFalling = true;
+				} else if (input.isKeyDown(Input.KEY_D)) {
+					movementCounter += 1;
+					isMoving = true;
+					pos = movePos(tankMovement, 0);
+					isFalling = true;
+				} else {
+					isMoving = false;
+				}
+			}else{
+				isMoving = false;
+			}
+		}
+	}
+
+	/**
+	 * Does the actual movement and returns new position. 
+	 * Moves and then resolves collision.
+	 * If height change is too much, will return old pos.
+	 * @param x Amount to move in the x direction
+	 * @param y Amount to move in the y drection
+	 * @return the new position
+	 */
+	private Vector2f movePos(float x, float y) {
+		Vector2f tempPos = pos.copy();
+		tempPos.x += x;
+		tempPos.y += y;
+
+		int tolerance = 2;
+		for (int i = 0; i < tolerance; i++) {
+			if (checkCollision(tempPos)) {
+				tempPos.y -= 1;
+			} else {
+				return tempPos;
+			}
+		}
+
+		return pos;
+	}
+
+	/**
+	 * Anything needed to render the tanks goes here.
+	 * 
+	 * @param container
+	 * @param game
+	 * @param g
+	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
-		//current graphical representation
-		g.fill(hitbox);
+		// current graphical representation
+		image.draw(pos.x, pos.y);
 	}
 
-	public boolean checkCollision() {
+	/**
+	 * Checks if tanks collide with terrain
+	 * 
+	 * @return
+	 */
+	public boolean checkCollision(Vector2f pos) {
 
-		//adjusts range if needbe
-		checkRange();
+		Rectangle hitbox = new Rectangle(pos.x, pos.y, tankWidth, tankHeight);
+		float[] xRange = calculateXRange(hitbox);
+		float[] yRange = calculateYRange(hitbox);
 
-		//checks if outside the map
+		// checks if outside the map
 		if (hitbox.getMaxX() > Main_Gameplay.map.getWidth() - 1
 				|| hitbox.getMinX() < 0
 				|| hitbox.getMaxY() > Main_Gameplay.map.getHeight() - 1
@@ -150,10 +302,10 @@ public class Tank {
 			return true;
 		}
 
-		//gets teh highest point under the tank
+		// gets teh highest point under the tank
 		int mapMaxInRange = Main_Gameplay.map.getMaxInRange(xRange[0],
 				xRange[1]);
-		//if lowest corner is below mapmax does collision check
+		// if lowest corner is below mapmax does collision check
 		if (yRange[1] > mapMaxInRange) {
 			for (int i = (int) xRange[0]; i < xRange[1]; i++) {
 				for (int j = (int) yRange[0]; j < yRange[1]; j++) {
@@ -169,33 +321,35 @@ public class Tank {
 		return false;
 	}
 
-	/*
+	/**
 	 * recalculates range if needs to
 	 */
-	private void checkRange() {
-		if (!hasRangeChanged) {
-			return;
-		}
+	/*
+	 * private void checkRange() { if (!hasRangeChanged) { return; }
+	 * 
+	 * calculateXRange(); calculateYRange(); }
+	 */
 
-		calculateXRange();
-		calculateYRange();
-	}
-
-	private void calculateXRange() {
+	private float[] calculateXRange(Rectangle hitbox) {
 
 		float left = hitbox.getMinX();
 		float right = hitbox.getMaxX();
 
+		float[] xRange = new float[2];
 		xRange[0] = left;
 		xRange[1] = right;
+		return xRange;
 	}
 
-	private void calculateYRange() {
+	private float[] calculateYRange(Rectangle hitbox) {
 
 		float top = hitbox.getMinY();
 		float bottom = hitbox.getMaxY();
+
+		float[] yRange = new float[2];
 		yRange[0] = top;
 		yRange[1] = bottom;
+		return yRange;
 	}
 
 	public int getIndex() {
@@ -296,4 +450,11 @@ public class Tank {
 		this.isFalling = isFalling;
 	}
 
+	public boolean isTurn() {
+		return isTurn;
+	}
+	
+	public void setTurn(boolean isTurn) {
+		this.isTurn = isTurn;
+	}
 }

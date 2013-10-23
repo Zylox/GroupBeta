@@ -15,11 +15,10 @@ import com.tiny.weapons.CircularShot;
 
 public class NormalShot extends CircularShot{
 
-	/**
-	 * Animation counter limit
-	 */
-	private final float animationLimit = 1;
-	private float animationCounter;
+	//fall rate and max fall rate
+	public final float gravity = .1f;
+	public final float terminalVelocity = 5;
+	
 	/**
 	 * Creates a standard circle shot with exsplosion of given radius
 	 * @param pos Position (duh)
@@ -28,8 +27,8 @@ public class NormalShot extends CircularShot{
 	 * @param graphicalRep Unused currently
 	 * @param shotName String identifying name of shot
 	 */
-	public NormalShot(Vector2f pos, int radiusOfEffect, int initialRadius, Object graphicalRep, String shotName) {
-		super(pos, radiusOfEffect, initialRadius, graphicalRep, shotName);
+	public NormalShot(Vector2f pos, int radiusOfEffect, int initialRadius, Object graphicalRep, float animationLimit, float animationStep, String shotName) {
+		super(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep, shotName);
 		// TODO Auto-generated constructor stub
 		animationCounter = 0;
 	}
@@ -42,8 +41,8 @@ public class NormalShot extends CircularShot{
 		Main_Gameplay.map.update();
 	}
 	
-	public void init(Vector2f pos){
-		super.init(pos);
+	public void init(Vector2f pos, Vector2f impulse){
+		super.init(pos,impulse);
 		animationCounter = 0;
 	}
 	
@@ -59,6 +58,9 @@ public class NormalShot extends CircularShot{
 		//if collides with terrain
 		if(pointCollision()){
 			isAnimating = true;
+			while(pointCollision()){
+				pos.y-=1;
+			}
 			areaOfEffect = new Circle(pos.x,pos.y, initialRadius);
 		}
 		
@@ -67,7 +69,7 @@ public class NormalShot extends CircularShot{
 			//as long as radius is still growing
 			if(initialRadius < radiusOfEffect){
 				
-				animationCounter+=.1; //increment counter
+				animationCounter+=animationStep; //increment counter
 				if(animationCounter > animationLimit){ //if limit time has been passed
 					initialRadius++; //increase radius
 					areaOfEffect = new Circle(pos.x,pos.y, initialRadius); //and graphical rep of it
@@ -81,8 +83,12 @@ public class NormalShot extends CircularShot{
 			}
 		}else{ //if not otehr states, has to be falling so update
 			//temporary
-			pos.x = pos.x+0;
-			pos.y = pos.y+1;
+			impulse.y-=gravity;
+			if(impulse.y > terminalVelocity){
+				impulse.y = terminalVelocity;
+			}
+			pos.x+=impulse.x;
+			pos.y-=impulse.y;
 			if(pos.y > Main_Gameplay.map.getMap().getHeight()){
 				isAnimating = true;
 				areaOfEffect = new Circle(pos.x,Main_Gameplay.map.getMap().getHeight()-1, initialRadius);
@@ -112,9 +118,12 @@ public class NormalShot extends CircularShot{
 
 	@Override
 	public void finished(){
+	
+		
 		ArrayList<Tank> players = Main_Gameplay.players;
 		
 		for(Tank t : players){
+			t.shotDone();
 			t.setFalling(true);
 			t.setShooting(false);
 		}
