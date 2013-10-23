@@ -230,8 +230,8 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			tanks.get(0).TankInfo(200, 10, 70, 100, convertButtonsToShots(p1weapons), 1);
 			tanks.get(1).TankInfo(600, 10, 70, 100, convertButtonsToShots(p2weapons), 2);
 			
-			tanks.get(0).setFirstPos();
-			tanks.get(1).setFirstPos();
+			//tanks.get(0).setFirstPos();
+			//tanks.get(1).setFirstPos();
 			
 			return tanks;
 			

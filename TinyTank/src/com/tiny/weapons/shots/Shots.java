@@ -9,7 +9,7 @@ public enum Shots {
 	NORMAL_SHOT(new NormalShot(new Vector2f(0,0), 10, 1, null,1,.1f, "normal shot")),
 	BIG_SHOT(new NormalShot(new Vector2f(0,0), 30, 1, null,1,.8f, "big shot")),
 	//CRATER_SHOT(new CraterShot(new Vector2f(0,0), 30,1,null,"crater shot")), doesnt work yet
-	FILL_SHOT(new FillShot(new Vector2f(0,0), 30,1,null,1,.1f,"fill shot"));
+	FILL_SHOT(new FillShot(new Vector2f(0,0), 30,1,null,1,.5f,"fill shot"));
 	
 	Shot shot;
 	
