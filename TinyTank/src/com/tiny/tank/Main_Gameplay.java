@@ -42,7 +42,6 @@ public class Main_Gameplay extends BasicGameState{
 		map = new TerrainMap(container.getWidth(),container.getHeight());
 		input = container.getInput();
 		timeCounter = 0;
-		
 		players = new ArrayList<Tank>();
 		
 	}
