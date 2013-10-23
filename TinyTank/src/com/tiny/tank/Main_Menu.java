@@ -21,6 +21,7 @@ public class Main_Menu extends BasicGameState {
 	public Main_Menu(int id){
 		this.id = id;
 	}
+	/** creates new background image as well as new button instances*/
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
@@ -28,15 +29,15 @@ public class Main_Menu extends BasicGameState {
 		playButton= new Button("res/play_button.png",300,200);
 		quitButton= new Button("res/exit_button.png",300,400);
 	}
-
+	/** prints background and buttons on screen */
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
 		background.draw();
 		playButton.drawButton(g);
 		quitButton.drawButton(g);
-		g.drawString("This is Tiny Tanks!",100,50);
+//		g.drawString("This is Tiny Tanks!",100,50);
 	}
-
+	/** When a button is clicked, it goes to that state*/
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
 		Input input = arg0.getInput();

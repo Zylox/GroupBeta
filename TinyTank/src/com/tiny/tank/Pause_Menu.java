@@ -24,7 +24,7 @@ public class Pause_Menu extends BasicGameState {
 	
 	
 	public void enter(GameContainer container,StateBasedGame game) {
-		
+		/** Make an image out of what was displayed during gameplay*/
 		try {
 			pause_menu_background=new Image(container.getWidth(),container.getHeight());
 			
@@ -32,6 +32,7 @@ public class Pause_Menu extends BasicGameState {
 			e.printStackTrace();
 		}
 		Graphics g=container.getGraphics();
+		/** Don't continue prints the FPS counter*/
 		container.setShowFPS(false);
 		g.copyArea(pause_menu_background, 0, 0);
 		
@@ -40,14 +41,15 @@ public class Pause_Menu extends BasicGameState {
 	}
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
-		playButton=new Button("res/play_button.png",100,100);
-		menuButton=new Button("res/back_button.png",100,300);
+		playButton=new Button("res/play_button.png",300,100);
+		menuButton=new Button("res/back_button.png",300,300);
 	}
 
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g)
 			throws SlickException {
-		pause_menu_background.draw();
+		pause_menu_background.draw();/** Draw the image of the previous state*/
+		/** draw the buttons on the pause menu*/
 		playButton.drawButton(g);
 		menuButton.drawButton(g);
 	}
@@ -55,10 +57,12 @@ public class Pause_Menu extends BasicGameState {
 	@Override
 	public void update(GameContainer arg0, StateBasedGame state, int arg2)
 			throws SlickException {
+		/** create new input object for getting mouse coordinates*/
 		Input input=arg0.getInput();
 		posX=input.getMouseX();
 		posY=input.getMouseY();
 		
+		/** if the mouse is clicked over a button, go to the state specified under the control statement*/
 		if(playButton.isMouseOverButton(posX, posY)) {
 			if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 				state.enterState(STATES.MAIN_GAMEPLAY.getId());
@@ -70,7 +74,7 @@ public class Pause_Menu extends BasicGameState {
 			}
 		}
 	}
-
+	/** this is the state ID that specified in the STATES class*/
 	@Override
 	public int getID() {
 		return id;
