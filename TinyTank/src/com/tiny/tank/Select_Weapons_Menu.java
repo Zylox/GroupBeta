@@ -72,12 +72,15 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			p1weapons = new ArrayList<SimpleTempButton>();
 			p2weapons = new ArrayList<SimpleTempButton>();
 			
-			
+			ycord = 200;
+			playercount = 0;
 			
 			for(Shots s : shots){
 				buttons.add(new SimpleTempButton(new Vector2f(x,y),200,spacing,s.getShot()));
 				y+=spacing;
 			}
+			container.getInput().clearMousePressedRecord();
+			container.getInput().clearKeyPressedRecord();
 		}
 		
 		@Override
@@ -245,6 +248,7 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			}
 			tanks.get(0).TankInfo(200, 10, 70, 100, convertButtonsToShots(p1weapons), 1);
 			tanks.get(1).TankInfo(600, 10, 70, 100, convertButtonsToShots(p2weapons), 2);
+			
 			
 			tanks.get(0).setFirstPos();
 			tanks.get(1).setFirstPos();
