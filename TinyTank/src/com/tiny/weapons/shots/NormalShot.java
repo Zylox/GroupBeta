@@ -81,7 +81,7 @@ public class NormalShot extends CircularShot{
 				isAlive = false;
 				finished();
 			}
-		}else{ //if not otehr states, has to be falling so update
+		}else if(isShot){ //if not otehr states, has to be falling so update
 			//temporary
 			impulse.y-=gravity;
 			if(impulse.y > terminalVelocity){
