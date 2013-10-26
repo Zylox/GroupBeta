@@ -149,31 +149,23 @@ public class Select_Weapons_Menu extends BasicGameState {
 		int posX = Mouse.getX();
 		int posY = Mouse.getY();
 
-		/*
-		 * // If play game button is clicked on play game, enter the play game
-		 * // state if ((posX > 500 && posX < 720) && (posY > 20 && posY < 80))
-		 * { if (Mouse.isButtonDown(0)) {
-		 * game.enterState((STATES.MAIN_GAMEPLAY.getId())); }
-		 * 
-		 * } // If back button is clicked, change state to main menu state if
-		 * ((posX > 80 && posX < 300) && (posY > 20 && posY < 80)) { if
-		 * (Mouse.isButtonDown(0)) {
-		 * game.enterState((STATES.MAIN_MENU).getId()); } }
-		 */
 		boolean clicked = container.getInput().isMousePressed(
 				Input.MOUSE_LEFT_BUTTON);
+		boolean moveList = false;
 		for (int s = 0; s < buttons.size(); s++) {
 			if (buttons.get(s).update(container.getInput(), clicked)) {
 				System.out.println(buttons.get(s).getShot().getShotName());
 				ButtonPressed(buttons.get(s), ycord);
-
+				moveList = true;
+			}
+			if(moveList && !playButtonActive && s<buttons.size()){
+				buttons.get(s).moveInY(-spacing);
 			}
 		}
 
 		if (playButtonActive) {
 			// If play game button is clicked on play game, enter the play game
 			// state
-			System.out.println("fukc");
 			if ((posX > 500 && posX < 720) && (posY > 20 && posY < 80)) {
 				if (Mouse.isButtonDown(0)) {
 					game.enterState(STATES.MAIN_GAMEPLAY.getId());
