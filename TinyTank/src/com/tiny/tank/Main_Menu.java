@@ -18,19 +18,22 @@ public class Main_Menu extends BasicGameState {
 	private int posX;
 	private int posY;
 	
+	private Input input;
+	
 	public Main_Menu(int id){
 		this.id = id;
 	}
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1)
+	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		background = new Image("res/bg.jpg");
 		playButton= new Button("res/play_button.png",300,200);
 		quitButton= new Button("res/exit_button.png",300,400);
+		input = container.getInput();
 	}
 
 	@Override
-	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 		background.draw();
 		playButton.drawButton(g);
 		quitButton.drawButton(g);
@@ -38,22 +41,26 @@ public class Main_Menu extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2) throws SlickException {
-		Input input = arg0.getInput();
-		posX=input.getMouseX();
-		posY=input.getMouseY();
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		
 		
-		if( playButton.isMouseOverButton(posX, posY)) {
+		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			posX=input.getMouseX();
+			posY=input.getMouseY();
 			if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-				arg1.enterState((STATES.SELECT_WEAPONS_MENU).getId());
+				game.enterState((STATES.SELECT_WEAPONS_MENU).getId());
 			}
-		}
-		if(quitButton.isMouseOverButton(posX, posY)) {
-			if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			if(quitButton.isMouseOverButton(posX, posY)) {
 				System.exit(0);
 			}
 		}
+	}
+
+
+	
+	@Override
+	public void leave(GameContainer container, StateBasedGame game){
+		TinyTank.setPreviousState(id);
 	}
 
 	@Override
@@ -61,10 +68,4 @@ public class Main_Menu extends BasicGameState {
 		// TODO Auto-generated method stub
 		return id;
 	}
-	
-	@Override
-	public void leave(GameContainer container, StateBasedGame game){
-		TinyTank.setPreviousState(id);
-	}
-
 }
