@@ -2,6 +2,7 @@ package com.tiny.weapons.shots;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.ShapeFill;
@@ -116,8 +117,9 @@ public class NormalShot extends CircularShot{
 			g.fill(areaOfEffect);
 			return;
 		}
-		
+		g.setColor(Color.black);
 		g.fill(new Circle(pos.x, pos.y, 1));
+		g.setColor(Color.white);
 		
 	}
 

@@ -91,7 +91,7 @@ public class Main_Gameplay extends BasicGameState{
 			throws SlickException {
 		// TODO Auto-generated method stub
 		//draw order: background,map,tanks,shots
-		g.setBackground(Color.gray);
+		g.setBackground(new Color(135,150,235));
 		map.getImage().draw();
 		for(int i = 0; i < numOfPlayers; i++){
 			players.get(i).render(container, game, g);
