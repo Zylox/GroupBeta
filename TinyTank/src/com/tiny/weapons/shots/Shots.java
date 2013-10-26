@@ -20,6 +20,10 @@ public enum Shots {
 	public Shot getShot() {
 		return shot;
 	}
+	
+	public Shot getCopyOfShot(){
+		return this.getShot().copy();
+	}
 
 	public void setShot(Shot shot) {
 		this.shot = shot;

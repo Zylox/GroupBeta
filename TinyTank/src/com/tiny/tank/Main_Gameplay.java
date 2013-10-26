@@ -124,6 +124,7 @@ public class Main_Gameplay extends BasicGameState{
 		 * to be bound by a constant timestep and not performance of a computer.
 		 ***************/
 		timeCounter+=delta;
+		//if(timeCounter>timeStep && input.isKeyPressed(Input.KEY_LSHIFT)){
 		if(timeCounter>timeStep){
 			//updates players and shots
 			

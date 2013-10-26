@@ -122,6 +122,8 @@ public abstract class Shot {
 		this.animationCounter = 0;
 	}
 
+	public abstract Shot copy();
+	
 	/**
 	 * Every shot needs an onCollisionEffect
 	 */

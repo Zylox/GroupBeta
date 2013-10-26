@@ -30,7 +30,6 @@ public class Select_Weapons_Menu extends BasicGameState  {
 	private Image select = null;
 	private boolean playButtonActive = false;
 
-	public Shots[] shots = Shots.values();
 	private int ycord = 200;
 	private int playercount = 0;
 	private int spacing = 20;
@@ -71,13 +70,12 @@ public class Select_Weapons_Menu extends BasicGameState  {
 
 			
 			int weaponsCount = 10;
-			Shots[] b = new Shots[weaponsCount];
+			Shots[] shots = Shots.values();
+			Shot[] shats = new Shot[weaponsCount];
 			Random ran = new Random();
 			for(int i =0; i<weaponsCount;i++){
-				b[i] = shots[ran.nextInt(shots.length)];
+				shats[i] = shots[ran.nextInt(shots.length)].getCopyOfShot();
 			}
-			
-			shots = b;
 			
 			buttons = new ArrayList<SimpleTempButton>();
 			p1weapons = new ArrayList<SimpleTempButton>();
@@ -86,8 +84,8 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			ycord = 200;
 			playercount = 0;
 			
-			for(Shots s : shots){
-				buttons.add(new SimpleTempButton(new Vector2f(x,y),200,spacing,s.getShot()));
+			for(Shot s : shats){
+				buttons.add(new SimpleTempButton(new Vector2f(x,y),200,spacing,s));
 				y+=spacing;
 			}
 			container.getInput().clearMousePressedRecord();
