@@ -22,10 +22,10 @@ public class Button {
 
 	public Button(String path, int startingX, int startingY, int width,
 			int height) {
+
 		try {
 			this.originalImage = new Image(path);
 		} catch (SlickException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -35,15 +35,17 @@ public class Button {
 			dimensions = new Vector2f(button.getWidth(), button.getHeight());
 		} else {
 			dimensions = new Vector2f(width, height);
-			button = scaleImage(originalImage,width,height);
+			button = scaleImage(originalImage, width, height);
 		}
 	}
 
+	/** prints button on screen */
 	public void drawButton(Graphics g) {
 		button.draw(buttonPos.x, buttonPos.y);
 		// this is just for debugging
 		// g.draw(new
 		// Rectangle(buttonPos.x,buttonPos.y,button.getWidth(),button.getHeight()));
+
 	}
 
 	public Boolean isMouseOverButton(int mousePosX, int mousePosY) {

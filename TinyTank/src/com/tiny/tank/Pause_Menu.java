@@ -23,7 +23,9 @@ public class Pause_Menu extends BasicGameState {
 		this.id = id;
 	}
 
+/** Make an image out of what was displayed during gameplay*/
 	public void enter(GameContainer container, StateBasedGame game) {
+
 
 		try {
 			pause_menu_background = new Image(container.getWidth(),
@@ -33,10 +35,11 @@ public class Pause_Menu extends BasicGameState {
 			e.printStackTrace();
 		}
 		Graphics g = container.getGraphics();
+		/** Don't continue prints the FPS counter*/
 		container.setShowFPS(false);
-		g.copyArea(pause_menu_background, 0, 0);
-
+		g.copyArea(pause_menu_background, 0, 0);		
 	}
+	
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -49,7 +52,8 @@ public class Pause_Menu extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		pause_menu_background.draw();
+		pause_menu_background.draw();/** Draw the image of the previous state*/
+		/** draw the buttons on the pause menu*/
 		playButton.drawButton(g);
 		menuButton.drawButton(g);
 	}
@@ -69,9 +73,14 @@ public class Pause_Menu extends BasicGameState {
 			}
 		}
 	}
-
+	@Override
+	public void leave(GameContainer container,StateBasedGame game) {
+		container.getInput().clearMousePressedRecord();
+	}
+	/** this is the state ID that specified in the STATES class*/
 	@Override
 	public int getID() {
 		return id;
 	}
+	
 }
