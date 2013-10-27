@@ -127,6 +127,8 @@ public class Tank {
 		}
 		//start animation over
 		animationCounter = 0;
+		
+		setFirstPos();
 	}
 
 	/**
@@ -144,6 +146,7 @@ public class Tank {
 	 */
 	public void onTurnSwitch() {
 		movementCounter = 0;
+		animationCounter = 0;
 		movementLimit = 80;
 		isTurn = true;
 		shotIndex = 0;
@@ -208,7 +211,7 @@ public class Tank {
 		if(!isShooting && !isFalling && !isMoving && isTurn){
 			//if the shoot key is pushed, initilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
-				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(1*direction,10));
+				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(2*direction,5));
 				setShooting(true);
 			}
 		}
@@ -281,6 +284,9 @@ public class Tank {
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		// current graphical representation
 		image.draw(pos.x, pos.y);
+		if(isShooting){
+			getShots().get(shotIndex).render(container, game, g);
+		}
 	}
 
 	/**
@@ -340,7 +346,7 @@ public class Tank {
 		xRange[1] = right;
 		return xRange;
 	}
-
+	
 	private float[] calculateYRange(Rectangle hitbox) {
 
 		float top = hitbox.getMinY();
@@ -351,7 +357,11 @@ public class Tank {
 		yRange[1] = bottom;
 		return yRange;
 	}
-
+	
+	/**
+	 * series of gets and sets to assign the variables of the tank
+	 * the given and calculated values
+	 */
 	public int getIndex() {
 		return index;
 	}

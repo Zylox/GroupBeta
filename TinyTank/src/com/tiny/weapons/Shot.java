@@ -119,8 +119,11 @@ public abstract class Shot {
 		this.isAlive = true;
 		this.isAnimating = false;
 		this.isShot = true;
+		this.animationCounter = 0;
 	}
 
+	public abstract Shot copy();
+	
 	/**
 	 * Every shot needs an onCollisionEffect
 	 */
