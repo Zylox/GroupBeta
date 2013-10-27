@@ -2,9 +2,13 @@ package com.tiny.terrain;
 
 import java.util.Random;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * The land for our game. Uses a image buffer for pixel operations and an image for rendering.
@@ -16,8 +20,11 @@ public class TerrainMap {
 
 	private ImageBuffer map;
 	private Image image;
+	private Image scaledCopy;
 	private int height;
 	private int width;
+	private int scaledWidth;
+	private int scaledHeight;
 	private int[] linearHeightmap;
 	
 	
@@ -27,7 +34,11 @@ public class TerrainMap {
 	 * @param y height
 	 */
 	public TerrainMap(int x, int y){
-		init(x,y);
+		this(x,y,x,y);
+	}
+	
+	public TerrainMap(int x, int y, int scaleX, int scaleY){
+		init(x,y,scaleX,scaleY);
 	}
 	
 	/**
@@ -35,8 +46,12 @@ public class TerrainMap {
 	 * @param x width
 	 * @param y height
 	 */
+	public void reinit(int x, int y, int scaleX, int scaleY){
+		init(x,y,scaleX,scaleY);
+	}
+	
 	public void reinit(int x, int y){
-		init(x,y);
+		init(x,y,x,y);
 	}
 	
 	/**
@@ -44,13 +59,35 @@ public class TerrainMap {
 	 * @param x
 	 * @param y
 	 */
-	private void init(int x, int y){
+	private void init(int x, int y, int scaleX, int scaleY){
 		width = x;
 		height = y;
 		map = generate(x,y);
-		image= map.getImage();	
+		image= map.getImage();
+		scaledCopy = image;
+		
+		scaledCopy.setFilter(Image.FILTER_LINEAR);
+		
+		scaledWidth = scaleX;
+		scaledHeight = scaleY;
+		
+		if(x != scaleX || y != scaleY){
+			setScaledImage(scaleX,scaleY);
+		}
+		
 	}
 	
+	
+	public void setScaledImage(int scaleX,int scaleY){
+		if(scaleX == 0){
+			scaleX = scaledWidth;
+		}else if(scaleY == 0){
+			scaleY = scaledHeight;
+		}
+		
+		scaledCopy = image.getScaledCopy(scaleX, scaleY);
+	}
+		
 	
 	/**
 	 * Placeholder generation algorithm. Creates a heightmap then fills map.
@@ -121,6 +158,9 @@ public class TerrainMap {
 	}
 	
 	
+	public void render(GameContainer container, StateBasedGame game, Graphics g){
+		scaledCopy.draw();
+	}
 
 	/**
 	 * Call when effecting map. Particularly with weapons.
@@ -129,6 +169,7 @@ public class TerrainMap {
 	public void update(){
 		//TODO
 		image = map.getImage();
+		scaledCopy = map.getImage().getScaledCopy(scaledWidth, scaledHeight);
 	}
 	
 	//gets if there is a collision of a point on the map

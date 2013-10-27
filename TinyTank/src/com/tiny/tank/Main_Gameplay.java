@@ -39,7 +39,7 @@ public class Main_Gameplay extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		map = new TerrainMap(container.getWidth(),container.getHeight());
+		map = new TerrainMap(0,0);
 		input = container.getInput();
 		timeCounter = 0;
 		players = new ArrayList<Tank>();
@@ -66,7 +66,7 @@ public class Main_Gameplay extends BasicGameState{
 		
 		//this is just a placeholder till we get the weapon select up and running
 		if(previousState == STATES.SELECT_WEAPONS_MENU.getId()){
-			map = new TerrainMap(container.getWidth(),container.getHeight());
+			map = new TerrainMap(container.getWidth(),container.getHeight(),container.getWidth()*2,container.getHeight()*2);
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
 			players.get(0).setFirstPos();
 			players.get(1).setFirstPos();
@@ -92,7 +92,7 @@ public class Main_Gameplay extends BasicGameState{
 		// TODO Auto-generated method stub
 		//draw order: background,map,tanks,shots
 		g.setBackground(new Color(135,150,235));
-		map.getImage().draw();
+		map.render(container, game, g);
 		for(int i = 0; i < numOfPlayers; i++){
 			players.get(i).render(container, game, g);
 		}
@@ -147,13 +147,10 @@ public class Main_Gameplay extends BasicGameState{
 			players.get(playersTurnIndex).move(input);
 
 			//test click bomb
-			/*
+			
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				players.get(playersTurnIndex).getShots().get(0).init(new Vector2f(input.getMouseX(), input.getMouseY()),new Vector2f(1,5));
-				players.get(playersTurnIndex).setShooting(true);
-				System.out.println(playersTurnIndex);
-				//map.update();
-			}*/
+				map.setScaledImage(container.getWidth(), 0);
+			}
 					
 			//decrease time counter
 			timeCounter-=timeStep;

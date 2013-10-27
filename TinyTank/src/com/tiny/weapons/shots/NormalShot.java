@@ -68,8 +68,6 @@ public class NormalShot extends CircularShot{
 		
 		//when animating
 		if(isAnimating){
-			System.out.println("does this shit ever animate?");
-			System.out.println("initialRad: "+initialRadius + " radiusOfEff: " + radiusOfEffect );
 			//as long as radius is still growing
 			if(initialRadius < radiusOfEffect){
 				
