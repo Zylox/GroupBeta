@@ -4,7 +4,6 @@ package com.tiny.tank;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -38,17 +37,16 @@ public class Main_Menu extends BasicGameState {
 	/** When a button is clicked, it goes to that state*/
 	@Override
 	public void update(GameContainer game, StateBasedGame arg1, int arg2) throws SlickException {
-		if( playButton.isMouseOverButton()) {
+		if( playButton.isButtonClicked()) {
 				arg1.enterState((STATES.SELECT_WEAPONS_MENU).getId());
 		}
-		if(quitButton.isMouseOverButton()) {
+		if(quitButton.isButtonClicked()) {
 				System.exit(0);
 		}
 	}
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 	

@@ -22,9 +22,15 @@ public class Select_Weapons_Menu extends BasicGameState  {
 	private Image title = null;
 	private Image p1_title=null;
 	private Image p2_title=null;
-	private Image button_play= null;
-	private Image button_play_grey= null;
-	private Image button_menu= null;
+	
+	
+	private Button button_play=null;
+//	private Image button_play= null;
+	private Button button_play_grey=null;
+//	private Image button_play_grey= null;
+	private Button button_menu=null;
+//	private Image button_menu= null;
+	
 	private Image ammo_title= null;
 	private Image select = null;
 	private boolean playButtonActive = false;
@@ -52,9 +58,9 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			background = new Image("res/bg.jpg");
 			title = new Image("res/Weapon_Select_ title.png");
 			select = new Image("res/selectweapon.png");
-			button_play= new Image("res/play_button.png");
-			button_play_grey= new Image("res/play_button_grey.png");
-			button_menu= new Image("res/back_button.png");
+			button_play= new Button("res/play_button.png",500,520,container);
+			button_play_grey= new Button("res/play_button_grey.png",500,520,container);
+			button_menu= new Button("res/back_button.png",80,520,container);
 			p1_title= new Image("res/P1.png");
 			p2_title= new Image("res/P2.png");
 			ammo_title= new Image("res/ammo.png");
@@ -96,11 +102,11 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			title.draw(0,0);
 			if (playButtonActive)
 			{
-				button_play.draw(500,520);
+				button_play.drawButton(g);
 			}else
-				button_play_grey.draw(500, 520);
+				button_play_grey.drawButton(g);
 
-			button_menu.draw(80,520);
+			button_menu.drawButton(g);
 			p1_title.draw(30, 150);
 			p2_title.draw(540,150);
 			ammo_title.draw(240,80);
@@ -153,18 +159,19 @@ public class Select_Weapons_Menu extends BasicGameState  {
 			int posY = Mouse.getY();
 			
 			// If play game button is clicked on play game, enter the play game state
-			if((posX>500 && posX<720) && (posY>20 && posY<80)){
-				if(Mouse.isButtonDown(0)){
-					game.enterState((STATES.MAIN_GAMEPLAY.getId()));
-				}
+			if(button_play.isButtonClicked()) {
+				game.enterState((STATES.MAIN_GAMEPLAY.getId()));
+			}
 				
-			}
+				
 				// If back button is clicked, change state to main menu state		
-			if((posX>80 && posX<300) && (posY>20 && posY<80)){
-				if(Mouse.isButtonDown(0)){
-					game.enterState((STATES.MAIN_MENU).getId());		
-				}
+//			if((posX>80 && posX<300) && (posY>20 && posY<80)){
+//				if(Mouse.isButtonDown(0)){
+			if(button_menu.isButtonClicked()) {
+				game.enterState((STATES.MAIN_MENU).getId());	
 			}
+//				}
+//			}
 			
 			
 		
@@ -178,24 +185,24 @@ public class Select_Weapons_Menu extends BasicGameState  {
 					
 				}
 			}
-			
-			if (playButtonActive)
-			{
-				// If play game button is clicked on play game, enter the play game state
-				if((posX>500 && posX<720) && (posY>20 && posY<80)){
-					if(Mouse.isButtonDown(0)){
-						game.enterState(STATES.MAIN_GAMEPLAY.getId());
-					}	
-				
-				}
-				// If back button is clicked, change state to main menu state		
-				if((posX>80 && posX<300) && (posY>20 && posY<80)){
-					if(Mouse.isButtonDown(0)){
-						game.enterState(STATES.MAIN_MENU.getId());
-					}
-				}
-			
-			}
+			//Why is this here?
+//			if (playButtonActive)
+//			{
+//				// If play game button is clicked on play game, enter the play game state
+//				if((posX>500 && posX<720) && (posY>20 && posY<80)){
+//					if(Mouse.isButtonDown(0)){
+//						game.enterState(STATES.MAIN_GAMEPLAY.getId());
+//					}	
+//				
+//				}
+//				// If back button is clicked, change state to main menu state		
+//				if((posX>80 && posX<300) && (posY>20 && posY<80)){
+//					if(Mouse.isButtonDown(0)){
+//						game.enterState(STATES.MAIN_MENU.getId());
+//					}
+//				}
+//			
+//			}
 			
 				
 		}

@@ -36,15 +36,23 @@ public class Button {
 		posY=input.getMouseY();
 		
 		boolean mouseOver= posX > buttonPos.x && posX < buttonPos.x + button.getWidth() && posY > buttonPos.y && posY < buttonPos.y+button.getHeight(); 
-		if(mouseOver) {
+//		if(mouseOver) {
+//			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+//				return true;
+//			}
+		return mouseOver;
+	}
+	public Boolean isButtonClicked() {
+		if(isMouseOverButton()) {
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 				return true;
 			}
+			else {
+				return false;
+			}
 		}
-		return false;
+		else {
+			return false;
+		}
 	}
-//	public Boolean isButtonClicked() {
-//		if(isMouseOverButton)
-//	}
-	
 }

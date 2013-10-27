@@ -57,10 +57,10 @@ public class Pause_Menu extends BasicGameState {
 		/** create new input object for getting mouse coordinates*/
 		
 		/** if the mouse is clicked over a button, go to the state specified under the control statement*/
-		if(playButton.isMouseOverButton()) {
+		if(playButton.isButtonClicked()) {
 				state.enterState(STATES.MAIN_GAMEPLAY.getId());
 		}
-		if(menuButton.isMouseOverButton()) {
+		if(menuButton.isButtonClicked()) {
 				state.enterState(STATES.MAIN_MENU.getId());
 		}
 	}
