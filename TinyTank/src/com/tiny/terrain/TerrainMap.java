@@ -25,6 +25,7 @@ public class TerrainMap {
 	private int width;
 	private int scaledWidth;
 	private int scaledHeight;
+	private float scale;
 	private int[] linearHeightmap;
 	
 	
@@ -39,6 +40,10 @@ public class TerrainMap {
 	
 	public TerrainMap(int x, int y, int scaleX, int scaleY){
 		init(x,y,scaleX,scaleY);
+	}
+	
+	public TerrainMap(int x, int y, float scale){
+		init(x,y,scale);
 	}
 	
 	/**
@@ -77,6 +82,15 @@ public class TerrainMap {
 		
 	}
 	
+	private void init(int x, int y, float scale){
+		width = x;
+		height = y;
+		map = generate(x,y);
+		image = map.getImage();
+		
+		this.scale = scale;
+	}
+	
 	
 	public void setScaledImage(int scaleX,int scaleY){
 		if(scaleX == 0){
@@ -86,6 +100,14 @@ public class TerrainMap {
 		}
 		
 		scaledCopy = image.getScaledCopy(scaleX, scaleY);
+	}
+	
+	public void setScaledImage(float scale){
+		if(scale == 0){
+			return;
+		}
+		
+		this.scale = scale;	
 	}
 		
 	
@@ -159,7 +181,7 @@ public class TerrainMap {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
-		scaledCopy.draw();
+		image.draw(0, 0, scale);
 	}
 
 	/**

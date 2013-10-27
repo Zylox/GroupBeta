@@ -66,7 +66,7 @@ public class Main_Gameplay extends BasicGameState{
 		
 		//this is just a placeholder till we get the weapon select up and running
 		if(previousState == STATES.SELECT_WEAPONS_MENU.getId()){
-			map = new TerrainMap(container.getWidth(),container.getHeight(),container.getWidth()*2,container.getHeight()*2);
+			map = new TerrainMap(5000,container.getHeight(),1);
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
 			players.get(0).setFirstPos();
 			players.get(1).setFirstPos();
@@ -149,7 +149,10 @@ public class Main_Gameplay extends BasicGameState{
 			//test click bomb
 			
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				map.setScaledImage(container.getWidth(), 0);
+				map.setScaledImage(.9f);
+				for(int i = 0; i<numOfPlayers; i++){
+					players.get(i).setPos(new Vector2f(players.get(i).getPos().x*.9f,players.get(i).getPos().y*.9f));
+				}
 			}
 					
 			//decrease time counter
