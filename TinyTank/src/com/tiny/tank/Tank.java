@@ -136,7 +136,7 @@ public class Tank {
 	 */
 	public void setFirstPos() {
 		pos.y = Main_Gameplay.map.getMaxInRange(xRange[0], xRange[1])
-				- tankHeight + 1;
+				- tankHeight + 0;
 		hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
 	}
 
@@ -283,7 +283,7 @@ public class Tank {
 	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam) {
 		// current graphical representation
-		image.draw((pos.x-cam.pos.x)*cam.scale, (pos.y-cam.pos.y)*cam.scale, cam.scale);
+		image.draw((pos.x-cam.getPos().x)*cam.getScale(), (pos.y-cam.getPos().y)*cam.getScale(), cam.getScale());
 		if(isShooting){
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}

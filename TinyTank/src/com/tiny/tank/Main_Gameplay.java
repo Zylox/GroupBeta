@@ -60,7 +60,7 @@ public class Main_Gameplay extends BasicGameState{
 		input.clearKeyPressedRecord();
 		int width = 5000;
 		int height = container.getHeight();
-		cam = new Camera(0,0,width,height,1);
+		cam = new Camera(0,0,container.getWidth(),container.getHeight(),1);
 		
 		//no reason this should happen
 		if(previousState == STATES.MAIN_GAMEPLAY.getId()){
@@ -153,26 +153,24 @@ public class Main_Gameplay extends BasicGameState{
 			//test click bomb
 			
 			if(input.isKeyDown(Input.KEY_UP)){
-				cam.pos.y-=5;
+				cam.adjustPosY(-5);
 				
 			}else if(input.isKeyDown(Input.KEY_DOWN)){
-				cam.pos.y+=5;
+				cam.adjustPosY(5);
 			}else if(input.isKeyDown(Input.KEY_RIGHT)){
-				cam.pos.x+=5;
+				cam.adjustPosX(5);
 			}else if(input.isKeyDown(Input.KEY_LEFT)){
-				cam.pos.x-=5;
+				cam.adjustPosX(-5);
 			}else if(input.isKeyDown(Input.KEY_U)){
 				cam.adjustScale(.01f);
 			}else if(input.isKeyDown(Input.KEY_J)){
 				cam.adjustScale(-.01f);
 			}
 			
+			
 			/*
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				map.setScaledImage(.9f);
-				for(int i = 0; i<numOfPlayers; i++){
-					players.get(i).setPos(new Vector2f(players.get(i).getPos().x*.9f,players.get(i).getPos().y*.9f));
-				}
+				cam.setPos(new Vector2f(cam.getPos().x+5, cam.getPos().y));
 			}*/
 					
 			//decrease time counter

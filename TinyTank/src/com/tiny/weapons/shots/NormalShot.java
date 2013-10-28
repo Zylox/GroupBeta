@@ -115,12 +115,12 @@ public class NormalShot extends CircularShot{
 		if(isAnimating){
 			//areaOfEffect.setCenterX(cam.scale*(pos.x-cam.pos.x));
 			//areaOfEffect.setCenterY(cam.scale*(pos.y-cam.pos.y));
-			areaOfEffect = new Circle(cam.scale*(pos.x-cam.pos.x),cam.scale*(pos.y-cam.pos.y),initialRadius*cam.scale);
+			areaOfEffect = new Circle(cam.getScale()*(pos.x-cam.getPos().x),cam.getScale()*(pos.y-cam.getPos().y),initialRadius*cam.getScale());
 			g.fill(areaOfEffect);;
 			return;
 		}
 		g.setColor(Color.black);
-		g.fill(new Circle((pos.x-cam.pos.x)*cam.scale, (pos.y-cam.pos.y)*cam.scale, 1*cam.scale));
+		g.fill(new Circle((pos.x-cam.getPos().x)*cam.getScale(), (pos.y-cam.getPos().y)*cam.getScale(), 1*cam.getScale()));
 		g.setColor(Color.white);
 		
 	}
