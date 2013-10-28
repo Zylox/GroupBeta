@@ -38,9 +38,9 @@ public class NormalShot extends CircularShot{
 
 	
 	@Override
-	public void onCollisionEffect() {
+	public void onCollisionEffect(GameContainer container) {
 		// TODO Auto-generated method stub
-		circleExplosion((int)pos.x, (int)pos.y, radiusOfEffect);
+		circleExplosion((int)pos.x, (int)pos.y, radiusOfEffect, container);
 		Main_Gameplay.map.update();
 	}
 	
@@ -50,7 +50,7 @@ public class NormalShot extends CircularShot{
 	}
 	
 	@Override
-	public boolean update() {
+	public boolean update(GameContainer container) {
 		// TODO Auto-generated method stub
 		
 		//Returns true if dead and not shot. Allows for removal
@@ -80,7 +80,7 @@ public class NormalShot extends CircularShot{
 				}
 			}
 			else{ //its dead jim
-				onCollisionEffect();
+				onCollisionEffect(container);
 				isAlive = false;
 				isShot = false;
 				isAnimating= false;

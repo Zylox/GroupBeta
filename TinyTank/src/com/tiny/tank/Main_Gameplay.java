@@ -59,7 +59,7 @@ public class Main_Gameplay extends BasicGameState{
 		input.clearMousePressedRecord();
 		input.clearKeyPressedRecord();
 		int width = 5000;
-		int height = container.getHeight();
+		int height = container.getHeight()*2;
 		cam = new Camera(0,0,container.getWidth(),container.getHeight(),1);
 		
 		//no reason this should happen
@@ -145,7 +145,7 @@ public class Main_Gameplay extends BasicGameState{
 			
 			//Updates players positions
 			for(int i = 0; i < numOfPlayers; i++){
-				players.get(i).update(input);
+				players.get(i).update(container);
 			}
 			//allows player whose turn it is to move.
 			players.get(playersTurnIndex).move(input);
@@ -184,7 +184,7 @@ public class Main_Gameplay extends BasicGameState{
 	 * In the future this will include hud switching and network notifications.
 	 */
 	private void onTurnSwitch(){
-		input.clearKeyPressedRecord();
+		input.isKeyPressed(Input.KEY_SPACE);
 	}
 
 	/**

@@ -178,8 +178,9 @@ public class Tank {
 	/**
 	 * Will update the events relating to tanks and shots
 	 */
-	public void update(Input input) {
+	public void update(GameContainer container) {
 
+		Input input = container.getInput();
 		// state handeling if falling
 		if (isFalling) {
 			isMoving = false;
@@ -202,7 +203,7 @@ public class Tank {
 		if (isShooting) {
 			for (int i = 0; i < shots.size(); i++) {
 				if (shots.get(i).isShot()) {
-					shots.get(i).update();
+					shots.get(i).update(container);
 				}
 			}
 		}

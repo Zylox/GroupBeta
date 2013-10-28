@@ -125,14 +125,15 @@ public abstract class Shot {
 	/**
 	 * Every shot needs an onCollisionEffect
 	 */
-	public abstract void onCollisionEffect();
+	public abstract void onCollisionEffect(GameContainer container);
 
+	
 	
 	/**
 	 * Flight behavior should be included in here
 	 * @returns isAlive
 	 */
-	public abstract boolean update();
+	public abstract boolean update(GameContainer container);
 	
 	/**
 	 * All parameters passed are directly from render method in Main_Gameplay state.
