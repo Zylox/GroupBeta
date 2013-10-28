@@ -16,6 +16,7 @@ public class Main_Gameplay extends BasicGameState{
 	private int id;
 	public static TerrainMap map;
 	private Input input;
+	private Camera cam;
 	
 	//update counter
 	private final int timeStep = 10;
@@ -57,6 +58,9 @@ public class Main_Gameplay extends BasicGameState{
 		//clears the input so we dont get unintential input
 		input.clearMousePressedRecord();
 		input.clearKeyPressedRecord();
+		int width = 5000;
+		int height = container.getHeight();
+		cam = new Camera(0,0,width,height,1);
 		
 		//no reason this should happen
 		if(previousState == STATES.MAIN_GAMEPLAY.getId()){
@@ -66,7 +70,7 @@ public class Main_Gameplay extends BasicGameState{
 		
 		//this is just a placeholder till we get the weapon select up and running
 		if(previousState == STATES.SELECT_WEAPONS_MENU.getId()){
-			map = new TerrainMap(5000,container.getHeight(),1);
+			map = new TerrainMap(width,height);
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
 			players.get(0).setFirstPos();
 			players.get(1).setFirstPos();
@@ -92,9 +96,9 @@ public class Main_Gameplay extends BasicGameState{
 		// TODO Auto-generated method stub
 		//draw order: background,map,tanks,shots
 		g.setBackground(new Color(135,150,235));
-		map.render(container, game, g);
+		map.render(container, game, g, cam);
 		for(int i = 0; i < numOfPlayers; i++){
-			players.get(i).render(container, game, g);
+			players.get(i).render(container, game, g, cam);
 		}
 
 			
@@ -148,12 +152,28 @@ public class Main_Gameplay extends BasicGameState{
 
 			//test click bomb
 			
+			if(input.isKeyDown(Input.KEY_UP)){
+				cam.pos.y-=5;
+				
+			}else if(input.isKeyDown(Input.KEY_DOWN)){
+				cam.pos.y+=5;
+			}else if(input.isKeyDown(Input.KEY_RIGHT)){
+				cam.pos.x+=5;
+			}else if(input.isKeyDown(Input.KEY_LEFT)){
+				cam.pos.x-=5;
+			}else if(input.isKeyDown(Input.KEY_U)){
+				cam.adjustScale(.01f);
+			}else if(input.isKeyDown(Input.KEY_J)){
+				cam.adjustScale(-.01f);
+			}
+			
+			/*
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
 				map.setScaledImage(.9f);
 				for(int i = 0; i<numOfPlayers; i++){
 					players.get(i).setPos(new Vector2f(players.get(i).getPos().x*.9f,players.get(i).getPos().y*.9f));
 				}
-			}
+			}*/
 					
 			//decrease time counter
 			timeCounter-=timeStep;

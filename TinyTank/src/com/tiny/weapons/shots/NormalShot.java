@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.tank.Camera;
 import com.tiny.tank.Main_Gameplay;
 import com.tiny.tank.Tank;
 import com.tiny.weapons.CircularShot;
@@ -74,7 +75,7 @@ public class NormalShot extends CircularShot{
 				animationCounter+=animationStep; //increment counter
 				if(animationCounter > animationLimit){ //if limit time has been passed
 					initialRadius++; //increase radius
-					areaOfEffect = new Circle(pos.x,pos.y, initialRadius); //and graphical rep of it
+					//areaOfEffect = new Circle(pos.x,pos.y, initialRadius); //and graphical rep of it
 					animationCounter -= animationLimit; //decrement counter
 				}
 			}
@@ -104,7 +105,7 @@ public class NormalShot extends CircularShot{
 	}
 
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam) {
 		// TODO Auto-generated method stub
 	
 		if(!isAlive || !isShot){
@@ -112,11 +113,14 @@ public class NormalShot extends CircularShot{
 		}
 		
 		if(isAnimating){
-			g.fill(areaOfEffect);
+			//areaOfEffect.setCenterX(cam.scale*(pos.x-cam.pos.x));
+			//areaOfEffect.setCenterY(cam.scale*(pos.y-cam.pos.y));
+			areaOfEffect = new Circle(cam.scale*(pos.x-cam.pos.x),cam.scale*(pos.y-cam.pos.y),initialRadius*cam.scale);
+			g.fill(areaOfEffect);;
 			return;
 		}
 		g.setColor(Color.black);
-		g.fill(new Circle(pos.x, pos.y, 1));
+		g.fill(new Circle((pos.x-cam.pos.x)*cam.scale, (pos.y-cam.pos.y)*cam.scale, 1*cam.scale));
 		g.setColor(Color.white);
 		
 	}

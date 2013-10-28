@@ -281,11 +281,11 @@ public class Tank {
 	 * @param game
 	 * @param g
 	 */
-	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam) {
 		// current graphical representation
-		image.draw(pos.x, pos.y);
+		image.draw((pos.x-cam.pos.x)*cam.scale, (pos.y-cam.pos.y)*cam.scale, cam.scale);
 		if(isShooting){
-			getShots().get(shotIndex).render(container, game, g);
+			getShots().get(shotIndex).render(container, game, g, cam);
 		}
 	}
 
