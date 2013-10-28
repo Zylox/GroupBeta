@@ -52,7 +52,7 @@ public class SimpleTempButton {
 	}
 
 	private void reInitRectangle(){
-		button = new Rectangle(pos.x,pos.y,width,height);
+		button = new Rectangle(pos.x,pos.y,width,height-1);
 
 	}
 
@@ -67,6 +67,11 @@ public class SimpleTempButton {
 
 	public void setPos(Vector2f pos) {
 		this.pos = pos;
+		reInitRectangle();
+	}
+	
+	public void moveInY(int y){
+		this.pos.y +=y;
 		reInitRectangle();
 	}
 
