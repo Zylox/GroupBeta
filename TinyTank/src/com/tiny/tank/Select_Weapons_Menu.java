@@ -46,7 +46,6 @@ public class Select_Weapons_Menu extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 
-		loadImages();
 	}
 	
 	public void loadImages() throws SlickException{

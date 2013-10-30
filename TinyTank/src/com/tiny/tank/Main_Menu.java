@@ -27,7 +27,6 @@ public class Main_Menu extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		input = container.getInput();
-		loadImages();
 	}
 	
 	public void loadImages() throws SlickException{
