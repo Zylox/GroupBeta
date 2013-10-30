@@ -9,6 +9,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.guiComponents.Button;
+
 
 public class Main_Menu extends BasicGameState {
 	private Button playButton;

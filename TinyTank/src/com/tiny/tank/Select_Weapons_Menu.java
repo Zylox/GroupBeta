@@ -14,6 +14,7 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.guiComponents.SimpleTempButton;
 import com.tiny.weapons.Shot;
 import com.tiny.weapons.shots.Shots;
 //github.com/Zylox/GroupBeta.git
