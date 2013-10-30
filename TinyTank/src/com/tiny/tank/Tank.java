@@ -284,7 +284,7 @@ public class Tank {
 	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam) {
 		// current graphical representation
-		image.draw((pos.x-cam.getPos().x)*cam.getScale(), (pos.y-cam.getPos().y)*cam.getScale(), cam.getScale());
+		image.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
 		if(isShooting){
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}

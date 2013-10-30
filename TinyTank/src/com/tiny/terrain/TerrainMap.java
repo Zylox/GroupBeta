@@ -124,7 +124,7 @@ public class TerrainMap {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam){
-		image.draw((0-cam.getPos().x)*cam.getScale(), (0-cam.getPos().y)*cam.getScale(), cam.getScale());
+		image.draw(cam.transformScreenToCamX(0), cam.transformScreenToCamY(0), cam.getScale());
 	}
 
 	/**

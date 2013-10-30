@@ -26,6 +26,15 @@ public class Camera {
 		adjustPos(0,0);
 	}
 
+	
+	public float transformScreenToCamX(float x){
+		return (x-pos.x)*scale;
+	}
+	
+	public float transformScreenToCamY(float y){
+		return (y-pos.y)*scale;
+	}
+	
 	public Vector2f getPos() {
 		return pos;
 	}
