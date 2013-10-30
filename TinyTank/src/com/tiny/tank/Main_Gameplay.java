@@ -41,10 +41,9 @@ public class Main_Gameplay extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		map = new TerrainMap(0,0);
+	//	map = new TerrainMap(0,0);
 		input = container.getInput();
 		timeCounter = 0;
-		players = new ArrayList<Tank>();
 		
 	}
 	
@@ -71,6 +70,7 @@ public class Main_Gameplay extends BasicGameState{
 		
 		//this is just a placeholder till we get the weapon select up and running
 		if(previousState == STATES.SELECT_WEAPONS_MENU.getId()){
+			players = new ArrayList<Tank>();
 			map = new TerrainMap(width,height);
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
 			players.get(0).setFirstPos();
