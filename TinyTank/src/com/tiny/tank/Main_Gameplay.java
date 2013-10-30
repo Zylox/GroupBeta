@@ -60,7 +60,7 @@ public class Main_Gameplay extends BasicGameState{
 		input.clearMousePressedRecord();
 		input.clearKeyPressedRecord();
 		int width = 5000;
-		int height = container.getHeight()*2;
+		int height = container.getHeight()*1;
 		cam = new Camera(0,0,container.getWidth(),container.getHeight(),1);
 		
 		//no reason this should happen
@@ -131,6 +131,9 @@ public class Main_Gameplay extends BasicGameState{
 		timeCounter+=delta;
 		//if(timeCounter>timeStep && input.isKeyPressed(Input.KEY_LSHIFT)){
 		if(timeCounter>timeStep){
+
+			cam.update();
+			
 			//updates players and shots
 			
 			//if not players turn, switch players
@@ -154,14 +157,18 @@ public class Main_Gameplay extends BasicGameState{
 			//test click bomb
 			
 			if(input.isKeyDown(Input.KEY_UP)){
-				cam.adjustPosY(-5);
-				
+				cam.smoothTransition(0,-5, Camera.SMOOTH_DEFAULT);
 			}else if(input.isKeyDown(Input.KEY_DOWN)){
-				cam.adjustPosY(5);
+				cam.smoothTransition(0, 5, Camera.SMOOTH_DEFAULT);
 			}else if(input.isKeyDown(Input.KEY_RIGHT)){
-				cam.adjustPosX(5);
+				cam.smoothTransition(5, 0, Camera.SMOOTH_DEFAULT);
 			}else if(input.isKeyDown(Input.KEY_LEFT)){
-				cam.adjustPosX(-5);
+				cam.smoothTransition(-5, 0, Camera.SMOOTH_DEFAULT);
+			}else if(input.isKeyPressed(Input.KEY_G)){
+				cam.smoothTransition(5, 5, Camera.SMOOTH_DEFAULT);
+			}else if(input.isKeyPressed(Input.KEY_H)){
+				cam.smoothTransition(-5, -5, Camera.SMOOTH_DEFAULT);
+			
 			}else if(input.isKeyDown(Input.KEY_U)){
 				cam.adjustScale(.01f);
 			}else if(input.isKeyDown(Input.KEY_J)){
