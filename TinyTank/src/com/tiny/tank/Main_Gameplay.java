@@ -41,7 +41,6 @@ public class Main_Gameplay extends BasicGameState{
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		// TODO Auto-generated method stub
-	//	map = new TerrainMap(0,0);
 		input = container.getInput();
 		timeCounter = 0;
 		

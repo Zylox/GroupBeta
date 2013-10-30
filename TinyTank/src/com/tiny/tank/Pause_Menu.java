@@ -44,9 +44,13 @@ public class Pause_Menu extends BasicGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		input = container.getInput();
+		loadImages();
+	}
+	
+	public void loadImages(){
 		playButton = new Button("res/play_button.png", 100, 100);
 		menuButton = new Button("res/back_button.png", 100, 300);
-		input = container.getInput();
 	}
 
 	@Override

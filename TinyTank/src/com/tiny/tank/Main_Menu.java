@@ -26,10 +26,15 @@ public class Main_Menu extends BasicGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		input = container.getInput();
+		loadImages();
+	}
+	
+	public void loadImages() throws SlickException{
 		background = new Image("res/bg.jpg");
 		playButton= new Button("res/play_button.png",300,200);
 		quitButton= new Button("res/exit_button.png",300,400);
-		input = container.getInput();
+		
 	}
 
 	@Override

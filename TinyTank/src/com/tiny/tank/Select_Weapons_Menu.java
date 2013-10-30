@@ -24,7 +24,7 @@ public class Select_Weapons_Menu extends BasicGameState {
 	private Image p1_title = null;
 	private Image p2_title = null;
 	private Image button_play = null;
-	private Image button_play_grey = null;
+	//private Image button_play_grey = null;
 	private Image button_menu = null;
 	private Image ammo_title = null;
 	private Image select = null;
@@ -46,16 +46,20 @@ public class Select_Weapons_Menu extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 
+		loadImages();
+	}
+	
+	public void loadImages() throws SlickException{
 		background = new Image("res/bg.jpg");
 		title = new Image("res/Weapon_Select_ title.png");
 		select = new Image("res/selectweapon.png");
 		button_play = new Image("res/play_button.png");
-		button_play_grey = new Image("res/play_button_grey.png");
+		//button_play_grey = new Image("res/play_button_grey.png");
 		button_menu = new Image("res/back_button.png");
 		p1_title = new Image("res/P1.png");
 		p2_title = new Image("res/P2.png");
 		ammo_title = new Image("res/ammo.png");
-
+		
 	}
 
 	@Override
@@ -103,7 +107,7 @@ public class Select_Weapons_Menu extends BasicGameState {
 		if (playButtonActive) {
 			button_play.draw(500, 520);
 		} else
-			button_play_grey.draw(500, 520);
+			button_play.draw(500, 520,Color.gray);
 
 		button_menu.draw(80, 520);
 		p1_title.draw(30, 150);
