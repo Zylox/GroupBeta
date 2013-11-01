@@ -32,8 +32,10 @@ public class LoadingState extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
+		container.setShowFPS(false);
 		splash.draw();
 		rendered = true;
+		
 	}
 
 	@Override
@@ -47,6 +49,7 @@ public class LoadingState extends BasicGameState {
 					.loadImages();
 
 			game.enterState(STATES.MAIN_MENU.getId());
+			container.setShowFPS(true);
 		}
 	}
 
