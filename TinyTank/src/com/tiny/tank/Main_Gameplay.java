@@ -7,9 +7,10 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.terrain.TerrainMap;
-
+ 
 public class Main_Gameplay extends BasicGameState{
 	
+	private static final int KEY_T = 0;
 	private int id;
 	public static TerrainMap map;
 	private Input input;
@@ -110,8 +111,13 @@ public class Main_Gameplay extends BasicGameState{
 		}
 		/** When p is pressed, go the the pause menu*/
 		if(input.isKeyDown(Input.KEY_P)) {
-			game.enterState(STATES.PAUSE_MENU.getId());
+//			game.enterState(STATES.PAUSE_MENU.getId());
+			game.enterState(STATES.GAME_OVER.getId());
 		}
+		//for now t will be quit game
+//		if(input.isKeyDown(KEY_T)) {
+//			game.enterState(STATES.GAME_OVER.getId());
+//		}
 
 		/***************
 		 * Updates go in this if statement below. This type of timestep loop allows the program
