@@ -14,10 +14,10 @@ public class Pause_Menu extends BasicGameState {
 	private Button menuButton;
 	private Image pause_menu_background;
 	private int id; 
-	private Input input;
 	int posX;
 	int posY;
-	
+
+	private Input input;
 	
 	public Pause_Menu(int id) {
 		this.id = id;
@@ -42,10 +42,10 @@ public class Pause_Menu extends BasicGameState {
 	
 
 	@Override
-	public void init(GameContainer arg0, StateBasedGame arg1) throws SlickException {
+	public void init(GameContainer container, StateBasedGame arg1) throws SlickException {
 		playButton=new Button("res/play_button.png",300,100);
 		menuButton=new Button("res/back_button.png",300,300);
-
+		input = container.getInput();
 	}
 
 	@Override
