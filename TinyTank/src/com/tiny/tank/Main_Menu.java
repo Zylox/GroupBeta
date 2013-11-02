@@ -47,10 +47,11 @@ public class Main_Menu extends BasicGameState {
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			int posX = input.getMouseX();
 			int posY = input.getMouseY();
-			if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			
+			if (playButton.isMouseOverButton(posX, posY)) {
 				game.enterState((STATES.SELECT_WEAPONS_MENU).getId());
 			}
-			if (quitButton.isMouseOverButton(posX, posY)) {
+			else if (quitButton.isMouseOverButton(posX, posY)) {
 				System.exit(0);
 			}
 		}

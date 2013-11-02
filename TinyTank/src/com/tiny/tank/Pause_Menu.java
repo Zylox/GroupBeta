@@ -15,6 +15,10 @@ public class Pause_Menu extends BasicGameState {
 	private Image pause_menu_background;
 	private int id; 
 	private Input input;
+	int posX;
+	int posY;
+	
+	
 	public Pause_Menu(int id) {
 		this.id = id;
 	}
@@ -54,20 +58,19 @@ public class Pause_Menu extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta)
-			throws SlickException {
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
 		/** create new input object for getting mouse coordinates*/
 		
-		int posX = input.getMouseX();
-         int posY = input.getMouseY();
-         
-		/** if the mouse is clicked over a button, go to the state specified under the control statement*/
-		if(playButton.isButtonClicked(posX,posY)) {
-				game.enterState(STATES.MAIN_GAMEPLAY.getId());
-		}
-		if(menuButton.isButtonClicked(posX,posY)) {
-				game.enterState(STATES.MAIN_MENU.getId());
-		}
+	    if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+            posX = input.getMouseX();
+            posY = input.getMouseY();
+            if (playButton.isMouseOverButton(posX, posY)) {
+                    game.enterState(STATES.MAIN_GAMEPLAY.getId());
+            }
+            if (menuButton.isMouseOverButton(posX, posY)) {
+                    game.enterState(STATES.MAIN_MENU.getId());
+            }
+	    }
 	}
 	@Override
 	public void leave(GameContainer container,StateBasedGame game) {
