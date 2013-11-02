@@ -14,11 +14,18 @@ public class Game_Over extends BasicGameState {
 	private Image background;
 	private int id;
 	private Input input;
+	private String winner="1";
 	
 	
 	String[] stats={"","Number of hits","Number of moves","Number of Shots","Hit percentage"};
 	int[] players={1,2};//should be sent number of players and make a for loop to create array of numbers
 	int number_of_tanks=2;
+	Tank[] tanks;
+	Stat game_stats;
+	
+	
+	
+	
 	public Game_Over(int id) {
 		this.id=id;
 	}
@@ -42,6 +49,8 @@ public class Game_Over extends BasicGameState {
 		playButton.drawButton(g);
 		quitButton.drawButton(g);
 		g.drawString("Game Over Page", 100, 50);
+		
+		g.drawString("Player "+winner+" Wins!",100,100);
 		
 		g.drawString("Player ",100,200);
 		for(i=1;i<numberOfStats;i++) {

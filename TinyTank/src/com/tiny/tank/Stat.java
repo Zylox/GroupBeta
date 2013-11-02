@@ -14,6 +14,10 @@ public class Stat {
 		
 	}
 	
+	public Stat(Tank[] tanks) {
+		
+	}
+	
 	public Boolean calculate_place(){
 		return true;
 	}

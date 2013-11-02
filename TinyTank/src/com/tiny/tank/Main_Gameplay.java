@@ -111,7 +111,9 @@ public class Main_Gameplay extends BasicGameState{
 		}
 		/** When p is pressed, go the the pause menu*/
 		if(input.isKeyDown(Input.KEY_P)) {
-//			game.enterState(STATES.PAUSE_MENU.getId());
+			game.enterState(STATES.PAUSE_MENU.getId());
+		}
+		if(input.isKeyDown(Input.KEY_ENTER)) {
 			game.enterState(STATES.GAME_OVER.getId());
 		}
 		//for now t will be quit game
@@ -130,6 +132,7 @@ public class Main_Gameplay extends BasicGameState{
 			
 			//if not players turn, switch players
 			if(!players.get(playersTurnIndex).isTurn()){
+				
 				if(playersTurnIndex == 0){
 					playersTurnIndex = 1;
 				}else if(playersTurnIndex == 1){
@@ -137,7 +140,9 @@ public class Main_Gameplay extends BasicGameState{
 				}
 				players.get(playersTurnIndex).onTurnSwitch();
 				onTurnSwitch();
+				
 			}
+			
 			
 			//Updates players positions
 			for(int i = 0; i < numOfPlayers; i++){
