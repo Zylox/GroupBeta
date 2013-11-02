@@ -1,9 +1,13 @@
 package com.tiny.guiComponents;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -11,6 +15,9 @@ import com.tiny.weapons.Shot;
 
 public class DropDownMenu {
 
+	private final int buttonWidth = 150;
+	private final int buttonHeight = 20;
+	
 	private ArrayList<Shot> menuItems;
 	private int indexToShow;
 	private Vector2f pos;
@@ -19,7 +26,15 @@ public class DropDownMenu {
 	private boolean expanded;
 	
 	public DropDownMenu(ArrayList<Shot> shots){
-		this(shots, 0,0, 20,100);
+		this(shots, 0,0);
+	}
+	
+	public DropDownMenu(ArrayList<Shot> shots, float x, float y){
+		this(shots, x,y,100,20);
+	}
+	
+	public DropDownMenu(ArrayList<Shot> shots, Vector2f pos){
+		this(shots, pos, 20, 100);
 	}
 	
 	public DropDownMenu(ArrayList<Shot> shots, float x, float y, int width, int height){
@@ -32,25 +47,41 @@ public class DropDownMenu {
 		this.width = width;
 		this.height = height;
 		indexToShow = 0;
+		expanded = false;
 	}
 
-	public void update(){
-		
+	public void update(Input input){
+		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+			float mouseX = input.getMouseX();
+			float mouseY = input.getMouseY();
+			if((mouseX > pos.x && mouseX < pos.x+width) && (mouseY > pos.y && mouseY < pos.y+height)){
+				expanded = !expanded;
+			}
+		}
 	}
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g){
+		Color col = g.getColor();
+		Random ran = new Random();
 		if(expanded){
-			if(pos.x+menuItems.size()*height > container.getHeight()){
-				//expand up
-				
+			if(pos.y+(menuItems.size()*height) > container.getHeight()){
+				//expand up-(
+				for(int i = 0; i<menuItems.size(); i++){
+					//g.setColor(new Color(ran.nextInt(255)));
+					g.fill(new Rectangle(pos.x, pos.y-(height*i), width, height-1));
+				}
 			}else{
 				//expand down
-				
+				for(int i = 0; i<menuItems.size(); i++){
+					//g.setColor(new Color(ran.nextInt(255)));				
+					g.fill(new Rectangle(pos.x, pos.y+(height*i), width, height-1));
+				}				
 			}
 			
 		}else{
-			
+			g.fill(new Rectangle(pos.x,pos.y,width,height));
 		}
+		g.setColor(col);
 	}
 	
 	public ArrayList<Shot> getMenuItems() {
@@ -92,16 +123,6 @@ public class DropDownMenu {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

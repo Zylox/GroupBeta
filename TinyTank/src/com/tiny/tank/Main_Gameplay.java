@@ -10,6 +10,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.guiComponents.DropDownMenu;
 import com.tiny.terrain.TerrainMap;
 
 public class Main_Gameplay extends BasicGameState{
@@ -28,6 +29,8 @@ public class Main_Gameplay extends BasicGameState{
 	//index of player whose turn it is.
 	private int playersTurnIndex;
 	public static ArrayList<Tank> players;
+	
+	private DropDownMenu menu;
 	
 	public Main_Gameplay(int id){
 		this.id = id;
@@ -79,6 +82,8 @@ public class Main_Gameplay extends BasicGameState{
 		//sets player one to his turn
 		playersTurnIndex =0;
 		timeCounter = 0;
+		
+		menu = new DropDownMenu(players.get(0).getShots(), 100, container.getHeight()-30);
 	} 
 
 	@Override
@@ -101,7 +106,7 @@ public class Main_Gameplay extends BasicGameState{
 			players.get(i).render(container, game, g, cam);
 		}
 
-			
+		menu.render(container, game, g);
 		
 	}
 
@@ -153,6 +158,8 @@ public class Main_Gameplay extends BasicGameState{
 			//allows player whose turn it is to move.
 			players.get(playersTurnIndex).move(input);
 
+			menu.update(input);
+			
 			//test click bomb
 			
 			if(input.isKeyDown(Input.KEY_UP)){
