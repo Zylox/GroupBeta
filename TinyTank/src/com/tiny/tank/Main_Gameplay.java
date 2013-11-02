@@ -3,13 +3,10 @@ package com.tiny.tank;
 import java.util.ArrayList;
 
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.terrain.TerrainMap;
-import com.tiny.weapons.Shot;
-import com.tiny.weapons.shots.Shots;
 
 public class Main_Gameplay extends BasicGameState{
 	
@@ -38,7 +35,6 @@ public class Main_Gameplay extends BasicGameState{
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		// TODO Auto-generated method stub
 		map = new TerrainMap(container.getWidth(),container.getHeight());
 		input = container.getInput();
 		timeCounter = 0;
@@ -89,7 +85,6 @@ public class Main_Gameplay extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		// TODO Auto-generated method stub
 		//draw order: background,map,tanks,shots
 		g.setBackground(Color.gray);
 		map.getImage().draw();
@@ -107,7 +102,6 @@ public class Main_Gameplay extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
 
 		if(input.isKeyDown(Input.KEY_Q)){
 			//regenerates terrain//for testing only
