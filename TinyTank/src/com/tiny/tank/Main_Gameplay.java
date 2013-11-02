@@ -96,9 +96,7 @@ public class Main_Gameplay extends BasicGameState{
 		for(int i = 0; i < numOfPlayers; i++){
 			players.get(i).render(container, game, g);
 		}
-		if(players.get(playersTurnIndex).getShots().size() >0){
-			players.get(playersTurnIndex).getShots().get(0).render(container, game, g);
-		}
+
 			
 		
 	}
@@ -126,6 +124,7 @@ public class Main_Gameplay extends BasicGameState{
 		 * to be bound by a constant timestep and not performance of a computer.
 		 ***************/
 		timeCounter+=delta;
+		//if(timeCounter>timeStep && input.isKeyPressed(Input.KEY_LSHIFT)){
 		if(timeCounter>timeStep){
 			//updates players and shots
 			

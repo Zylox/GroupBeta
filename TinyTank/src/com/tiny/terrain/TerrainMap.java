@@ -67,7 +67,7 @@ public class TerrainMap {
 		float randRange=50;
 		float tolmax = 100;
 		
-		int k = y/2;
+		int k = 2*y/3;
 		float tolerance = 0;
 		int change = 3;
 		for(int i = 0; i<x; i++){

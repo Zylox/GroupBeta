@@ -12,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.tiny.tank.Main_Gameplay;
 import com.tiny.tank.Tank;
 import com.tiny.weapons.CircularShot;
+import com.tiny.weapons.Shot;
 
 public class NormalShot extends CircularShot{
 
@@ -66,6 +67,8 @@ public class NormalShot extends CircularShot{
 		
 		//when animating
 		if(isAnimating){
+			System.out.println("does this shit ever animate?");
+			System.out.println("initialRad: "+initialRadius + " radiusOfEff: " + radiusOfEffect );
 			//as long as radius is still growing
 			if(initialRadius < radiusOfEffect){
 				
@@ -79,14 +82,16 @@ public class NormalShot extends CircularShot{
 			else{ //its dead jim
 				onCollisionEffect();
 				isAlive = false;
+				isShot = false;
+				isAnimating= false;
 				finished();
 			}
-		}else{ //if not otehr states, has to be falling so update
+		}else if(isShot){ //if not otehr states, has to be falling so update
 			//temporary
 			impulse.y-=gravity;
-			if(impulse.y > terminalVelocity){
-				impulse.y = terminalVelocity;
-			}
+			//if(impulse.y < -terminalVelocity){
+			//	impulse.y = -terminalVelocity;
+		//	}
 			pos.x+=impulse.x;
 			pos.y-=impulse.y;
 			if(pos.y > Main_Gameplay.map.getMap().getHeight()){
@@ -129,6 +134,13 @@ public class NormalShot extends CircularShot{
 		}
 		
 		
+	}
+
+
+	@Override
+	public Shot copy() {
+		// TODO Auto-generated method stub
+		return new NormalShot(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep, shotName);
 	}
 	
 }
