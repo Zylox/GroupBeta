@@ -15,7 +15,9 @@ public class Game_Over extends BasicGameState {
 	private int id;
 	private Input input;
 	private String winner="1";
-	
+	int posX;
+	int posY;
+
 	
 	String[] stats={"","Number of hits","Number of moves","Number of Shots","Hit percentage"};
 	int[] players={1,2};//should be sent number of players and make a for loop to create array of numbers
@@ -68,9 +70,18 @@ public class Game_Over extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+	public void update(GameContainer arg0, StateBasedGame game, int arg2)
 			throws SlickException {
-		
+		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+            posX = input.getMouseX();
+            posY = input.getMouseY();
+            if (playButton.isMouseOverButton(posX, posY)) {
+                    game.enterState(STATES.SELECT_WEAPONS_MENU.getId());
+            }
+            if (quitButton.isMouseOverButton(posX, posY)) {
+                    System.exit(0);
+            }
+	    }
 	}
 
 	@Override
