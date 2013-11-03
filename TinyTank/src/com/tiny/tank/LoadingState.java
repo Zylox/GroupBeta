@@ -45,8 +45,7 @@ public class LoadingState extends BasicGameState {
 		if (rendered) {
 			((Main_Menu) STATES.MAIN_MENU.getState()).loadImages();
 			((Pause_Menu) STATES.PAUSE_MENU.getState()).loadImages();
-			((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState())
-					.loadImages();
+			((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).loadImages();
 
 			game.enterState(STATES.MAIN_MENU.getId());
 			container.setShowFPS(true);
