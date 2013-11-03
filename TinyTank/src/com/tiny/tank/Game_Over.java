@@ -30,6 +30,8 @@ public class Game_Over extends BasicGameState {
 		this.id=id;
 	}
 	
+	
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
@@ -51,7 +53,8 @@ public class Game_Over extends BasicGameState {
 		g.drawString("Game Over Page", 100, 50);
 		
 		g.drawString("Player "+winner+" Wins!",100,100);
-		
+		//TODO: move score screen to be player 1 on the left and player 2 on the right
+		//have it fade out to this
 		g.drawString("Player ",100,200);
 		for(i=1;i<numberOfStats;i++) {
 			g.drawString(stats[i],100,200+20*i);

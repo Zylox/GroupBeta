@@ -2,9 +2,15 @@ package com.tiny.tank;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import com.tiny.terrain.TerrainMap;
  
@@ -112,7 +118,8 @@ public class Main_Gameplay extends BasicGameState{
 		if(input.isKeyDown(Input.KEY_P)) {
 			game.enterState(STATES.PAUSE_MENU.getId());
 		}
-		if(input.isKeyDown(Input.KEY_ENTER)) {
+		
+		if(input.isKeyDown(Input.KEY_ESCAPE)) {
 			game.enterState(STATES.GAME_OVER.getId());
 		}
 		//for now t will be quit game
@@ -141,7 +148,9 @@ public class Main_Gameplay extends BasicGameState{
 				onTurnSwitch();
 				
 			}
-			
+			if(players.get(playersTurnIndex).getShots().size()==0) {
+				game.enterState(STATES.GAME_OVER.getId(), new FadeOutTransition(), new FadeInTransition());
+			}
 			
 			//Updates players positions
 			for(int i = 0; i < numOfPlayers; i++){
