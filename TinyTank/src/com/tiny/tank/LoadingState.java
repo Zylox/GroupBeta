@@ -22,12 +22,8 @@ public class LoadingState extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		try{
-			splash = new Image("res/splash.png");
-		}catch(SlickException e){
-			System.out.println("did it fucking load?");
+		splash = new Image("res/splash.png");
 			
-		}
 		rendered = false;
 	}
 
@@ -49,6 +45,7 @@ public class LoadingState extends BasicGameState {
 			((Main_Menu) STATES.MAIN_MENU.getState()).loadImages();
 			((Pause_Menu) STATES.PAUSE_MENU.getState()).loadImages();
 			((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).loadImages();
+			((Game_Over) STATES.GAME_OVER.getState()).loadImages();
 
 			game.enterState(STATES.MAIN_MENU.getId());
 			container.setShowFPS(true);

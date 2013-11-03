@@ -51,9 +51,6 @@ public class Select_Weapons_Menu extends BasicGameState {
 		
 	}
 		
-		
-
-	
 	public void loadImages() throws SlickException{
 		background = new Image("res/bg.jpg");
 		title = new Image("res/Weapon_Select_ title.png");
