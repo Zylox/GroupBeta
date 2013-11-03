@@ -9,6 +9,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import com.tiny.terrain.TerrainMap;
 
@@ -95,7 +97,6 @@ public class Main_Gameplay extends BasicGameState{
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		// TODO Auto-generated method stub
 		//draw order: background,map,tanks,shots
 		g.setBackground(new Color(135,150,235));
 		map.render(container, game, g, cam);
@@ -111,7 +112,6 @@ public class Main_Gameplay extends BasicGameState{
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
 
 		if(input.isKeyDown(Input.KEY_Q)){
 			//regenerates terrain//for testing only
@@ -122,6 +122,14 @@ public class Main_Gameplay extends BasicGameState{
 		if(input.isKeyDown(Input.KEY_P)) {
 			game.enterState(STATES.PAUSE_MENU.getId());
 		}
+		
+		if(input.isKeyDown(Input.KEY_ESCAPE)) {
+			game.enterState(STATES.GAME_OVER.getId());
+		}
+		//for now t will be quit game
+//		if(input.isKeyDown(KEY_T)) {
+//			game.enterState(STATES.GAME_OVER.getId());
+//		}
 
 		/***************
 		 * Updates go in this if statement below. This type of timestep loop allows the program
@@ -137,6 +145,7 @@ public class Main_Gameplay extends BasicGameState{
 			
 			//if not players turn, switch players
 			if(!players.get(playersTurnIndex).isTurn()){
+				
 				if(playersTurnIndex == 0){
 					playersTurnIndex = 1;
 				}else if(playersTurnIndex == 1){
@@ -144,6 +153,10 @@ public class Main_Gameplay extends BasicGameState{
 				}
 				players.get(playersTurnIndex).onTurnSwitch();
 				onTurnSwitch();
+				
+			}
+			if(players.get(playersTurnIndex).getShots().size()==0) {
+				game.enterState(STATES.GAME_OVER.getId(), new FadeOutTransition(), new FadeInTransition());
 			}
 			
 			//Updates players positions

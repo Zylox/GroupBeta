@@ -1,7 +1,5 @@
 package com.tiny.tank;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -24,7 +22,12 @@ public class LoadingState extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		splash = new Image("res/splash.png");
+		try{
+			splash = new Image("res/splash.png");
+		}catch(SlickException e){
+			System.out.println("did it fucking load?");
+			
+		}
 		rendered = false;
 	}
 

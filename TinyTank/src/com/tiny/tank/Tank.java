@@ -141,8 +141,8 @@ public class Tank {
 	}
 
 	/**
-	 * takes care of things that happen on swith of turns. Also resets movement limit here.
-	 * This will allow for speed based attacks later (such as a movment booster).
+	 * takes care of things that happen on switch of turns. Also resets movement limit here.
+	 * This will allow for speed based attacks later (such as a movement booster).
 	 */
 	public void onTurnSwitch() {
 		movementCounter = 0;

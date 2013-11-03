@@ -14,6 +14,7 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.guiComponents.Button;
 import com.tiny.guiComponents.SimpleTempButton;
 import com.tiny.weapons.Shot;
 import com.tiny.weapons.shots.Shots;
@@ -24,9 +25,10 @@ public class Select_Weapons_Menu extends BasicGameState {
 	private Image title = null;
 	private Image p1_title = null;
 	private Image p2_title = null;
-	private Image button_play = null;
-	//private Image button_play_grey = null;
-	private Image button_menu = null;
+
+	private Button button_play = null;
+	private Button button_play_grey = null;
+	private Button button_menu = null;
 	private Image ammo_title = null;
 	private Image select = null;
 	private boolean playButtonActive = false;
@@ -38,29 +40,164 @@ public class Select_Weapons_Menu extends BasicGameState {
 	private ArrayList<SimpleTempButton> buttons;
 	private ArrayList<SimpleTempButton> p1weapons;
 	private ArrayList<SimpleTempButton> p2weapons;
-
-	public Select_Weapons_Menu(int id) {
-
+	
+	public Select_Weapons_Menu(int id){
 		this.id = id;
 	}
 
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException {
-
+	@Override
+	public void init(GameContainer container, StateBasedGame game) throws SlickException {
+			
+		
 	}
+		
+		
+
 	
 	public void loadImages() throws SlickException{
 		background = new Image("res/bg.jpg");
 		title = new Image("res/Weapon_Select_ title.png");
 		select = new Image("res/selectweapon.png");
-		button_play = new Image("res/play_button.png");
-		//button_play_grey = new Image("res/play_button_grey.png");
-		button_menu = new Image("res/back_button.png");
-		p1_title = new Image("res/P1.png");
-		p2_title = new Image("res/P2.png");
-		ammo_title = new Image("res/ammo.png");
-		
+		button_play= new Button("res/play_button.png",500,520);
+		button_play_grey= new Button("res/play_button.png",500,520);
+		button_menu= new Button("res/back_button.png",80,520);
+		p1_title= new Image("res/P1.png");
+		p2_title= new Image("res/P2.png");
+		ammo_title= new Image("res/ammo.png");		
 	}
+//
+//		public void render(GameContainer container, StateBasedGame game, Graphics g)
+//		throws SlickException {
+//			
+//			background.draw(0,0);
+//			title.draw(0,0);
+//			if (playButtonActive)
+//			{
+//				button_play.drawButton(g);
+//			}else
+//				button_play_grey.drawButton(g);
+//
+//			button_menu.drawButton(g);
+//			p1_title.draw(30, 150);
+//			p2_title.draw(540,150);
+//			ammo_title.draw(240,80);
+//			
+//
+//			//Transparent boxes for each player
+//			g.setColor(new Color(300,300,300, 0.5f));
+//			g.fillRect(60, 200, 170, 300);
+//			g.fillRect(560,200, 170, 300);
+//			
+//			// ammunition select from box
+//			g.setColor(new Color(176, 176, 176, 0.8f));
+//			g.fillRect(300, 155, 200, 345);
+//			
+//			g.setColor(Color.black);
+//			for(SimpleTempButton s : buttons){
+//				s.render(container, game, g);
+//			}
+//			for(SimpleTempButton s : p1weapons){
+//				s.render(container, game, g);
+//			}
+//			for(SimpleTempButton s : p2weapons){
+//				s.render(container, game, g);
+//			}
+//			g.setColor(Color.white);
+//			
+//			
+//			if(odd || playercount == 0 && (playercount -1 <= buttons.size()))
+//			{
+//			select.draw(20, 110);
+//			}else if (even && (playercount -1 <= buttons.size()))
+//			{
+//			select.draw(530, 110);
+//			}
+//				
+//			
+//		
+//		}
+
+		
+		/**
+		 * Function to change the state of the game
+		 * You can either enter the game or leave to the Main Menu
+		 * 
+		 */
+	
+
+		/**
+		 * This function counts the number of players and allows the users to assign 
+		 * guns to each player. Based on the even/odd value of the players, the game will assign 
+		 * weapons in that order.
+		 * @param s
+		 * @param y
+		 */
+	
+		
+	private void ButtonPressed(SimpleTempButton s, int y) {
+
+		boolean even = (playercount % 2 == 0);
+
+			// even number selected weapons go to Player 1
+			if (even) {
+				int x1 = 60;
+
+				p1weapons.add(new SimpleTempButton(new Vector2f(x1, ycord), 173,
+						spacing, s.getShot()));
+				playercount += 1;
+				System.out.println("EVEN!!  selection #:" + playercount);
+
+			}
+			// odd number selected weapons go to Player2
+			else if (!even) {
+				int x2 = 560;
+
+				p2weapons.add(new SimpleTempButton(new Vector2f(x2, ycord), 173,
+						spacing, s.getShot()));
+				// increment Y value by 20 to put the next button below the previous
+				ycord += spacing;
+				playercount += 1;
+				System.out.println("ODD!!  selection #:" + playercount);
+			}
+
+			// if all weapons are chosen, enable play button
+			buttons.remove(s);
+			if (buttons.size() == 0) {
+				playButtonActive = true;
+			}
+		}
+		
+
+		/**
+		 * this is the function that takes the button input and assigns that button
+		 * to the weapons array of shots
+		 * @return
+		 */
+	
+		/**
+		 * this is the function that takes the button and returns it as a shot
+		 * @param buttons
+		 * @return
+		 */
+//		private ArrayList<Shot> convertButtonsToShots(ArrayList<SimpleTempButton> buttons){
+//			ArrayList<Shot> shots = new ArrayList<Shot>();
+//			
+//			for(SimpleTempButton s : buttons){
+//				shots.add(s.getShot());
+//			}
+//			
+//			return shots;
+//			
+//		}
+		
+
+		
+
+		
+		
+	
+
+	
 
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
@@ -105,11 +242,12 @@ public class Select_Weapons_Menu extends BasicGameState {
 		background.draw(0, 0);
 		title.draw(0, 0);
 		if (playButtonActive) {
-			button_play.draw(500, 520);
+			button_play.drawButton(g);
 		} else
-			button_play.draw(500, 520,Color.gray);
 
-		button_menu.draw(80, 520);
+			button_play_grey.drawButton(g);
+
+		button_menu.drawButton(g);
 		p1_title.draw(30, 150);
 		p2_title.draw(540, 150);
 		ammo_title.draw(240, 80);
@@ -156,7 +294,7 @@ public class Select_Weapons_Menu extends BasicGameState {
 
 		boolean clicked = container.getInput().isMousePressed(
 				Input.MOUSE_LEFT_BUTTON);
-		boolean moveList = false;
+		boolean moveList = false; 
 		for (int s = 0; s < buttons.size(); s++) {
 			if (buttons.get(s).update(container.getInput(), clicked)) {
 				System.out.println(buttons.get(s).getShot().getShotName());
@@ -195,39 +333,7 @@ public class Select_Weapons_Menu extends BasicGameState {
 	 * @param s
 	 * @param y
 	 */
-	private void ButtonPressed(SimpleTempButton s, int y) {
 
-		boolean even = (playercount % 2 == 0);
-
-		// even number selected weapons go to Player 1
-		if (even) {
-			int x1 = 60;
-
-			p1weapons.add(new SimpleTempButton(new Vector2f(x1, ycord), 173,
-					spacing, s.getShot()));
-			playercount += 1;
-			System.out.println("EVEN!!  selection #:" + playercount);
-
-		}
-		// odd number selected weapons go to Player2
-		else if (!even) {
-			int x2 = 560;
-
-			p2weapons.add(new SimpleTempButton(new Vector2f(x2, ycord), 173,
-					spacing, s.getShot()));
-			// increment Y value by 20 to put the next button below the previous
-			ycord += spacing;
-			playercount += 1;
-			System.out.println("ODD!!  selection #:" + playercount);
-		}
-
-		// if all weapons are chosen, enable play button
-		buttons.remove(s);
-		if (buttons.size() == 0) {
-			playButtonActive = true;
-		}
-
-	}
 
 	/**
 	 * this is the function that takes the button input and assigns that button
@@ -251,6 +357,7 @@ public class Select_Weapons_Menu extends BasicGameState {
 		return tanks;
 
 	}
+
 
 	/**
 	 * this is the function that takes the button and returns it as a shot
