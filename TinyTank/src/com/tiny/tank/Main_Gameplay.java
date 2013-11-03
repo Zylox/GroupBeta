@@ -10,7 +10,6 @@ import com.tiny.terrain.TerrainMap;
  
 public class Main_Gameplay extends BasicGameState{
 	
-	private static final int KEY_T = 0;
 	private int id;
 	public static TerrainMap map;
 	private Input input;
