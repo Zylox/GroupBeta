@@ -31,10 +31,10 @@ public class Main_Menu extends BasicGameState {
 	}
 	
 	public void loadImages() throws SlickException{
-		background = new Image("res/bg.jpg");
+		background = new Image("res/main.png");
 
-		playButton = new Button("res/play_button.png", 300, 200);
-		quitButton = new Button("res/exit_button.png", 300, 400);
+		playButton = new Button("res/play_button.png", 290, 250);
+		quitButton = new Button("res/exit_button.png", 290, 400);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class Main_Menu extends BasicGameState {
 		background.draw();
 		playButton.drawButton(g);
 		quitButton.drawButton(g);
-		g.drawString("This is Tiny Tanks!", 100, 50);
+	
 	}
 
 	@Override
