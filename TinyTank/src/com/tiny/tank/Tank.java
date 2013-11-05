@@ -38,6 +38,7 @@ public class Tank {
 	// index of the player
 	private int index;
 	private ArrayList<Shot> shots;
+	private ArrayList<HUD> hud;
 	private Rectangle hitbox;
 	//Keeps an original incase resiszing must happen
 	private Image originalImage;
@@ -82,6 +83,7 @@ public class Tank {
 		this.health = health;
 		this.index = index;
 		this.shots = shots;
+		this.hud = hud;
 		// player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
@@ -217,7 +219,10 @@ public class Tank {
 		}
 
 		// states to be added: changing barrel angles
-
+		/*for(int i = 0; i < hud.size(); i++) {
+			hud.get(i).update();
+		}*/
+		//hud.get(0).update();
 	}
 
 	/**
@@ -376,6 +381,14 @@ public class Tank {
 
 	public void setShots(ArrayList<Shot> shots) {
 		this.shots = shots;
+	}
+	
+	public ArrayList<HUD> getHud() {
+		return hud;
+	}
+	
+	public void setHud(ArrayList<HUD> hud) {
+		this.hud = hud;
 	}
 
 	public int getHealth() {

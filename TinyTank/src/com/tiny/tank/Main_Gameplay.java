@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.terrain.TerrainMap;
@@ -96,7 +97,7 @@ public class Main_Gameplay extends BasicGameState{
 		for(int i = 0; i < numOfPlayers; i++){
 			players.get(i).render(container, game, g);
 		}
-
+		
 			
 		
 	}
