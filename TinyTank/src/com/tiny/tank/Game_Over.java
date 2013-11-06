@@ -29,7 +29,7 @@ public class Game_Over extends BasicGameState {
 	
 	
 	public Game_Over(int id) {
-		this.id=id;
+		this.setId(id);
 	}
 	
 	
@@ -57,12 +57,12 @@ public class Game_Over extends BasicGameState {
 		g.drawString("Player "+winner+" Wins!",100,100);
 		//TODO: move score screen to be player 1 on the left and player 2 on the right
 		//have it fade out to this
-		g.drawString("Player ",100,200);
+//		g.drawString("Player ",200,200);
 		for(i=1;i<numberOfStats;i++) {
-			g.drawString(stats[i],100,200+20*i);
+			g.drawString(stats[i],350,200+20*i);
 			for(j=0;j<number_of_tanks;j++) {
-				g.drawString(Integer.toString(players[j]),400+50*j,200);
-				g.drawString("100",400+50*j,200+20*i);
+				g.drawString(Integer.toString(players[j]),100+600*j,200);
+				g.drawString("100",100+600*j,200+20*i);
 			}
 		}
 		
@@ -87,6 +87,18 @@ public class Game_Over extends BasicGameState {
 	@Override
 	public int getID() {
 		return 0;
+	}
+
+
+
+	public int getId() {
+		return id;
+	}
+
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	
