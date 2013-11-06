@@ -1,15 +1,13 @@
 package com.tiny.weapons;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.tank.Camera;
 import com.tiny.tank.Main_Gameplay;
-import com.tiny.tank.Tank;
 
 public abstract class Shot {
 	
@@ -127,14 +125,15 @@ public abstract class Shot {
 	/**
 	 * Every shot needs an onCollisionEffect
 	 */
-	public abstract void onCollisionEffect();
+	public abstract void onCollisionEffect(GameContainer container);
 
+	
 	
 	/**
 	 * Flight behavior should be included in here
 	 * @returns isAlive
 	 */
-	public abstract boolean update();
+	public abstract boolean update(GameContainer container);
 	
 	/**
 	 * All parameters passed are directly from render method in Main_Gameplay state.
@@ -143,7 +142,7 @@ public abstract class Shot {
 	 * @param game
 	 * @param g
 	 */
-	public abstract void render(GameContainer container, StateBasedGame game, Graphics g);
+	public abstract void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam);
 	
 	/**
 	 * Cleanup and finishing shots.

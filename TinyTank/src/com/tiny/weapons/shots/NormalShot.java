@@ -2,6 +2,7 @@ package com.tiny.weapons.shots;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.ShapeFill;
@@ -9,6 +10,7 @@ import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.tank.Camera;
 import com.tiny.tank.Main_Gameplay;
 import com.tiny.tank.Tank;
 import com.tiny.weapons.CircularShot;
@@ -36,9 +38,9 @@ public class NormalShot extends CircularShot{
 
 	
 	@Override
-	public void onCollisionEffect() {
+	public void onCollisionEffect(GameContainer container) {
 		// TODO Auto-generated method stub
-		circleExplosion((int)pos.x, (int)pos.y, radiusOfEffect);
+		circleExplosion((int)pos.x, (int)pos.y, radiusOfEffect, container);
 		Main_Gameplay.map.update();
 	}
 	
@@ -48,7 +50,7 @@ public class NormalShot extends CircularShot{
 	}
 	
 	@Override
-	public boolean update() {
+	public boolean update(GameContainer container) {
 		// TODO Auto-generated method stub
 		
 		//Returns true if dead and not shot. Allows for removal
@@ -67,20 +69,18 @@ public class NormalShot extends CircularShot{
 		
 		//when animating
 		if(isAnimating){
-			System.out.println("does this shit ever animate?");
-			System.out.println("initialRad: "+initialRadius + " radiusOfEff: " + radiusOfEffect );
 			//as long as radius is still growing
 			if(initialRadius < radiusOfEffect){
 				
 				animationCounter+=animationStep; //increment counter
 				if(animationCounter > animationLimit){ //if limit time has been passed
 					initialRadius++; //increase radius
-					areaOfEffect = new Circle(pos.x,pos.y, initialRadius); //and graphical rep of it
+					//areaOfEffect = new Circle(pos.x,pos.y, initialRadius); //and graphical rep of it
 					animationCounter -= animationLimit; //decrement counter
 				}
 			}
 			else{ //its dead jim
-				onCollisionEffect();
+				onCollisionEffect(container);
 				isAlive = false;
 				isShot = false;
 				isAnimating= false;
@@ -105,7 +105,7 @@ public class NormalShot extends CircularShot{
 	}
 
 	@Override
-	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam) {
 		// TODO Auto-generated method stub
 	
 		if(!isAlive || !isShot){
@@ -113,11 +113,15 @@ public class NormalShot extends CircularShot{
 		}
 		
 		if(isAnimating){
-			g.fill(areaOfEffect);
+			//areaOfEffect.setCenterX(cam.scale*(pos.x-cam.pos.x));
+			//areaOfEffect.setCenterY(cam.scale*(pos.y-cam.pos.y));
+			areaOfEffect = new Circle(cam.transformScreenToCamX(pos.x),cam.transformScreenToCamY(pos.y),initialRadius*cam.getScale());
+			g.fill(areaOfEffect);;
 			return;
 		}
-		
-		g.fill(new Circle(pos.x, pos.y, 1));
+		g.setColor(Color.black);
+		g.fill(new Circle(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), 1*cam.getScale()));
+		g.setColor(Color.white);
 		
 	}
 

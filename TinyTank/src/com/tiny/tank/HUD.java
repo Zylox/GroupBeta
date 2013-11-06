@@ -37,7 +37,7 @@ public abstract class HUD {
 	}
 	
 	public abstract boolean update();
-	
-	
-	
+
+
+
 }

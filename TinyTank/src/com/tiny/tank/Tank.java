@@ -139,13 +139,13 @@ public class Tank {
 	 */
 	public void setFirstPos() {
 		pos.y = Main_Gameplay.map.getMaxInRange(xRange[0], xRange[1])
-				- tankHeight + 1;
+				- tankHeight + 0;
 		hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
 	}
 
 	/**
-	 * takes care of things that happen on swith of turns. Also resets movement limit here.
-	 * This will allow for speed based attacks later (such as a movment booster).
+	 * takes care of things that happen on switch of turns. Also resets movement limit here.
+	 * This will allow for speed based attacks later (such as a movement booster).
 	 */
 	public void onTurnSwitch() {
 		movementCounter = 0;
@@ -181,8 +181,9 @@ public class Tank {
 	/**
 	 * Will update the events relating to tanks and shots
 	 */
-	public void update(Input input) {
+	public void update(GameContainer container) {
 
+		Input input = container.getInput();
 		// state handeling if falling
 		if (isFalling) {
 			isMoving = false;
@@ -205,7 +206,7 @@ public class Tank {
 		if (isShooting) {
 			for (int i = 0; i < shots.size(); i++) {
 				if (shots.get(i).isShot()) {
-					shots.get(i).update();
+					shots.get(i).update(container);
 				}
 			}
 		}
@@ -287,11 +288,11 @@ public class Tank {
 	 * @param game
 	 * @param g
 	 */
-	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam) {
 		// current graphical representation
-		image.draw(pos.x, pos.y);
+		image.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
 		if(isShooting){
-			getShots().get(shotIndex).render(container, game, g);
+			getShots().get(shotIndex).render(container, game, g, cam);
 		}
 		
 	}

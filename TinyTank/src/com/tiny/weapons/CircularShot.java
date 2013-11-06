@@ -1,5 +1,6 @@
 package com.tiny.weapons;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -43,7 +44,8 @@ public abstract class CircularShot extends Shot{
 	 * @param y Center of circle coord y
 	 * @param radius Radius of circle
 	 */
-	public void circleExplosion(int x, int y, int radius){
+	public void circleExplosion(int x, int y, int radius, GameContainer container){
+	
 		
 		for(int i =x-radius;i<x+radius;i++){
 			for(int j = y-radius;j<y+radius;j++){
@@ -57,6 +59,8 @@ public abstract class CircularShot extends Shot{
 				}
 			}
 		}
+			
+		
 	}
 	
 	
