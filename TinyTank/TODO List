@@ -22,7 +22,7 @@ Everyting on this list is up for grabs.
 **Camera:
 	+scaleability of map
 	+scalability of objects on map
-**Game Over/Score Screen
+**Game Over/Score Screen-Stein 
 	+end game animation sequence in gameplay state
 **Tank Features
 	+tank damage counter
@@ -43,5 +43,5 @@ Everyting on this list is up for grabs.
 	+clouds - 3 individual clouds made and uploaded
 	+main menu spruced - main menu completed
 	+land tbd
-*Clean up of phase 1
+*Clean up of phase 1-Stein
 	+states being cleaned up
