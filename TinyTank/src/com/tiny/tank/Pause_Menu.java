@@ -8,17 +8,19 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.guiComponents.Button;
+
 public class Pause_Menu extends BasicGameState {
 
 	private Button playButton;
 	private Button menuButton;
 	private Image pause_menu_background;
-	private int id;
-	private int posX;
-	private int posY;
+	private int id; 
+	int posX;
+	int posY;
 
 	private Input input;
-
+	
 	public Pause_Menu(int id) {
 		this.id = id;
 	}
@@ -42,11 +44,14 @@ public class Pause_Menu extends BasicGameState {
 	
 
 	@Override
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException {
-		playButton = new Button("res/play_button.png", 100, 100);
-		menuButton = new Button("res/back_button.png", 100, 300);
+
+	public void init(GameContainer container, StateBasedGame arg1) throws SlickException {
 		input = container.getInput();
+	}
+	
+	public void loadImages(){
+		playButton=new Button("res/play_button.png",300,100);
+		menuButton=new Button("res/back_button.png",300,300);
 	}
 
 	@Override
@@ -59,19 +64,19 @@ public class Pause_Menu extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta)
-			throws SlickException {
-
-		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-			posX = input.getMouseX();
-			posY = input.getMouseY();
-			if (playButton.isMouseOverButton(posX, posY)) {
-				game.enterState(STATES.MAIN_GAMEPLAY.getId());
-			}
-			if (menuButton.isMouseOverButton(posX, posY)) {
-				game.enterState(STATES.MAIN_MENU.getId());
-			}
-		}
+	public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+		/** create new input object for getting mouse coordinates*/
+		
+	    if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+            posX = input.getMouseX();
+            posY = input.getMouseY();
+            if (playButton.isMouseOverButton(posX, posY)) {
+                    game.enterState(STATES.MAIN_GAMEPLAY.getId());
+            }
+            if (menuButton.isMouseOverButton(posX, posY)) {
+                    game.enterState(STATES.MAIN_MENU.getId());
+            }
+	    }
 	}
 	@Override
 	public void leave(GameContainer container,StateBasedGame game) {

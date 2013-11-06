@@ -1,4 +1,4 @@
-package com.tiny.tank;
+package com.tiny.guiComponents;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

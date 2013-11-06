@@ -2,9 +2,14 @@ package com.tiny.terrain;
 
 import java.util.Random;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.state.StateBasedGame;
+
+import com.tiny.tank.Camera;
 
 /**
  * The land for our game. Uses a image buffer for pixel operations and an image for rendering.
@@ -18,6 +23,8 @@ public class TerrainMap {
 	private Image image;
 	private int height;
 	private int width;
+	private int scaledWidth;
+	private int scaledHeight;
 	private int[] linearHeightmap;
 	
 	
@@ -30,11 +37,6 @@ public class TerrainMap {
 		init(x,y);
 	}
 	
-	/**
-	 * Reinitializes the map to the given specification
-	 * @param x width
-	 * @param y height
-	 */
 	public void reinit(int x, int y){
 		init(x,y);
 	}
@@ -48,9 +50,9 @@ public class TerrainMap {
 		width = x;
 		height = y;
 		map = generate(x,y);
-		image= map.getImage();	
-	}
-	
+		image= map.getImage();		
+	}	
+		
 	
 	/**
 	 * Placeholder generation algorithm. Creates a heightmap then fills map.
@@ -121,6 +123,9 @@ public class TerrainMap {
 	}
 	
 	
+	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam){
+		image.draw(cam.transformScreenToCamX(0), cam.transformScreenToCamY(0), cam.getScale());
+	}
 
 	/**
 	 * Call when effecting map. Particularly with weapons.

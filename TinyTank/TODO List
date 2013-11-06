@@ -1,0 +1,47 @@
+Global ToDo list.
+
+How this is going to work:
+Everyting on this list is up for grabs.
+-If you aren't working on something, claim something to work on.
+-Mark that you have chosen to take responsibility for said feature.
+-Put the date you claimed it too.
+-If you can, add notes of progress to it
+-ex.
+	*Player Hud -Adam 11/3
+		-made concept and class for implementation.
+ -If you have an idea to add to this list, go ahead.
+ -If you want to change anything about this system text me.
+ 
+ Format:
+ *Feature: -Person Responsible
+	+subfeature/details -person responsible if only doing sub feature
+		-notes of person implementing.
+**more *'s means higher priority.
+		
+ Features to add:
+**Camera:
+	+scaleability of map
+	+scalability of objects on map
+**Game Over/Score Screen
+	+end game animation sequence in gameplay state
+**Tank Features
+	+tank damage counter
+	+tank angularity
+	+tank barrel and power adjustment
+**Tank hud
+	+power/barrel graphical representation
+	+gas left
+	+weapon select
+*Sounds:
+	+ambient noises
+	+noises for tank
+		+movement
+		+shooting
+		+taking damage
+		+shot noises
+*Graphics
+	+clouds
+	+main menu spruced
+	+land tbd
+*Clean up of phase 1
+	+states being cleaned up
