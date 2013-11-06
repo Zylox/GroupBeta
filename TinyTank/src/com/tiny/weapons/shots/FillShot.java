@@ -1,5 +1,6 @@
 package com.tiny.weapons.shots;
 
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.tiny.tank.Main_Gameplay;
@@ -14,7 +15,7 @@ public class FillShot extends NormalShot{
 	}
 	
 	@Override
-	public void onCollisionEffect() {
+	public void onCollisionEffect(GameContainer container) {
 		// TODO Auto-generated method stub
 		circleFill((int)pos.x, (int)pos.y, radiusOfEffect);
 		Main_Gameplay.map.update();

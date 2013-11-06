@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.guiComponents.Button;
+
 public class Pause_Menu extends BasicGameState {
 
 	private Button playButton;
@@ -42,10 +44,14 @@ public class Pause_Menu extends BasicGameState {
 	
 
 	@Override
+
 	public void init(GameContainer container, StateBasedGame arg1) throws SlickException {
+		input = container.getInput();
+	}
+	
+	public void loadImages(){
 		playButton=new Button("res/play_button.png",300,100);
 		menuButton=new Button("res/back_button.png",300,300);
-		input = container.getInput();
 	}
 
 	@Override

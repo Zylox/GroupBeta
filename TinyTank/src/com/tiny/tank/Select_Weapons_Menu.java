@@ -14,6 +14,8 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.guiComponents.Button;
+import com.tiny.guiComponents.SimpleTempButton;
 import com.tiny.weapons.Shot;
 import com.tiny.weapons.shots.Shots;
 //github.com/Zylox/GroupBeta.git
@@ -23,6 +25,7 @@ public class Select_Weapons_Menu extends BasicGameState {
 	private Image title = null;
 	private Image p1_title = null;
 	private Image p2_title = null;
+
 	private Button button_play = null;
 	private Button button_play_grey = null;
 	private Button button_menu = null;
@@ -42,26 +45,23 @@ public class Select_Weapons_Menu extends BasicGameState {
 		this.id = id;
 	}
 
-		@Override
-		public void init(GameContainer container, StateBasedGame game)
-		throws SlickException {
+	@Override
+	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 			
-			background = new Image("res/bg.jpg");
-			title = new Image("res/Weapon_Select_ title.png");
-			select = new Image("res/selectweapon.png");
-			button_play= new Button("res/play_button.png",500,520);
-			button_play_grey= new Button("res/play_button_grey.png",500,520);
-			button_menu= new Button("res/back_button.png",80,520);
-			p1_title= new Image("res/P1.png");
-			p2_title= new Image("res/P2.png");
-			ammo_title= new Image("res/ammo.png");
-			
-			
-		}
 		
+	}
 		
-
-
+	public void loadImages() throws SlickException{
+		background = new Image("res/bg.jpg");
+		title = new Image("res/Weapon_Select_ title.png");
+		select = new Image("res/selectweapon.png");
+		button_play= new Button("res/play_button.png",500,520);
+		button_play_grey= new Button("res/play_button.png",500,520);
+		button_menu= new Button("res/back_button.png",80,520);
+		p1_title= new Image("res/P1.png");
+		p2_title= new Image("res/P2.png");
+		ammo_title= new Image("res/ammo.png");		
+	}
 //
 //		public void render(GameContainer container, StateBasedGame game, Graphics g)
 //		throws SlickException {
@@ -130,9 +130,10 @@ public class Select_Weapons_Menu extends BasicGameState {
 		 * @param y
 		 */
 	
-		private void ButtonPressed(SimpleTempButton s, int y) {
+		
+	private void ButtonPressed(SimpleTempButton s, int y) {
 
-			boolean even = (playercount % 2 == 0);
+		boolean even = (playercount % 2 == 0);
 
 			// even number selected weapons go to Player 1
 			if (even) {
@@ -240,6 +241,7 @@ public class Select_Weapons_Menu extends BasicGameState {
 		if (playButtonActive) {
 			button_play.drawButton(g);
 		} else
+
 			button_play_grey.drawButton(g);
 
 		button_menu.drawButton(g);

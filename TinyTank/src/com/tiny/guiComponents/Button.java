@@ -1,4 +1,4 @@
-package com.tiny.tank;
+package com.tiny.guiComponents;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -67,12 +67,7 @@ public class Button {
 	}
 
 	private Image scaleImage(Image button, int x, int y) {
-		try {
-			button.setFilter(Image.FILTER_NEAREST);
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		button.setFilter(Image.FILTER_NEAREST);
 		button.getScaledCopy(x, y);
 
 		return button;

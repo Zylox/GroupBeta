@@ -8,17 +8,19 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import com.tiny.terrain.TerrainMap;
- 
+
 public class Main_Gameplay extends BasicGameState{
 	
 	private int id;
 	public static TerrainMap map;
 	private Input input;
+	private Camera cam;
 	
 	//update counter
 	private final int timeStep = 10;
@@ -29,6 +31,7 @@ public class Main_Gameplay extends BasicGameState{
 	//index of player whose turn it is.
 	private int playersTurnIndex;
 	public static ArrayList<Tank> players;
+	
 	
 	public Main_Gameplay(int id){
 		this.id = id;
@@ -41,10 +44,9 @@ public class Main_Gameplay extends BasicGameState{
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		map = new TerrainMap(container.getWidth(),container.getHeight());
+		// TODO Auto-generated method stub
 		input = container.getInput();
 		timeCounter = 0;
-		players = new ArrayList<Tank>();
 		
 	}
 	
@@ -59,6 +61,9 @@ public class Main_Gameplay extends BasicGameState{
 		//clears the input so we dont get unintential input
 		input.clearMousePressedRecord();
 		input.clearKeyPressedRecord();
+		int width = 5000;
+		int height = container.getHeight()*1;
+		cam = new Camera(0,0,container.getWidth(),container.getHeight(),1);
 		
 		//no reason this should happen
 		if(previousState == STATES.MAIN_GAMEPLAY.getId()){
@@ -68,7 +73,8 @@ public class Main_Gameplay extends BasicGameState{
 		
 		//this is just a placeholder till we get the weapon select up and running
 		if(previousState == STATES.SELECT_WEAPONS_MENU.getId()){
-			map = new TerrainMap(container.getWidth(),container.getHeight());
+			players = new ArrayList<Tank>();
+			map = new TerrainMap(width,height);
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
 			players.get(0).setFirstPos();
 			players.get(1).setFirstPos();
@@ -77,6 +83,7 @@ public class Main_Gameplay extends BasicGameState{
 		//sets player one to his turn
 		playersTurnIndex =0;
 		timeCounter = 0;
+		
 	} 
 
 	@Override
@@ -92,13 +99,12 @@ public class Main_Gameplay extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		//draw order: background,map,tanks,shots
-		g.setBackground(Color.gray);
-		map.getImage().draw();
+		g.setBackground(new Color(135,150,235));
+		map.render(container, game, g, cam);
 		for(int i = 0; i < numOfPlayers; i++){
-			players.get(i).render(container, game, g);
+			players.get(i).render(container, game, g, cam);
 		}
 
-			
 		
 	}
 
@@ -134,6 +140,9 @@ public class Main_Gameplay extends BasicGameState{
 		timeCounter+=delta;
 		//if(timeCounter>timeStep && input.isKeyPressed(Input.KEY_LSHIFT)){
 		if(timeCounter>timeStep){
+
+			cam.update();
+			
 			//updates players and shots
 			
 			//if not players turn, switch players
@@ -154,18 +163,32 @@ public class Main_Gameplay extends BasicGameState{
 			
 			//Updates players positions
 			for(int i = 0; i < numOfPlayers; i++){
-				players.get(i).update(input);
+				players.get(i).update(container);
 			}
 			//allows player whose turn it is to move.
 			players.get(playersTurnIndex).move(input);
 
+			
 			//test click bomb
+			
+			if(input.isKeyDown(Input.KEY_UP)){
+				cam.adjustPosY(-5);
+			}else if(input.isKeyDown(Input.KEY_DOWN)){
+				cam.adjustPosY(5);
+			}else if(input.isKeyDown(Input.KEY_RIGHT)){
+				cam.adjustPosX(5);
+			}else if(input.isKeyDown(Input.KEY_LEFT)){
+				cam.adjustPosX(-5);
+			}else if(input.isKeyDown(Input.KEY_U)){
+				cam.adjustScale(.01f);
+			}else if(input.isKeyDown(Input.KEY_J)){
+				cam.adjustScale(-.01f);
+			}
+			
+			
 			/*
 			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				players.get(playersTurnIndex).getShots().get(0).init(new Vector2f(input.getMouseX(), input.getMouseY()),new Vector2f(1,5));
-				players.get(playersTurnIndex).setShooting(true);
-				System.out.println(playersTurnIndex);
-				//map.update();
+				cam.setPos(new Vector2f(cam.getPos().x+5, cam.getPos().y));
 			}*/
 					
 			//decrease time counter
@@ -179,7 +202,7 @@ public class Main_Gameplay extends BasicGameState{
 	 * In the future this will include hud switching and network notifications.
 	 */
 	private void onTurnSwitch(){
-		input.clearKeyPressedRecord();
+		input.isKeyPressed(Input.KEY_SPACE);
 	}
 
 	/**

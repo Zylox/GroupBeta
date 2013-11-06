@@ -6,6 +6,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Renderable;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
@@ -38,6 +39,7 @@ public class Tank {
 	// index of the player
 	private int index;
 	private ArrayList<Shot> shots;
+	private ArrayList<HUD> hud;
 	private Rectangle hitbox;
 	//Keeps an original incase resiszing must happen
 	private Image originalImage;
@@ -82,6 +84,7 @@ public class Tank {
 		this.health = health;
 		this.index = index;
 		this.shots = shots;
+		this.hud = hud;
 		// player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
@@ -136,7 +139,7 @@ public class Tank {
 	 */
 	public void setFirstPos() {
 		pos.y = Main_Gameplay.map.getMaxInRange(xRange[0], xRange[1])
-				- tankHeight + 1;
+				- tankHeight + 0;
 		hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
 	}
 
@@ -178,8 +181,9 @@ public class Tank {
 	/**
 	 * Will update the events relating to tanks and shots
 	 */
-	public void update(Input input) {
+	public void update(GameContainer container) {
 
+		Input input = container.getInput();
 		// state handeling if falling
 		if (isFalling) {
 			isMoving = false;
@@ -202,7 +206,7 @@ public class Tank {
 		if (isShooting) {
 			for (int i = 0; i < shots.size(); i++) {
 				if (shots.get(i).isShot()) {
-					shots.get(i).update();
+					shots.get(i).update(container);
 				}
 			}
 		}
@@ -217,7 +221,10 @@ public class Tank {
 		}
 
 		// states to be added: changing barrel angles
-
+		/*for(int i = 0; i < hud.size(); i++) {
+			hud.get(i).update();
+		}*/
+		//hud.get(0).update();
 	}
 
 	/**
@@ -281,12 +288,13 @@ public class Tank {
 	 * @param game
 	 * @param g
 	 */
-	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam) {
 		// current graphical representation
-		image.draw(pos.x, pos.y);
+		image.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
 		if(isShooting){
-			getShots().get(shotIndex).render(container, game, g);
+			getShots().get(shotIndex).render(container, game, g, cam);
 		}
+		
 	}
 
 	/**
@@ -376,6 +384,14 @@ public class Tank {
 
 	public void setShots(ArrayList<Shot> shots) {
 		this.shots = shots;
+	}
+	
+	public ArrayList<HUD> getHud() {
+		return hud;
+	}
+	
+	public void setHud(ArrayList<HUD> hud) {
+		this.hud = hud;
 	}
 
 	public int getHealth() {

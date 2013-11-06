@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import com.tiny.guiComponents.Button;
+
 public class Game_Over extends BasicGameState {
 	private Button playButton;
 	private Button quitButton;
@@ -37,13 +39,16 @@ public class Game_Over extends BasicGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		background = new Image("res/bg.jpg");
-
-		playButton = new Button("res/play_button.png", 500, 500);
-		quitButton = new Button("res/exit_button.png", 100, 500);
 		input=container.getInput();
 	}
 
+	public void loadImages() throws SlickException{
+		
+		background = new Image("res/bg.jpg");
+		
+		playButton = new Button("res/play_button.png", 500, 500);
+		quitButton = new Button("res/exit_button.png", 100, 500);
+	}
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
 		int i;
@@ -86,7 +91,7 @@ public class Game_Over extends BasicGameState {
 
 	@Override
 	public int getID() {
-		return 0;
+		return id;
 	}
 
 
