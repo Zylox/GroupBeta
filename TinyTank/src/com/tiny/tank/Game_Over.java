@@ -44,7 +44,7 @@ public class Game_Over extends BasicGameState {
 
 	public void loadImages() throws SlickException{
 		
-		background = new Image("res/bg.jpg");
+		background = new Image("res/GameOver.png");
 		
 		playButton = new Button("res/play_button.png", 500, 500);
 		quitButton = new Button("res/exit_button.png", 100, 500);
@@ -54,20 +54,21 @@ public class Game_Over extends BasicGameState {
 		int i;
 		int j;
 		int numberOfStats=stats.length;
-
+		
+		background.draw();
 		playButton.drawButton(g);
 		quitButton.drawButton(g);
-		g.drawString("Game Over Page", 100, 50);
 		
-		g.drawString("Player "+winner+" Wins!",100,100);
+		
+		g.drawString("Player "+winner+" Wins!",100,175);
 		//TODO: move score screen to be player 1 on the left and player 2 on the right
 		//have it fade out to this
 //		g.drawString("Player ",200,200);
 		for(i=1;i<numberOfStats;i++) {
-			g.drawString(stats[i],350,200+20*i);
+			g.drawString(stats[i],350,250+20*i);
 			for(j=0;j<number_of_tanks;j++) {
-				g.drawString(Integer.toString(players[j]),100+600*j,200);
-				g.drawString("100",100+600*j,200+20*i);
+				g.drawString(Integer.toString(players[j]),100+600*j,250);
+				g.drawString("100",100+600*j,250+20*i);
 			}
 		}
 		
