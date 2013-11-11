@@ -68,7 +68,7 @@ public class Game_Over extends BasicGameState {
 			g.drawString(stats[i],350,250+20*i);
 			for(j=0;j<number_of_tanks;j++) {
 				g.drawString(Integer.toString(players[j]),100+600*j,250);
-				g.drawString("500",100+600*j,250+20*i);
+				g.drawString("800",100+600*j,250+20*i);
 			}
 		}
 		
