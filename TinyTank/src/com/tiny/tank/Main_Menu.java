@@ -51,6 +51,7 @@ public class Main_Menu extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 
+		container.setShowFPS(true);
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			int posX = input.getMouseX();
 			int posY = input.getMouseY();

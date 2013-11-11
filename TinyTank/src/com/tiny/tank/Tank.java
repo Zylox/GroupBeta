@@ -22,6 +22,8 @@ public class Tank {
 	//Constants of size of tank
 	private final int tankWidth = 20;
 	private final int tankHeight = 10;
+	private final int barrelWidth = 8;
+	private final int barrelHeight = 3;
 
 	//animation end and the counter for it.
 	private final float animationLimit = 1;
@@ -100,7 +102,7 @@ public class Tank {
 				//barrel (seperate so it can change angle)
 				originalBarrel = new Image("res/BlueBarrel.png");
 				originalBarrel.setFilter(Image.FILTER_NEAREST);
-				BarrelImage = originalBarrel.getScaledCopy(tankWidth, tankHeight);
+				BarrelImage = originalBarrel.getScaledCopy(tankWidth,tankHeight);
 				
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
@@ -196,7 +198,7 @@ public class Tank {
 	/**
 	 * Will update the events relating to tanks and shots
 	 */
-	public void update(GameContainer container) {
+	public void update(GameContainer container, Camera cam) {
 
 		Input input = container.getInput();
 		// state handeling if falling
@@ -235,31 +237,37 @@ public class Tank {
 			}
 			
 			// angle the barrel up	
-			if(input.isKeyPressed(Input.KEY_W))
+			if(input.isKeyDown(Input.KEY_W))
 			{
 				//needs to rotate at the base of the barrel..
 			
-				BarrelImage.setCenterOfRotation(9, 2);
+				//BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2/cam.getScale(),BarrelImage.getHeight()/2/cam.getScale());
 				// if its facing left
 				if (direction == -1)
-				BarrelImage.rotate(45); //<- will need to change to Continuous
+				BarrelImage.rotate(1); //<- will need to change to Continuous
 										//   and smooth rotate as button is pressed
 										//   and will need limits..
 				else 
 				// facing right
-				BarrelImage.rotate(-45);
+				BarrelImage.rotate(-1);
+				//BarrelImage.setCenterOfRotation(0,0);
 			}
 			
+			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+				BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2,BarrelImage.getHeight()/2);
+			}
 			// angle the barrel Down
-			if(input.isKeyPressed(Input.KEY_S))
+			if(input.isKeyDown(Input.KEY_S))
 			{
+				//BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2/cam.getScale(),BarrelImage.getHeight()/2/cam.getScale());
 				// facing left
 				if (direction == -1)
-				BarrelImage.rotate(-45);
+				BarrelImage.rotate(-1);
 				else 
 				
 				// facing right
-				BarrelImage.rotate(45);
+				BarrelImage.rotate(1);
+				//BarrelImage.setCenterOfRotation(0,0);
 			}
 			
 		}
@@ -335,11 +343,12 @@ public class Tank {
 	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam) {
 		// current graphical representation
+		BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2*cam.getScale(),BarrelImage.getHeight()/2*cam.getScale());
+		BarrelImage.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
 		//tank
 		image.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
 		//barrel
-		BarrelImage.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
-		
+		//BarrelImage.draw(cam.transformScreenToCamX(pos.x+hitbox.getWidth()/2), cam.transformScreenToCamY(pos.y+hitbox.getHeight()/2), cam.getScale());
 		if(isShooting){
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}
