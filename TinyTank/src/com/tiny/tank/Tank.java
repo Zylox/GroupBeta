@@ -229,46 +229,58 @@ public class Tank {
 		}
 		
 		//will execute if sitting essentially
-		if(!isShooting && !isFalling && !isMoving && isTurn){
+		if(!isShooting && !isFalling && !isMoving && isTurn)
+		{
 			//if the shoot key is pushed, initilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
 				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(2*direction,5));
 				setShooting(true);
-			}
-			
-			// angle the barrel up	
-			if(input.isKeyDown(Input.KEY_W))
-			{
-				//needs to rotate at the base of the barrel..
-			
-				//BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2/cam.getScale(),BarrelImage.getHeight()/2/cam.getScale());
-				// if its facing left
-				if (direction == -1)
-				BarrelImage.rotate(1); //<- will need to change to Continuous
-										//   and smooth rotate as button is pressed
-										//   and will need limits..
-				else 
-				// facing right
-				BarrelImage.rotate(-1);
-				//BarrelImage.setCenterOfRotation(0,0);
-			}
-			
-			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2,BarrelImage.getHeight()/2);
-			}
-			// angle the barrel Down
-			if(input.isKeyDown(Input.KEY_S))
-			{
-				//BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2/cam.getScale(),BarrelImage.getHeight()/2/cam.getScale());
-				// facing left
-				if (direction == -1)
-				BarrelImage.rotate(-1);
-				else 
+				}
+
 				
-				// facing right
-				BarrelImage.rotate(1);
-				//BarrelImage.setCenterOfRotation(0,0);
-			}
+			
+			
+				BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2,BarrelImage.getHeight());
+
+				// angle the barrel up	
+				if(input.isKeyDown(Input.KEY_W))
+				{
+					System.out.println(BarrelImage.getRotation());		
+					// if its facing left
+					if (direction == -1)
+						{
+						if(BarrelImage.getRotation() < 90)
+						BarrelImage.rotate(1); 
+						}
+									
+					// facing right
+					if (direction == 1)
+						{
+						if(BarrelImage.getRotation() > -90)
+						BarrelImage.rotate(-1);
+						}
+						
+								
+				}
+			
+
+					// angle the barrel Down
+				if(input.isKeyDown(Input.KEY_S))
+				{
+					System.out.println(BarrelImage.getRotation());
+					// facing left
+					if (direction == -1)
+						{
+						if(BarrelImage.getRotation() > -30) // set lower limit
+							BarrelImage.rotate(-1);
+						}
+					// facing right
+					if (direction == 1)
+						{
+						if(BarrelImage.getRotation() < 30); // set lower limit
+							BarrelImage.rotate(1);
+						}
+				}
 			
 		}
 
