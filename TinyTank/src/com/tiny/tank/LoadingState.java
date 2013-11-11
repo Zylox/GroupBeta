@@ -48,7 +48,6 @@ public class LoadingState extends BasicGameState {
 			((Game_Over) STATES.GAME_OVER.getState()).loadImages();
 
 			game.enterState(STATES.MAIN_MENU.getId());
-			container.setShowFPS(true);
 		}
 	}
 
