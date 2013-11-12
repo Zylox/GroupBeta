@@ -167,7 +167,7 @@ public class Main_Gameplay extends BasicGameState{
 			
 			//Updates players positions
 			for(int i = 0; i < numOfPlayers; i++){
-				players.get(i).update(container);
+				players.get(i).update(container, cam);
 			}
 			//allows player whose turn it is to move.
 			players.get(playersTurnIndex).move(input);

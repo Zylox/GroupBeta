@@ -22,7 +22,9 @@ public class Tank {
 	//Constants of size of tank
 	private final int tankWidth = 20;
 	private final int tankHeight = 10;
-	
+	private final int barrelWidth = 8;
+	private final int barrelHeight = 3;
+
 	//animation end and the counter for it.
 	private final float animationLimit = 1;
 	private float animationCounter;
@@ -46,6 +48,8 @@ public class Tank {
 	//Keeps an original incase resiszing must happen
 	private Image originalImage;
 	private Image image;
+	private Image originalBarrel;
+	private Image BarrelImage;
 	// x and y ranges of numbers. Will be usefull when we get rotations
 	private float[] xRange;
 	private float[] yRange;
@@ -99,9 +103,17 @@ public class Tank {
 		if (index == 1) {
 			direction = 1;
 			try {
+				
+				//tank
 				originalImage = new Image("res/BlueTank.png");
 				originalImage.setFilter(Image.FILTER_NEAREST);
 				image = originalImage.getScaledCopy(tankWidth, tankHeight);
+				
+				//barrel (seperate so it can change angle)
+				originalBarrel = new Image("res/BlueBarrel.png");
+				originalBarrel.setFilter(Image.FILTER_NEAREST);
+				BarrelImage = originalBarrel.getScaledCopy(tankWidth,tankHeight);
+				
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -112,6 +124,11 @@ public class Tank {
 				originalImage = new Image("res/RedTank.png");
 				originalImage.setFilter(Image.FILTER_NEAREST);
 				image = originalImage.getScaledCopy(tankWidth, tankHeight);
+				
+				//barrel (seperate so it can change angle)
+				originalBarrel = new Image("res/RedBarrel.png");
+				originalBarrel.setFilter(Image.FILTER_NEAREST);
+				BarrelImage = originalBarrel.getScaledCopy(tankWidth, tankHeight);
 
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
@@ -191,7 +208,7 @@ public class Tank {
 	/**
 	 * Will update the events relating to tanks and shots
 	 */
-	public void update(GameContainer container) {
+	public void update(GameContainer container, Camera cam) {
 
 		Input input = container.getInput();
 		// state handeling if falling
@@ -222,15 +239,67 @@ public class Tank {
 		}
 		
 		//will execute if sitting essentially
-		if(!isShooting && !isFalling && !isMoving && isTurn){
+		if(!isShooting && !isFalling && !isMoving && isTurn)
+		{
 			//if the shoot key is pushed, initilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
 				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(2*direction,5));
 				setShooting(true);
-			}
+				}
+
+				
+			
+			
+				BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2,BarrelImage.getHeight());
+
+				// angle the barrel up	
+				if(input.isKeyDown(Input.KEY_W))
+				{
+
+					// if its facing left
+					if (direction == -1)
+						{
+						if(BarrelImage.getRotation() < 90)
+						BarrelImage.rotate(1); 
+						}
+									
+					// facing right
+					if (direction == 1)
+						{
+						if(BarrelImage.getRotation() > -90)
+						BarrelImage.rotate(-1);
+						}
+						
+								
+				}
+			
+
+					// angle the barrel Down
+				if(input.isKeyDown(Input.KEY_S))
+				{
+					// facing left
+					if (direction == -1)
+						{
+						if(BarrelImage.getRotation() > -30) // set lower limit
+							BarrelImage.rotate(-1);
+						}
+					// facing right
+					if (direction == 1)
+						{
+
+						if(BarrelImage.getRotation() < 30) // set lower limit
+							BarrelImage.rotate(1);
+						}
+				}
+			
 		}
 
-		// states to be added: changing barrel angles
+
+
+		/*for(int i = 0; i < hud.size(); i++) {
+			hud.get(i).update();
+		}*/
+		//hud.get(0).update();
 	}
 
 	/**
@@ -296,7 +365,12 @@ public class Tank {
 	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam) {
 		// current graphical representation
+		BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2*cam.getScale(),BarrelImage.getHeight()/2*cam.getScale());
+		BarrelImage.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
+		//tank
 		image.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
+		//barrel
+		//BarrelImage.draw(cam.transformScreenToCamX(pos.x+hitbox.getWidth()/2), cam.transformScreenToCamY(pos.y+hitbox.getHeight()/2), cam.getScale());
 		if(isShooting){
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}
