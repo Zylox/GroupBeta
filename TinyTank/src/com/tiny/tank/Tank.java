@@ -277,7 +277,7 @@ public class Tank {
 					// facing right
 					if (direction == 1)
 						{
-						if(BarrelImage.getRotation() < 30); // set lower limit
+						if(BarrelImage.getRotation() < 30) // set lower limit
 							BarrelImage.rotate(1);
 						}
 				}
