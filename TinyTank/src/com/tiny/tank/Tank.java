@@ -36,10 +36,12 @@ public class Tank {
 	private int direction;
 	private int health;
 	private int shotIndex;
+	private int power;
+	private int gas;
 	// index of the player
 	private int index;
 	private ArrayList<Shot> shots;
-	private ArrayList<HUD> hud;
+	private HUD hud;
 	private Rectangle hitbox;
 	//Keeps an original incase resiszing must happen
 	private Image originalImage;
@@ -59,6 +61,11 @@ public class Tank {
 	//flag for if turn
 	private boolean isTurn;
 
+	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index) throws SlickException {
+		TankInfo(playerX,playerY,barrelAng,health,shots,index,0,0);
+	}
+
+	
 	/**
 	 * Our good old players
 	 * 
@@ -74,9 +81,10 @@ public class Tank {
 	 *            List of weapons
 	 * @param index
 	 *            Player number
+	 * @throws SlickException 
 	 */
 	public void TankInfo(float playerX, float playerY, float barrelAng,
-			int health, ArrayList<Shot> shots, int index) {
+			int health, ArrayList<Shot> shots, int index, int power, int gas) throws SlickException {
 
 		this.pos = new Vector2f(playerX, playerY);
 		this.barrelAng = barrelAng;
@@ -84,7 +92,9 @@ public class Tank {
 		this.health = health;
 		this.index = index;
 		this.shots = shots;
-		this.hud = hud;
+		this.power = power;
+		this.gas = gas;
+		this.hud = new HUD(barrelAng, power, gas, health, shots, index);
 		// player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
@@ -221,10 +231,6 @@ public class Tank {
 		}
 
 		// states to be added: changing barrel angles
-		/*for(int i = 0; i < hud.size(); i++) {
-			hud.get(i).update();
-		}*/
-		//hud.get(0).update();
 	}
 
 	/**
@@ -294,7 +300,7 @@ public class Tank {
 		if(isShooting){
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}
-		
+		hud.render(container, game, g);
 	}
 
 	/**
@@ -386,16 +392,32 @@ public class Tank {
 		this.shots = shots;
 	}
 	
-	public ArrayList<HUD> getHud() {
+	public HUD getHud() {
 		return hud;
 	}
 	
-	public void setHud(ArrayList<HUD> hud) {
+	public void setHud(HUD hud) {
 		this.hud = hud;
 	}
 
 	public int getHealth() {
 		return health;
+	}
+	
+	public int getPower() {
+		return power;
+	}
+	
+	public void setPower(int power) {
+		this.power = power;
+	}
+	
+	public int getGas() {
+		return gas;
+	}
+	
+	public void setGas(int gas) {
+		this.gas = gas;
 	}
 
 	public void setHealth(int health) {

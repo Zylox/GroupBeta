@@ -75,7 +75,11 @@ public class Main_Gameplay extends BasicGameState{
 		if(previousState == STATES.SELECT_WEAPONS_MENU.getId()){
 			players = new ArrayList<Tank>();
 			map = new TerrainMap(width,height);
+			try{
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
+			}catch(SlickException e){
+				e.printStackTrace();
+			}
 			players.get(0).setFirstPos();
 			players.get(1).setFirstPos();
 		}

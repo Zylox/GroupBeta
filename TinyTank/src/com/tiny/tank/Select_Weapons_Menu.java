@@ -337,8 +337,9 @@ public class Select_Weapons_Menu extends BasicGameState {
 	 * to the weapons array of shots
 	 * 
 	 * @return
+	 * @throws SlickException 
 	 */
-	public ArrayList<Tank> getTanks() {
+	public ArrayList<Tank> getTanks() throws SlickException {
 		ArrayList<Tank> tanks = new ArrayList<Tank>();
 		for (int i = 0; i < 2; i++) {
 			tanks.add(new Tank());
