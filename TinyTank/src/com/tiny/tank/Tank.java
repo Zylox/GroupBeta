@@ -245,7 +245,7 @@ public class Tank {
 				// angle the barrel up	
 				if(input.isKeyDown(Input.KEY_W))
 				{
-					System.out.println(BarrelImage.getRotation());		
+							
 					// if its facing left
 					if (direction == -1)
 						{
@@ -267,7 +267,7 @@ public class Tank {
 					// angle the barrel Down
 				if(input.isKeyDown(Input.KEY_S))
 				{
-					System.out.println(BarrelImage.getRotation());
+					
 					// facing left
 					if (direction == -1)
 						{
