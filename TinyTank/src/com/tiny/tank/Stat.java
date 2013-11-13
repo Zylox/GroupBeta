@@ -9,12 +9,16 @@ public class Stat {
 	private int shots_fired;
 	private int place;
 	private int total_hp;
-	private int hp_left;
+	private int totalDamage;
 	private int movementLimitPerTurn;
 	
 	public Stat(int moves,int totalShots) {
 		setMovementLimitPerTurn(moves);
 		setShots_fired(totalShots);
+	}
+	public String[] titleOfStats() {
+		String[] stats={"","Number of hits","Number of moves","Number of Shots","Damage Taken "};
+		return stats;
 	}
 	public ArrayList<String> listOfStats() {
 		ArrayList<String> stats=new ArrayList<String>();
@@ -22,13 +26,10 @@ public class Stat {
 		stats.add("2");
 		stats.add(Integer.toString(getTotalMoves()));
 		stats.add(Integer.toString(getShots_fired()));
-		stats.add(Integer.toString(getHp_left()));
+		stats.add(Integer.toString(getTotalDamage()));
 		return stats;
 	}
-	public String[] titleOfStats() {
-		String[] stats={"","Number of hits","Number of moves","Number of Shots","Hit percentage"};
-		return stats;
-	}
+	
 	
 	public Boolean calculate_place(){
 		return true;
@@ -78,12 +79,12 @@ public class Stat {
 		this.total_hp = total_hp;
 	}
 
-	public int getHp_left() {
-		return hp_left;
+	public int getTotalDamage() {
+		return totalDamage;
 	}
 
-	public void setHp_left(int hp_left) {
-		this.hp_left = hp_left;
+	public void setTotalDamage(int totalDamage) {
+		this.totalDamage = totalDamage;
 	}
 
 
