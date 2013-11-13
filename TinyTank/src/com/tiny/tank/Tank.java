@@ -25,6 +25,9 @@ public class Tank {
 	private final int barrelWidth = 8;
 	private final int barrelHeight = 3;
 
+	//Constants of Tank
+	private final int movementLimit = 80;
+	
 	//animation end and the counter for it.
 	private final float animationLimit = 1;
 	private float animationCounter;
@@ -54,7 +57,6 @@ public class Tank {
 
 	//Only so much movement allowed per turn. 
 	private int movementCounter;
-	private int movementLimit;
 
 	//States
 	private boolean isMoving;
@@ -62,6 +64,8 @@ public class Tank {
 	private boolean isShooting;
 	//flag for if turn
 	private boolean isTurn;
+	//stat objects
+	private Stat stat;
 
 	/**
 	 * Our good old players
@@ -81,7 +85,7 @@ public class Tank {
 	 */
 	public void TankInfo(float playerX, float playerY, float barrelAng,
 			int health, ArrayList<Shot> shots, int index) {
-
+		
 		this.pos = new Vector2f(playerX, playerY);
 		this.barrelAng = barrelAng;
 		this.prevAng = barrelAng;
@@ -89,6 +93,7 @@ public class Tank {
 		this.index = index;
 		this.shots = shots;
 		this.hud = hud;
+		this.stat = new Stat(getMovementLimit(),shots.size());
 		// player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
@@ -146,10 +151,13 @@ public class Tank {
 			isTurn = false;
 		}
 		//start animation over
+		resetAnimationCounter();
 		animationCounter = 0;
 		
 		setFirstPos();
 	}
+
+	
 
 	/**
 	 * Will set the position upon map creation. Puts it right on top of map
@@ -165,9 +173,9 @@ public class Tank {
 	 * This will allow for speed based attacks later (such as a movement booster).
 	 */
 	public void onTurnSwitch() {
-		movementCounter = 0;
+		setMovementCounter(0);;
 		animationCounter = 0;
-		movementLimit = 80;
+		
 		isTurn = true;
 		shotIndex = 0;
 	}
@@ -232,6 +240,7 @@ public class Tank {
 		if(!isShooting && !isFalling && !isMoving && isTurn){
 			//if the shoot key is pushed, initilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
+				stat.addToMovement(getMovementCounter());
 				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(2*direction,5));
 				setShooting(true);
 			}
@@ -288,9 +297,10 @@ public class Tank {
 		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
 			//checks if player has used all movement alloted this turn
-			if (movementCounter < movementLimit) {
+			if (getMovementCounter() < getMovementLimit()) {
 				float tankMovement = .5f;
 				if (input.isKeyDown(Input.KEY_A)) {
+					incrementMovementCounter();
 					movementCounter += 1;
 					isMoving = true;
 					pos = movePos(-tankMovement, 0);
@@ -308,6 +318,8 @@ public class Tank {
 			}
 		}
 	}
+
+	
 
 	/**
 	 * Does the actual movement and returns new position. 
@@ -422,6 +434,12 @@ public class Tank {
 		yRange[0] = top;
 		yRange[1] = bottom;
 		return yRange;
+	}
+	private void resetAnimationCounter() {
+		setAnimationCounter(0);
+	}
+	private void incrementMovementCounter() {
+		setMovementCounter(getMovementCounter()+1);
 	}
 	
 	/**
@@ -540,5 +558,37 @@ public class Tank {
 	
 	public void setTurn(boolean isTurn) {
 		this.isTurn = isTurn;
+	}
+
+	public int getMovementCounter() {
+		return movementCounter;
+	}
+
+	public void setMovementCounter(int movementCounter) {
+		this.movementCounter = movementCounter;
+	}
+
+	public int getMovementLimit() {
+		return movementLimit;
+	}
+
+	public float getAnimationCounter() {
+		return animationCounter;
+	}
+
+	public void setAnimationCounter(float animationCounter) {
+		this.animationCounter = animationCounter;
+	}
+
+
+
+	public Stat getStat() {
+		return stat;
+	}
+
+
+
+	public void setStat(Stat stat) {
+		this.stat = stat;
 	}
 }
