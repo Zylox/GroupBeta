@@ -109,7 +109,6 @@ public class Main_Gameplay extends BasicGameState{
 			players.get(i).render(container, game, g, cam);
 		}
 
-		
 	}
 
 	/**
