@@ -1,5 +1,7 @@
 package com.tiny.tank;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,22 +13,21 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.tiny.guiComponents.Button;
 
 public class Game_Over extends BasicGameState {
+	private String nameOfPlayer1="Player 1";
+	private String nameOfPlayer2="Player 2";
+	final int number_of_tanks=2;
 	private Button playButton;
 	private Button quitButton;
 	private Image background;
 	private int id;
 	private Input input;
 	private String winner="1";
-	int posX;
-	int posY;
-
-	
-	String[] stats={"","Number of hits","Number of moves","Number of Shots","Hit percentage"};
-	int[] players={1,2};//should be sent number of players and make a for loop to create array of numbers
-	int number_of_tanks=2;
-	Tank[] tanks;
-	Stat game_stats;
-	
+	private int posX;
+	private int posY;
+	private String[] statTitles;
+	int[] playerNumbers={1,2};//should be sent number of players and make a for loop to create array of numbers
+	private ArrayList<String> statsList1;
+	private ArrayList<String> statsList2;
 	
 	
 	
@@ -40,8 +41,16 @@ public class Game_Over extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		input=container.getInput();
+		
+//		Main_Gameplay.players.get(0).getStat();
 	}
-
+	@Override
+	public void enter(GameContainer container, StateBasedGame game) {
+		statTitles=Main_Gameplay.players.get(0).getStat().titleOfStats();
+		
+		statsList1=Main_Gameplay.players.get(0).getStat().listOfStats();
+		statsList2=Main_Gameplay.players.get(1).getStat().listOfStats();
+	}
 	public void loadImages() throws SlickException{
 		
 		background = new Image("res/GameOver.png");
@@ -53,7 +62,7 @@ public class Game_Over extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
 		int i;
 		int j;
-		int numberOfStats=stats.length;
+		int numberOfStats=statTitles.length;
 		
 		background.draw();
 		playButton.drawButton(g);
@@ -64,12 +73,13 @@ public class Game_Over extends BasicGameState {
 		//TODO: move score screen to be player 1 on the left and player 2 on the right
 		//have it fade out to this
 //		g.drawString("Player ",200,200);
+		g.drawString(nameOfPlayer1,100,250);
+		g.drawString(nameOfPlayer2,700,250);
 		for(i=1;i<numberOfStats;i++) {
-			g.drawString(stats[i],350,250+20*i);
-			for(j=0;j<number_of_tanks;j++) {
-				g.drawString(Integer.toString(players[j]),100+600*j,250);
-				g.drawString("900",100+600*j,250+20*i);
-			}
+				g.drawString(statTitles[i],350,250+20*i);
+				g.drawString(statsList1.get(i),100,250+20*i);
+				g.drawString(statsList1.get(i),700,250+20*i);
+			
 		}
 		
 		
