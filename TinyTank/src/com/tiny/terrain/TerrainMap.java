@@ -6,6 +6,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -122,17 +124,30 @@ public class TerrainMap {
 		map.setRGBA(i, j, 50, 114, 40, 255);
 	}
 	
-	
+	private boolean renderlinear = false;
 	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam){
 		image.draw(cam.transformScreenToCamX(0), cam.transformScreenToCamY(0), cam.getScale());
+		if(renderlinear){
+			for(int i = 0; i<linearHeightmap.length;i++){
+				g.draw(new Circle(cam.transformScreenToCamX(i),cam.transformScreenToCamY(linearHeightmap[i]),1*cam.getScale()));
+			}
+		}
 	}
 
+	public void update(){
+		update(null);
+	}
 	/**
 	 * Call when effecting map. Particularly with weapons.
 	 * Make sure to grab a new picture.
 	 */
-	public void update(){
+	public void update(Input input){
 		//TODO
+		if(input != null){
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+			renderlinear = true;
+		}
+		}
 		image = map.getImage();
 	}
 	

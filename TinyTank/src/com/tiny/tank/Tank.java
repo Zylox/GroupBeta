@@ -6,9 +6,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Renderable;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -44,7 +44,8 @@ public class Tank {
 	private int index;
 	private ArrayList<Shot> shots;
 	private HUD hud;
-	private Rectangle hitbox;
+	private Polygon hitbox;
+	private float rotation;
 	//Keeps an original incase resiszing must happen
 	private Image originalImage;
 	private Image image;
@@ -142,7 +143,8 @@ public class Tank {
 		isShooting = false;
 
 		//sets range and hitbox
-		hitbox = new Rectangle(playerX, playerY, tankWidth, tankHeight);
+		hitbox = new Polygon(new float[]{pos.x, pos.y,pos.x+tankWidth,pos.y, pos.x+tankWidth, pos.y+tankHeight,pos.x,pos.y+tankHeight});
+		hitbox.setClosed(true);
 		xRange = new float[2];
 		yRange = new float[2];
 		xRange = calculateXRange(hitbox);
@@ -167,7 +169,7 @@ public class Tank {
 	public void setFirstPos() {
 		pos.y = Main_Gameplay.map.getMaxInRange(xRange[0], xRange[1])
 				- tankHeight + 0;
-		hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
+		hitbox.setLocation(pos.x, pos.y);
 	}
 
 	/**
@@ -219,10 +221,11 @@ public class Tank {
 			if (animationCounter > animationLimit) {
 
 				pos.y += 1;
-				hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
+				hitbox.setLocation(pos.x, pos.y);
 				if (checkCollision(pos)) {
+					System.out.println("welp");
 					pos.y -= 1;
-					hitbox.setBounds(pos.x, pos.y, tankWidth, tankHeight);
+					hitbox.setLocation(pos.x, pos.y);
 					isFalling = false;
 					animationCounter = 0;
 				}
@@ -356,6 +359,10 @@ public class Tank {
 
 		return pos;
 	}
+	
+	private void createRotation(){
+		
+	}
 
 	/**
 	 * Anything needed to render the tanks goes here.
@@ -370,6 +377,7 @@ public class Tank {
 		BarrelImage.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
 		//tank
 		image.draw(cam.transformScreenToCamX(pos.x), cam.transformScreenToCamY(pos.y), cam.getScale());
+		g.draw(hitbox);
 		//barrel
 		//BarrelImage.draw(cam.transformScreenToCamX(pos.x+hitbox.getWidth()/2), cam.transformScreenToCamY(pos.y+hitbox.getHeight()/2), cam.getScale());
 		if(isShooting){
@@ -387,7 +395,8 @@ public class Tank {
 	 */
 	public boolean checkCollision(Vector2f pos) {
 
-		Rectangle hitbox = new Rectangle(pos.x, pos.y, tankWidth, tankHeight);
+		Polygon hitbox = new Polygon(new float[]{pos.x, pos.y,pos.x+tankWidth,pos.y, pos.x+tankWidth, pos.y+tankHeight,pos.x,pos.y+tankHeight});
+		hitbox.setClosed(true);
 		float[] xRange = calculateXRange(hitbox);
 		float[] yRange = calculateYRange(hitbox);
 
@@ -407,7 +416,7 @@ public class Tank {
 			for (int i = (int) xRange[0]; i < xRange[1]; i++) {
 				for (int j = (int) yRange[0]; j < yRange[1]; j++) {
 					if (Main_Gameplay.map.collision(new Vector2f(i, j))) {
-						if (hitbox.contains(i, j)) {
+						if (hitbox.contains(i,j)) {
 							return true;
 						}
 					}
@@ -427,7 +436,7 @@ public class Tank {
 	 * calculateXRange(); calculateYRange(); }
 	 */
 
-	private float[] calculateXRange(Rectangle hitbox) {
+	private float[] calculateXRange(Polygon hitbox) {
 
 		float left = hitbox.getMinX();
 		float right = hitbox.getMaxX();
@@ -438,7 +447,7 @@ public class Tank {
 		return xRange;
 	}
 	
-	private float[] calculateYRange(Rectangle hitbox) {
+	private float[] calculateYRange(Polygon hitbox) {
 
 		float top = hitbox.getMinY();
 		float bottom = hitbox.getMaxY();
@@ -448,6 +457,7 @@ public class Tank {
 		yRange[1] = bottom;
 		return yRange;
 	}
+	
 	
 	/**
 	 * series of gets and sets to assign the variables of the tank
@@ -551,11 +561,11 @@ public class Tank {
 		this.direction = direction;
 	}
 
-	public Rectangle getHitbox() {
+	public Polygon getHitbox() {
 		return hitbox;
 	}
 
-	public void setHitbox(Rectangle hitbox) {
+	public void setHitbox(Polygon hitbox) {
 		this.hitbox = hitbox;
 	}
 

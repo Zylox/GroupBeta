@@ -123,6 +123,10 @@ public class Main_Gameplay extends BasicGameState{
 			map = new TerrainMap(container.getWidth(), container.getHeight());
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
 		}
+		
+		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
+			map.update(input);
+		}
 		/** When p is pressed, go the the pause menu*/
 		if(input.isKeyDown(Input.KEY_P)) {
 			game.enterState(STATES.PAUSE_MENU.getId());
