@@ -91,7 +91,7 @@ public class Tank {
 	 *            Player number
 	 * @throws SlickException 
 	 */
-	public void TankInfo(float playerX, float playerY, float barrelAng, int health, ArrayList<Shot> shots, int index, int power, int gas) throws SlickException {
+	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index, int power, int gas) throws SlickException {
 
 		this.pos = new Vector2f(playerX, playerY);
 		this.barrelAng = barrelAng;
