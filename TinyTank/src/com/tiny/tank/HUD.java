@@ -109,7 +109,9 @@ public class HUD {
 		g.drawString(Float.toString(barrelAng), (int)(hudPos.x+160), (int)(hudPos.y+57));
 		g.drawString(Integer.toString(power), (int)(hudPos.x+605), (int)(hudPos.y+57));
 	
-		g.drawString(shots.get(shotIndex).getShotName(), (int)(hudPos.x+360), (int)(hudPos.y+50));
+		if(shots.size() > 0){
+			g.drawString(shots.get(shotIndex).getShotName(), (int)(hudPos.x+360), (int)(hudPos.y+50));
+		}
 		g.setColor(prevCol);
 
 	}
@@ -172,6 +174,11 @@ public class HUD {
 		
 	}
 
+	
+	public void onTurnSwitch(ArrayList<Shot> shots){
+		shotIndex = 0;
+		this.shots = shots;
+	}
 
 	public Vector2f getHudPos() {
 		return hudPos;

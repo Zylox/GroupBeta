@@ -149,21 +149,6 @@ public class Main_Gameplay extends BasicGameState{
 			
 			//updates players and shots
 			
-			//if not players turn, switch players
-			if(!players.get(playersTurnIndex).isTurn()){
-				
-				if(playersTurnIndex == 0){
-					playersTurnIndex = 1;
-				}else if(playersTurnIndex == 1){
-					playersTurnIndex = 0;
-				}
-				players.get(playersTurnIndex).onTurnSwitch();
-				onTurnSwitch();
-				
-			}
-			if(players.get(playersTurnIndex).getShots().size()==0) {
-				game.enterState(STATES.GAME_OVER.getId(), new FadeOutTransition(), new FadeInTransition());
-			}
 			
 			//Updates players positions
 			for(int i = 0; i < numOfPlayers; i++){
@@ -195,9 +180,26 @@ public class Main_Gameplay extends BasicGameState{
 				cam.setPos(new Vector2f(cam.getPos().x+5, cam.getPos().y));
 			}*/
 					
+			//if not players turn, switch players
+			if(!players.get(playersTurnIndex).isTurn()){
+				
+				if(playersTurnIndex == 0){
+					playersTurnIndex = 1;
+				}else if(playersTurnIndex == 1){
+					playersTurnIndex = 0;
+				}
+				players.get(playersTurnIndex).onTurnSwitch();
+				onTurnSwitch();
+				
+			}
 			//decrease time counter
 			timeCounter-=timeStep;
 		}
+
+		if(players.get(playersTurnIndex).getShots().size()==0) {
+			game.enterState(STATES.GAME_OVER.getId(), new FadeOutTransition(), new FadeInTransition());
+		}
+		
 		
 	}
 	

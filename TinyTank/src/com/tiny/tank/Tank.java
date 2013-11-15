@@ -179,7 +179,7 @@ public class Tank {
 		animationCounter = 0;
 		movementLimit = 80;
 		isTurn = true;
-		shotIndex = 0;
+		hud.onTurnSwitch(shots);
 	}
 	
 	/**
