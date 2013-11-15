@@ -98,7 +98,7 @@ public class Tank {
 		this.shots = shots;
 		this.power = power;
 		this.gas = gas;
-		this.hud = new HUD(barrelAng, power, gas, health, shots, index);
+		this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
 		// player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
@@ -208,8 +208,9 @@ public class Tank {
 	/**
 	 * Will update the events relating to tanks and shots
 	 */
-	public void update(GameContainer container, Camera cam) {
+	public void update(GameContainer container,StateBasedGame game, Camera cam) {
 
+		hud.update(container, game);
 		Input input = container.getInput();
 		// state handeling if falling
 		if (isFalling) {
@@ -374,7 +375,9 @@ public class Tank {
 		if(isShooting){
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}
+		if(isTurn){
 		hud.render(container, game, g);
+		}
 	}
 
 	/**
