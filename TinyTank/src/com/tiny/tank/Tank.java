@@ -7,8 +7,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -63,6 +63,7 @@ public class Tank {
 	private boolean isMoving;
 	private boolean isFalling;
 	private boolean isShooting;
+	private boolean tweeningRotation;
 	//flag for if turn
 	private boolean isTurn;
 
@@ -141,6 +142,7 @@ public class Tank {
 		isMoving = false;
 		isFalling = false;
 		isShooting = false;
+		tweeningRotation = false;
 
 		//sets range and hitbox
 		hitbox = new Polygon(new float[]{pos.x, pos.y,pos.x+tankWidth,pos.y, pos.x+tankWidth, pos.y+tankHeight,pos.x,pos.y+tankHeight});
@@ -223,14 +225,19 @@ public class Tank {
 				pos.y += 1;
 				hitbox.setLocation(pos.x, pos.y);
 				if (checkCollision(pos)) {
-					System.out.println("welp");
 					pos.y -= 1;
 					hitbox.setLocation(pos.x, pos.y);
 					isFalling = false;
+					tweeningRotation = true;
 					animationCounter = 0;
 				}
 				animationCounter -= animationLimit;
 			}
+		}
+		
+		if(tweeningRotation){
+			rotate(0);
+			tweeningRotation = false;
 		}
 
 		// state handeling if shooting
@@ -305,6 +312,62 @@ public class Tank {
 		}*/
 		//hud.get(0).update();
 	}
+	
+	private void rotate(float angle){
+		System.out.println(pos.x + " " + pos.y);
+		//hitbox = (Polygon) hitbox.transform(Transform.createRotateTransform((float)Math.toRadians(angle)));
+		image.setRotation(angle);
+		hitbox.setLocation(pos);
+		//BarrelImage.setRotation(BarrelImage.getRotation()+angle);
+	}
+	private float findNewTankAngle(){
+		float newAngle;
+		
+		float[] bottomLeftArray = hitbox.getPoint(3);
+		float[] bottomRightArray = hitbox.getPoint(2);
+		Vector2f bottomLeftPoint = new Vector2f(bottomLeftArray);
+		Vector2f bottomRightPoint = new Vector2f(bottomRightArray);
+		
+		float[] xRange = calculateXRange(hitbox);
+		float[] yRange = calculateYRange(hitbox);
+		Vector2f[] candidateList = new Vector2f[2];
+		candidateList[0] = bottomLeftPoint;
+		candidateList[1] = bottomRightPoint;
+		
+		
+		
+		for (int i = (int) xRange[0]; i < xRange[1]; i++) {
+			for (int j = (int) yRange[0]; j < yRange[1]; j++) {
+				if (Main_Gameplay.map.collision(new Vector2f(i, j))) {
+					Vector2f candidate = new Vector2f(i,j);
+					if(isLeft(bottomLeftPoint,bottomRightPoint,candidate)){
+						Vector2f bubble = candidate;
+						if(candidateList[0].y > bubble.y){
+							bubble = candidateList[0];
+							candidateList[0] = candidate;
+						}
+						if(candidateList[1].y > bubble.y){
+							candidateList[1] = bubble;
+						}
+					}
+				}
+			}
+		}	
+		
+		if(candidateList[0].x > candidateList[1].x){
+			Vector2f temp = candidateList[0];
+			candidateList[0] =candidateList[1];
+			candidateList[1] = temp;
+		}
+		
+		newAngle = (float) Math.atan((double)(candidateList[1].y - candidateList[0].y)/(candidateList[1].x - candidateList[0].x));
+		
+		return newAngle;
+	}
+	
+	public boolean isLeft(Vector2f a, Vector2f b, Vector2f c){
+	     return ((b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x)) > 0;
+	}
 
 	/**
 	 * Takes care of movement of tank.
@@ -360,10 +423,6 @@ public class Tank {
 		return pos;
 	}
 	
-	private void createRotation(){
-		
-	}
-
 	/**
 	 * Anything needed to render the tanks goes here.
 	 * 
@@ -396,6 +455,7 @@ public class Tank {
 	public boolean checkCollision(Vector2f pos) {
 
 		Polygon hitbox = new Polygon(new float[]{pos.x, pos.y,pos.x+tankWidth,pos.y, pos.x+tankWidth, pos.y+tankHeight,pos.x,pos.y+tankHeight});
+		hitbox = this.hitbox;
 		hitbox.setClosed(true);
 		float[] xRange = calculateXRange(hitbox);
 		float[] yRange = calculateYRange(hitbox);
