@@ -211,6 +211,7 @@ public class TerrainMap {
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam){
 		//// render clouds
+		
 		for(int i=0;i<NumOfClouds;i++)
 		{
 			cloudImageArray[i].draw(cam.transformScreenToCamX(getxCloudPos(i)),cam.transformScreenToCamY(getyCloudPos(i)), cam.getScale());	
