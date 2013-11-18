@@ -98,8 +98,9 @@ public class Tank {
 		this.shots = shots;
 		this.power = power;
 		this.gas = gas;
-		this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
-		// player1 looks right, player 2 looks left
+		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510), );
+		//this.hud = new HUD(tank);
+		//player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
 			try {
@@ -159,6 +160,8 @@ public class Tank {
 		animationCounter = 0;
 		
 		setFirstPos();
+		this.hud = new HUD(this);
+
 	}
 
 	/**
@@ -260,15 +263,19 @@ public class Tank {
 					// if its facing left
 					if (direction == -1)
 						{
-						if(BarrelImage.getRotation() < 90)
-						BarrelImage.rotate(1); 
+							if(BarrelImage.getRotation() < 90){
+								BarrelImage.rotate(1); 
+								hud.setBarrelAng(hud.getBarrelAng()+1);
+							}
 						}
 									
 					// facing right
 					if (direction == 1)
 						{
-						if(BarrelImage.getRotation() > -90)
-						BarrelImage.rotate(-1);
+							if(BarrelImage.getRotation() > -90){
+								BarrelImage.rotate(-1);
+								hud.setBarrelAng(hud.getBarrelAng()-1);
+							}
 						}
 						
 								
@@ -281,26 +288,26 @@ public class Tank {
 					// facing left
 					if (direction == -1)
 						{
-						if(BarrelImage.getRotation() > -30) // set lower limit
-							BarrelImage.rotate(-1);
+							if(BarrelImage.getRotation() > -30){ // set lower limit
+								hud.setBarrelAng(hud.getBarrelAng()-1);
+								BarrelImage.rotate(-1);
+							}
 						}
 					// facing right
 					if (direction == 1)
 						{
 
-						if(BarrelImage.getRotation() < 30) // set lower limit
-							BarrelImage.rotate(1);
+							if(BarrelImage.getRotation() < 30){ // set lower limit
+								BarrelImage.rotate(1);
+								hud.setBarrelAng(hud.getBarrelAng()+1);
+							}
 						}
 				}
-			
+			gas = movementLimit-movementCounter;
 		}
 
 
-
-		/*for(int i = 0; i < hud.size(); i++) {
-			hud.get(i).update();
-		}*/
-		//hud.get(0).update();
+		
 	}
 
 	/**
@@ -318,11 +325,13 @@ public class Tank {
 					isMoving = true;
 					pos = movePos(-tankMovement, 0);
 					isFalling = true;
+					gas = movementLimit-movementCounter;
 				} else if (input.isKeyDown(Input.KEY_D)) {
 					movementCounter += 1;
 					isMoving = true;
 					pos = movePos(tankMovement, 0);
 					isFalling = true;
+					gas = movementLimit-movementCounter;
 				} else {
 					isMoving = false;
 				}
@@ -330,6 +339,7 @@ public class Tank {
 				isMoving = false;
 			}
 		}
+		//gas=movementLimit-movementCounter;
 	}
 
 	/**
