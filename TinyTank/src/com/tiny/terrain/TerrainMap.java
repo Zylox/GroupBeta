@@ -40,7 +40,7 @@ public class TerrainMap {
 	private int NumOfClouds=0;
 	private int R=0;
 	private double P=0;
-	float upperpace = .009f;
+	float upperpace = .004f;
 	float lowerpace = .00000001f;
 	/////////////////////////////
 	
