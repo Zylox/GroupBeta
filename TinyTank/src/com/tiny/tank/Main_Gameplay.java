@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+
 import com.tiny.terrain.TerrainMap;
 
 public class Main_Gameplay extends BasicGameState{
@@ -119,10 +120,11 @@ public class Main_Gameplay extends BasicGameState{
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 
-		if(input.isKeyDown(Input.KEY_Q)){
+		if(input.isKeyPressed(Input.KEY_Q)){
 			//regenerates terrain//for testing only
 			map = new TerrainMap(container.getWidth(), container.getHeight());
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
+		
 		}
 		/** When p is pressed, go the the pause menu*/
 		if(input.isKeyDown(Input.KEY_P)) {

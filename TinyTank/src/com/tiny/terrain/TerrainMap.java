@@ -1,15 +1,18 @@
 package com.tiny.terrain;
 
+import java.io.File;
 import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-
 import com.tiny.tank.Camera;
+
+
 
 /**
  * The land for our game. Uses a image buffer for pixel operations and an image for rendering.
@@ -19,27 +22,43 @@ import com.tiny.tank.Camera;
  */
 public class TerrainMap {
 
+	
 	private ImageBuffer map;
 	private Image image;
 	private int height;
 	private int width;
-	private int scaledWidth;
-	private int scaledHeight;
+
 	private int[] linearHeightmap;
+
 	
+	//////// Cloud declarations 
+	private String[] CloudArray;
+	private double[] cloudMovePace;
+	private float[] cloudPosxArray=null;
+	private int[] cloudPosyArray=null;
+	private Image[] cloudImageArray = null;
+	private int NumOfClouds=0;
+	private int R=0;
+	private double P=0;
+	float upperpace = .001f;
+	float lowerpace = .00000001f;
+	/////////////////////////////
 	
 	/**
 	 * Generates a bytemap and an image representing it.
 	 * @param x width
 	 * @param y height
+	 * @throws SlickException 
 	 */
-	public TerrainMap(int x, int y){
+	public TerrainMap(int x, int y) {
 		init(x,y);
 	}
 	
-	public void reinit(int x, int y){
+	public void reinit(int x, int y) {
 		init(x,y);
 	}
+	
+
 	
 	/**
 	 * This is abstracted away incase things get more complicated in the future
@@ -50,7 +69,72 @@ public class TerrainMap {
 		width = x;
 		height = y;
 		map = generate(x,y);
-		image= map.getImage();		
+		image= map.getImage();	
+		
+/////////////////////////////////////////////////////////
+///////////// Code for clouds
+		
+		File directory = new File("res/clouds/");
+		//get all the clouds from the directory
+		File[] fList = directory.listFiles();        
+		CloudArray = new String[fList.length];
+
+		int i=0;
+		for (File file : fList)
+		{
+			if (file.isFile())
+			{
+
+				CloudArray[i]= ("res/clouds/"+file.getName());
+				i++;
+			}
+		}
+
+		NumOfClouds =i;	
+		cloudMovePace = new double[i];
+		cloudPosxArray = new float[i];
+		cloudPosyArray = new int[i];
+		cloudImageArray = new Image[i];
+		
+		
+		
+		for(int c=0; c<i;c++)
+			{
+			int upper =800;
+			int lower =0;
+			R = (int) ((Math.random() * (upper - lower)) + lower);
+			P = ((Math.random() * (upperpace - lowerpace)) + lowerpace);
+			setxCloudPos(c, R);
+			setMovePace(c,P);
+			
+			}
+		
+		for(int c=0; c<i;c++)
+			{
+			int upper =200;
+			int lower =0;
+			R = (int) ((Math.random() * (upper - lower)) + lower);
+			setyCloudPos(c, R);
+			}
+		
+
+		for(int a=0; a< NumOfClouds; a++ )
+			{
+
+				try {
+					cloudImageArray[a] = new Image(CloudArray[a].toString());
+
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+
+			}	
+				
+/////////////
+/////////////////////////////////////////////////
+
 	}	
 		
 	
@@ -88,9 +172,11 @@ public class TerrainMap {
 				k+=1;
 				if(k >= height){k=height-1;}
 			}
-		
+			
 			linearHeightmap[i] = k;
 			
+			
+
 		}
 		
 		//for(int i =0;i<x/2;i++){
@@ -124,8 +210,26 @@ public class TerrainMap {
 	
 	
 	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam){
+		//// render clouds
+		for(int i=0;i<NumOfClouds;i++)
+		{
+			cloudImageArray[i].draw(cam.transformScreenToCamX(getxCloudPos(i)),cam.transformScreenToCamY(getyCloudPos(i)), cam.getScale());	
+		}		
+		
+		for(int i =0; i< NumOfClouds; i++)
+		{
+			double temp = getxCloudPos(i);
+			double pace = getMovePace(i);
+			double newxPos =  (temp - pace);
+			setxCloudPos(i, newxPos);
+	
+		}
+		////
 		image.draw(cam.transformScreenToCamX(0), cam.transformScreenToCamY(0), cam.getScale());
+
+		
 	}
+
 
 	/**
 	 * Call when effecting map. Particularly with weapons.
@@ -134,6 +238,8 @@ public class TerrainMap {
 	public void update(){
 		//TODO
 		image = map.getImage();
+
+		
 	}
 	
 	//gets if there is a collision of a point on the map
@@ -165,6 +271,30 @@ public class TerrainMap {
 		}
 		
 		return max;
+	}
+	
+	public double getMovePace(int i){
+		return cloudMovePace[i];
+	}
+	
+	public void setMovePace(int i, double k) {
+		cloudMovePace[i] = k;
+	}
+	
+	public float getxCloudPos(int i){
+		return cloudPosxArray[i];
+	}
+	
+	public void setxCloudPos(int i, double newxPos) {
+		cloudPosxArray[i] = (float) newxPos;
+	}
+	
+	public int getyCloudPos(int i){
+		return cloudPosyArray[i];
+	}
+	
+	public void setyCloudPos(int i, int k) {
+		cloudPosyArray[i] = k;
 	}
 	
 	public int getHeight() {

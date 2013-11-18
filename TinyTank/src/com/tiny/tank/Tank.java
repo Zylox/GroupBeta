@@ -6,8 +6,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.Renderable;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
@@ -50,6 +52,8 @@ public class Tank {
 	private Image image;
 	private Image originalBarrel;
 	private Image BarrelImage;
+
+	
 	// x and y ranges of numbers. Will be usefull when we get rotations
 	private float[] xRange;
 	private float[] yRange;
@@ -88,8 +92,7 @@ public class Tank {
 	 * @throws SlickException 
 	 */
 	public void TankInfo(float playerX, float playerY, float barrelAng,
-			int health, ArrayList<Shot> shots, int index, int power, int gas) throws SlickException {
-
+		int health, ArrayList<Shot> shots, int index, int power, int gas) throws SlickException {
 		this.pos = new Vector2f(playerX, playerY);
 		this.barrelAng = barrelAng;
 		this.prevAng = barrelAng;
@@ -99,6 +102,7 @@ public class Tank {
 		this.power = power;
 		this.gas = gas;
 		this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
+		
 		// player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
@@ -229,6 +233,8 @@ public class Tank {
 				animationCounter -= animationLimit;
 			}
 		}
+		
+
 
 		// state handeling if shooting
 		if (isShooting) {
@@ -308,6 +314,9 @@ public class Tank {
 	 * @param input
 	 */
 	public void move(Input input) {
+		
+			
+	
 		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
 			//checks if player has used all movement alloted this turn
@@ -318,6 +327,7 @@ public class Tank {
 					isMoving = true;
 					pos = movePos(-tankMovement, 0);
 					isFalling = true;
+					
 				} else if (input.isKeyDown(Input.KEY_D)) {
 					movementCounter += 1;
 					isMoving = true;
