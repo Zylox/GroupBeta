@@ -69,8 +69,8 @@ public class Tank {
 	//flag for if turn
 	private boolean isTurn;
 
-	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index) throws SlickException {
-		TankInfo(playerX,playerY,barrelAng,health,shots,index,0,0);
+	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index, HUD hud) throws SlickException {
+		TankInfo(playerX,playerY,barrelAng,health,shots,index,hud);
 	}
 
 	
@@ -101,9 +101,11 @@ public class Tank {
 		this.shots = shots;
 		this.power = power;
 		this.gas = gas;
-		this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
+		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
 		
 		// player1 looks right, player 2 looks left
+		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510), );
+		//player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
 			try {
@@ -113,7 +115,7 @@ public class Tank {
 				originalImage.setFilter(Image.FILTER_NEAREST);
 				image = originalImage.getScaledCopy(tankWidth, tankHeight);
 				
-				//barrel (seperate so it can change angle)
+				//barrel (separate so it can change angle)
 				originalBarrel = new Image("res/BlueBarrel.png");
 				originalBarrel.setFilter(Image.FILTER_NEAREST);
 				BarrelImage = originalBarrel.getScaledCopy(tankWidth,tankHeight);
@@ -129,7 +131,7 @@ public class Tank {
 				originalImage.setFilter(Image.FILTER_NEAREST);
 				image = originalImage.getScaledCopy(tankWidth, tankHeight);
 				
-				//barrel (seperate so it can change angle)
+				//barrel (separate so it can change angle)
 				originalBarrel = new Image("res/RedBarrel.png");
 				originalBarrel.setFilter(Image.FILTER_NEAREST);
 				BarrelImage = originalBarrel.getScaledCopy(tankWidth, tankHeight);
@@ -152,7 +154,8 @@ public class Tank {
 		xRange = calculateXRange(hitbox);
 		yRange = calculateYRange(hitbox);
 
-		//initilizies player 1 to go first;
+		this.hud = new HUD(this);
+		//initializes player 1 to go first;
 		if(index == 1){
 			onTurnSwitch();
 			
@@ -163,6 +166,7 @@ public class Tank {
 		animationCounter = 0;
 		
 		setFirstPos();
+
 	}
 
 	/**
@@ -266,15 +270,19 @@ public class Tank {
 					// if its facing left
 					if (direction == -1)
 						{
-						if(BarrelImage.getRotation() < 90)
-						BarrelImage.rotate(1); 
+							if(BarrelImage.getRotation() < 90){
+								BarrelImage.rotate(1); 
+								hud.setBarrelAng(hud.getBarrelAng()+1);
+							}
 						}
 									
 					// facing right
 					if (direction == 1)
 						{
-						if(BarrelImage.getRotation() > -90)
-						BarrelImage.rotate(-1);
+							if(BarrelImage.getRotation() > -90){
+								BarrelImage.rotate(-1);
+								hud.setBarrelAng(hud.getBarrelAng()-1);
+							}
 						}
 						
 								
@@ -287,26 +295,27 @@ public class Tank {
 					// facing left
 					if (direction == -1)
 						{
-						if(BarrelImage.getRotation() > -30) // set lower limit
-							BarrelImage.rotate(-1);
+							if(BarrelImage.getRotation() > -30){ // set lower limit
+								hud.setBarrelAng(hud.getBarrelAng()-1);
+								BarrelImage.rotate(-1);
+							}
 						}
 					// facing right
 					if (direction == 1)
 						{
 
-						if(BarrelImage.getRotation() < 30) // set lower limit
-							BarrelImage.rotate(1);
+							if(BarrelImage.getRotation() < 30){ // set lower limit
+								BarrelImage.rotate(1);
+								hud.setBarrelAng(hud.getBarrelAng()+1);
+							}
 						}
 				}
-			
+			gas = movementLimit-movementCounter;
+			hud.setGasLength(gas);
 		}
 
 
-
-		/*for(int i = 0; i < hud.size(); i++) {
-			hud.get(i).update();
-		}*/
-		//hud.get(0).update();
+		
 	}
 
 	/**
@@ -327,12 +336,13 @@ public class Tank {
 					isMoving = true;
 					pos = movePos(-tankMovement, 0);
 					isFalling = true;
-					
+					gas = movementLimit-movementCounter;
 				} else if (input.isKeyDown(Input.KEY_D)) {
 					movementCounter += 1;
 					isMoving = true;
 					pos = movePos(tankMovement, 0);
 					isFalling = true;
+					gas = movementLimit-movementCounter;
 				} else {
 					isMoving = false;
 				}
@@ -340,6 +350,7 @@ public class Tank {
 				isMoving = false;
 			}
 		}
+		//gas=movementLimit-movementCounter;
 	}
 
 	/**
