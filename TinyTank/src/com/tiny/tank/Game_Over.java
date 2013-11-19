@@ -78,7 +78,7 @@ public class Game_Over extends BasicGameState {
 		for(i=1;i<numberOfStats;i++) {
 				g.drawString(statTitles[i],350,250+20*i);
 				g.drawString(statsList1.get(i),100,250+20*i);
-				g.drawString(statsList1.get(i),700,250+20*i);
+				g.drawString(statsList2.get(i),700,250+20*i);
 			
 		}
 		
