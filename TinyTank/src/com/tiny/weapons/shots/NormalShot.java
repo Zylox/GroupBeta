@@ -61,9 +61,9 @@ public class NormalShot extends CircularShot{
 		//if collides with terrain
 		if(pointCollision()){
 			isAnimating = true;
-			while(pointCollision()){
+			/*while(pointCollision()){
 				pos.y-=1;
-			}
+			}*/
 			areaOfEffect = new Circle(pos.x,pos.y, initialRadius);
 		}
 		
