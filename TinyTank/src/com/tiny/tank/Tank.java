@@ -324,6 +324,7 @@ public class Tank {
 						}
 				}
 			gas = movementLimit-movementCounter;
+//			getStat().addToMovement(movementCounter);
 			hud.setGasLength(gas);
 			hud.update(container, game);
 			barrelAng = hud.getBarrelAng();
