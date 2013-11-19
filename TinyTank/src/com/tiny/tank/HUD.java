@@ -16,7 +16,6 @@ import com.tiny.weapons.Shot;
 
 public class HUD {
 	
-	private Image hud_background;
 	private Input input;
 	private float barrelAng;
 	private int power;
@@ -30,28 +29,25 @@ public class HUD {
 	private Image power_head;
 	private Button lweapons;
 	private Button rweapons;
-	private Button lmove;
-	private Button rmove;
 	private Button langle;
 	private Button rangle;
 	private Button lpower;
 	private Button rpower;
 	private Vector2f hudPos;
 	private int shotIndex;
-	private Tank tank;
-	
 	private int gasLength;
 	
+	/**
+	 * This is a function used to load all of the images needed for the HUD
+	 * @throws SlickException
+	 */
 	public void loadImages() throws SlickException{
-		//hud_background = new Image("res/hud_background.png");
 		weapons_head = new Image("res/weapons.png");
-		move_head = new Image("res/Move.png");
+		move_head = new Image("res/Gas.png");
 		angle_head = new Image("res/Angle.png");
 		power_head = new Image("res/Power.png");
-		lweapons = new Button("res/LeftArrow.png", (int) (hudPos.x+435), (int) (hudPos.y+50));
-		rweapons = new Button("res/RightArrow.png", (int) (hudPos.x+555), (int) (hudPos.y+50));
-		//lmove = new Button("res/Left Arrow.png", 300, 500);
-		//rmove = new Button("res/Right Arrow.png", 500, 500);
+		lweapons = new Button("res/LeftArrow.png", (int) (hudPos.x+420), (int) (hudPos.y+50));
+		rweapons = new Button("res/RightArrow.png", (int) (hudPos.x+560), (int) (hudPos.y+50));
 		langle = new Button("res/LeftArrow.png", (int) (hudPos.x+215), (int) (hudPos.y+50));
 		rangle = new Button("res/RightArrow.png", (int) (hudPos.x+335), (int) (hudPos.y+50));
 		lpower = new Button("res/LeftArrow.png", (int) (hudPos.x+640), (int) (hudPos.y+50));
@@ -59,20 +55,19 @@ public class HUD {
 			
 	}
 	
-	
-	//public HUD(float barrelAng, int power, int gas, 
-	//		int health, ArrayList<Shot> shots, int index, Vector2f hudPos, Tank tank) throws SlickException {
-	
+	/**
+	 * Constructor for HUD
+	 * @param tank
+	 * @throws SlickException
+	 */
 	public HUD(Tank tank) throws SlickException {
 		
-		this.tank = tank;
 		this.barrelAng = tank.getBarrelAng();
 		this.power = tank.getPower();
 		this.gas = tank.getGas();
 		this.health = tank.getHealth();
 		this.shots = tank.getShots();
 		this.index = tank.getIndex();
-		//this.hudPos = hudPos;
 		hudPos = new Vector2f(0,510);
 		loadImages();
 		shotIndex = 0;
@@ -81,51 +76,24 @@ public class HUD {
 	}
 	
 	
-	/*
-	public HUD(float barrelAng, int power, int gas, int health,
-			ArrayList<Shot> shots, int index, Vector2f vector2f) throws SlickException {
-		// TODO Auto-generated constructor stub
-		//this.tank = tank;
-		this.barrelAng = tank.getBarrelAng();
-		this.power = tank.getPower();
-		this.gas = tank.getGas();
-		this.health = tank.getHealth();
-		this.shots = tank.getShots();
-		this.index = tank.getIndex();
-		//this.hudPos = hudPos;
-		hudPos = new Vector2f(0,510);
-		loadImages();
-		shotIndex = 0;
-	}
-	*/
-
-	public void enter(GameContainer container, StateBasedGame game){
-		
-		try {
-			hud_background = new Image(container.getWidth(), 200);
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		
-		
-	}
-	
-	
+	/**
+	 * In render, the Variable hudPos is used so we can dynamically move the HUD with all
+	 * buttons and headers simultaneously. 
+	 * @param container
+	 * @param game
+	 * @param g
+	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		// current graphical representation
-		//hud_background.draw();
 		Color prevCol = g.getColor();
 		g.setColor(Color.darkGray);
 		g.fillRect(hudPos.x, hudPos.y, container.getWidth(), 90);
-		//g.draw(new Rectangle(0,hudY,container.getWidth(),90));
-		weapons_head.draw((int) (hudPos.x+435),(int)(hudPos.y+10));
+		weapons_head.draw((int) (hudPos.x+420),(int)(hudPos.y+10));
 		angle_head.draw((int)(hudPos.x+215),(int)(hudPos.y+10));
 		power_head.draw((int)(hudPos.x+640),(int)(hudPos.y+10));
 		move_head.draw((int)(hudPos.x+10),(int)(hudPos.y+10));
 		rweapons.drawButton(g);
 		lweapons.drawButton(g);
-		//rmove.drawButton(g);
-		//lmove.drawButton(g);
 		rangle.drawButton(g);
 		langle.drawButton(g);
 		rpower.drawButton(g);
@@ -135,28 +103,28 @@ public class HUD {
 		g.fillRect(hudPos.x+10, hudPos.y+57 , (int)(gasLength*1.87), 10);
 		g.setColor(Color.white);
 		//Angle
-		g.drawString(Float.toString(barrelAng), (int)(hudPos.x+260), (int)(hudPos.y+57));
-		g.drawString(Integer.toString(power), (int)(hudPos.x+705), (int)(hudPos.y+57));
+		g.drawString(Float.toString(barrelAng), (int)(hudPos.x+270), (int)(hudPos.y+55));
+		g.drawString(Integer.toString(power), (int)(hudPos.x+705), (int)(hudPos.y+55));
 	
 		if(shots.size() > 0){
-			g.drawString(shots.get(shotIndex).getShotName(), (int)(hudPos.x+465), (int)(hudPos.y+50));
+			g.drawString(shots.get(shotIndex).getShotName(), (int)(hudPos.x+465), (int)(hudPos.y+55));
 		}
-		//g.drawString(shots.get(shotIndex).getShotName(), (int)(hudPos.x+465), (int)(hudPos.y+57));
-		
-		g.drawString(Integer.toString(gas),0,0);
-		
 		g.setColor(prevCol);
 
 	}
 	
+	/**
+	 * In function update, we update the HUD based upon which interaction is received. 
+	 * In regards to changing weapons, a simple left button click is sufficient.
+	 * For Power and Angle, it is allowed to use a held left button so changing the values a
+	 * significant amount is much quicker and easier.  
+	 * @param container
+	 * @param game
+	 */
 	public void update(GameContainer container, StateBasedGame game){
-		
-		//barrelAng.getBarrelAng();
-		
 		
 		input = container.getInput();
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-			//input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) {
 			int posX = input.getMouseX();
 			int posY = input.getMouseY();
 			
@@ -175,17 +143,9 @@ public class HUD {
 				}
 			}
 		}	
-			/*
-			else if (rmove.isMouseOverButton(posX, posY)) {
-				
-			}
-			else if (lmove.isMouseOverButton(posX, posY)) {
-				
-			}
-			*/
+			
 		input = container.getInput();
 		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-				//input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) {
 				int pos_X = input.getMouseX();
 				int pos_Y = input.getMouseY();
 			
