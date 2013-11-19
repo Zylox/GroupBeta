@@ -20,7 +20,8 @@ import com.tiny.tank.Camera;
  * @author pzero
  *
  */
-public class TerrainMap {
+public class TerrainMap 
+{
 
 	
 	private ImageBuffer map;
@@ -50,12 +51,15 @@ public class TerrainMap {
 	 * @param y height
 	 * @throws SlickException 
 	 */
-	public TerrainMap(int x, int y) {
+	public TerrainMap(int x, int y) 
+	{
 		init(x,y);
 	}
 	
-	public void reinit(int x, int y) {
+	public void reinit(int x, int y)
+	{
 		init(x,y);
+		
 	}
 	
 
@@ -65,7 +69,8 @@ public class TerrainMap {
 	 * @param x
 	 * @param y
 	 */
-	private void init(int x, int y){
+	private void init(int x, int y)
+	{
 		width = x;
 		height = y;
 		map = generate(x,y);
@@ -121,10 +126,13 @@ public class TerrainMap {
 		for(int a=0; a< NumOfClouds; a++ )
 			{
 
-				try {
+				try 
+				{
 					cloudImageArray[a] = new Image(CloudArray[a].toString());
 
-				} catch (SlickException e) {
+				} 
+				catch (SlickException e) 
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -144,7 +152,8 @@ public class TerrainMap {
 	 * @param y height
 	 * @return The generated map
 	 */
-	private ImageBuffer generate(int x, int y){
+	private ImageBuffer generate(int x, int y)
+	{
 		linearHeightmap = new int[x];
 		Random ran = new Random();
 		
@@ -156,21 +165,29 @@ public class TerrainMap {
 		int k = 2*y/3;
 		float tolerance = 0;
 		int change = 3;
-		for(int i = 0; i<x; i++){
+		for(int i = 0; i<x; i++)
+		{
 			tolerance += ran.nextFloat()*randRange-randRange/2;		
 			/////
-			if(tolerance < -tolmax){
+			if(tolerance < -tolmax)
+			{
 				tolerance +=tolmax;
-			}else if (tolerance > tolmax){
+			}else if (tolerance > tolmax)
+			{
 				tolerance -= tolmax;
 			}
 			/////
-			if(tolerance<-tolRange){
+			if(tolerance<-tolRange)
+			{
 				k-=1;
 				if (k < 0){k=0;}
-			}else if(tolerance>tolRange){
+			}else if(tolerance>tolRange)
+			{
 				k+=1;
-				if(k >= height){k=height-1;}
+				if(k >= height)
+				{
+					k=height-1;
+				}
 			}
 			
 			linearHeightmap[i] = k;
@@ -191,9 +208,11 @@ public class TerrainMap {
 		
 		ImageBuffer genMap = new ImageBuffer(x,y);
 		
-		for(int i = 0; i<x; i++){
+		for(int i = 0; i<x; i++)
+		{
 			k = linearHeightmap[i];
-			while(k<y){
+			while(k<y)
+			{
 
 				genMap.setRGBA(i, k, 50, 114, 40, 255);
 				k++;
@@ -204,12 +223,14 @@ public class TerrainMap {
 		return genMap;
 	}
 	
-	public void setFilled(int i, int j){
+	public void setFilled(int i, int j)
+	{
 		map.setRGBA(i, j, 50, 114, 40, 255);
 	}
 	
 	
-	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam){
+	public void render(GameContainer container, StateBasedGame game, Graphics g, Camera cam)
+	{
 		//// render clouds
 		
 		for(int i=0;i<NumOfClouds;i++)
@@ -236,7 +257,8 @@ public class TerrainMap {
 	 * Call when effecting map. Particularly with weapons.
 	 * Make sure to grab a new picture.
 	 */
-	public void update(){
+	public void update()
+	{
 		//TODO
 		image = map.getImage();
 
@@ -244,12 +266,14 @@ public class TerrainMap {
 	}
 	
 	//gets if there is a collision of a point on the map
-	public boolean collision(Vector2f point){
+	public boolean collision(Vector2f point)
+	{
 		
 		int x = (int)point.x;
 		int y = (int)point.y;
 		
-		if(map.getRGBA()[((x + (y * map.getTexWidth())) * 4)] == (byte)50){
+		if(map.getRGBA()[((x + (y * map.getTexWidth())) * 4)] == (byte)50)
+		{
 			return true;
 		}
 		
@@ -262,11 +286,14 @@ public class TerrainMap {
 	 * @param finish End of range
 	 * @return max value
 	 */
-	public int getMaxInRange(float start, float finish){
+	public int getMaxInRange(float start, float finish)
+	{
 		int max = linearHeightmap[(int) start];
-		for(int i = (int) (start+1); i<finish;i++){
+		for(int i = (int) (start+1); i<finish;i++)
+		{
 			//seems like a wierd way to find max but remember y is inverted;
-			if( max >linearHeightmap[i]){
+			if( max >linearHeightmap[i])
+			{
 				max = linearHeightmap[i];
 			}
 		}
@@ -274,74 +301,97 @@ public class TerrainMap {
 		return max;
 	}
 	
-	public double getMovePace(int i){
+	public double getMovePace(int i)
+	{
 		return cloudMovePace[i];
 	}
 	
-	public void setMovePace(int i, double k) {
+	public void setMovePace(int i, double k)
+	{
 		cloudMovePace[i] = k;
 	}
 	
-	public float getxCloudPos(int i){
+	public float getxCloudPos(int i)
+	{
 		return cloudPosxArray[i];
 	}
 	
-	public void setxCloudPos(int i, double newxPos) {
+	public void setxCloudPos(int i, double newxPos) 
+	{
+		// if the cloud runs off the screen, loop back to the other side
+		if(newxPos <= -300)
+		{
+			newxPos = 810;
+		}
+		
 		cloudPosxArray[i] = (float) newxPos;
 	}
 	
-	public int getyCloudPos(int i){
+	public int getyCloudPos(int i)
+	{
 		return cloudPosyArray[i];
 	}
 	
-	public void setyCloudPos(int i, int k) {
+	public void setyCloudPos(int i, int k) 
+	{
 		cloudPosyArray[i] = k;
 	}
 	
-	public int getHeight() {
+	public int getHeight() 
+	{
 		return height;
 	}
 	
-	public void setHeight(int height) {
+	public void setHeight(int height) 
+	{
 		this.height = height;
 	}
 	
-	public int getWidth() {
+	public int getWidth() 
+	{
 		return width;
 	}
 	
-	public void setWidth(int width) {
+	public void setWidth(int width) 
+	{
 		this.width = width;
 	}
 	
-	public int[] getLinearHeightmap() {
+	public int[] getLinearHeightmap() 
+	{
 		return linearHeightmap;
 	}
 	
-	public int getLinearHeightMapPoint(int i){
+	public int getLinearHeightMapPoint(int i)
+	{
 		return linearHeightmap[i];
 	}
 	
-	public void setLinearHeightmapPoint(int i, int k) {
+	public void setLinearHeightmapPoint(int i, int k)
+	{
 		linearHeightmap[i] = k;
 	}
 	
 
-	public Image getImage() {
+	public Image getImage() 
+	{
 		return image;
 	}
 
 
-	public void setImage(Image image) {
+	public void setImage(Image image)
+	{
 		this.image = image;
 	}
 
 
-	public ImageBuffer getMap() {
+	public ImageBuffer getMap()
+	{
 		return map;
 	}
 	
-	public void setMap(ImageBuffer map) {
+	public void setMap(ImageBuffer map) 
+	{
 		this.map = map;
 	}
 	
