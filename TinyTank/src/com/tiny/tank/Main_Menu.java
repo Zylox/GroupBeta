@@ -1,6 +1,8 @@
 package com.tiny.tank;
 
 //import org.lwjgl.input.Mouse;
+import com.tiny.terrain.*;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -28,6 +30,8 @@ public class Main_Menu extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 		input = container.getInput();
+		
+
 	}
 	
 	public void loadImages() throws SlickException{
@@ -43,6 +47,7 @@ public class Main_Menu extends BasicGameState {
 		background.draw();
 		playButton.drawButton(g);
 		quitButton.drawButton(g);
+		
 	
 	}
 
@@ -50,6 +55,8 @@ public class Main_Menu extends BasicGameState {
 
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
+		
+
 
 		container.setShowFPS(true);
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {

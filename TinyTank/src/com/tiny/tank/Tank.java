@@ -6,8 +6,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.Renderable;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
@@ -53,6 +55,8 @@ public class Tank {
 	private Image image;
 	private Image originalBarrel;
 	private Image BarrelImage;
+
+	
 	// x and y ranges of numbers. Will be usefull when we get rotations
 	private float[] xRange;
 	private float[] yRange;
@@ -69,8 +73,8 @@ public class Tank {
 	//stat objects
 	private Stat stat;
 
-	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index) throws SlickException {
-		TankInfo(playerX,playerY,barrelAng,health,shots,index,0,0);
+	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index, HUD hud) throws SlickException {
+		TankInfo(playerX,playerY,barrelAng,health,shots,index,hud);
 	}
 
 	
@@ -92,7 +96,6 @@ public class Tank {
 	 * @throws SlickException 
 	 */
 	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index, int power, int gas) throws SlickException {
-
 		this.pos = new Vector2f(playerX, playerY);
 		this.barrelAng = barrelAng;
 		this.prevAng = barrelAng;
@@ -102,8 +105,11 @@ public class Tank {
 		this.stat = new Stat(getMovementLimit(),shots.size());
 		this.power = power;
 		this.gas = gas;
-		this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
+		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
+		
 		// player1 looks right, player 2 looks left
+		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510), );
+		//player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
 			try {
@@ -113,7 +119,7 @@ public class Tank {
 				originalImage.setFilter(Image.FILTER_NEAREST);
 				image = originalImage.getScaledCopy(tankWidth, tankHeight);
 				
-				//barrel (seperate so it can change angle)
+				//barrel (separate so it can change angle)
 				originalBarrel = new Image("res/BlueBarrel.png");
 				originalBarrel.setFilter(Image.FILTER_NEAREST);
 				BarrelImage = originalBarrel.getScaledCopy(tankWidth,tankHeight);
@@ -129,7 +135,7 @@ public class Tank {
 				originalImage.setFilter(Image.FILTER_NEAREST);
 				image = originalImage.getScaledCopy(tankWidth, tankHeight);
 				
-				//barrel (seperate so it can change angle)
+				//barrel (separate so it can change angle)
 				originalBarrel = new Image("res/RedBarrel.png");
 				originalBarrel.setFilter(Image.FILTER_NEAREST);
 				BarrelImage = originalBarrel.getScaledCopy(tankWidth, tankHeight);
@@ -152,7 +158,8 @@ public class Tank {
 		xRange = calculateXRange(hitbox);
 		yRange = calculateYRange(hitbox);
 
-		//initilizies player 1 to go first;
+		this.hud = new HUD(this);
+		//initializes player 1 to go first;
 		if(index == 1){
 			onTurnSwitch();
 			
@@ -164,6 +171,7 @@ public class Tank {
 		animationCounter = 0;
 		
 		setFirstPos();
+
 	}
 
 	
@@ -186,7 +194,7 @@ public class Tank {
 		animationCounter = 0;
 		
 		isTurn = true;
-		shotIndex = 0;
+		hud.onTurnSwitch(shots);
 	}
 	
 	/**
@@ -217,7 +225,7 @@ public class Tank {
 	 */
 	public void update(GameContainer container,StateBasedGame game, Camera cam) {
 
-		hud.update(container, game);
+		
 		Input input = container.getInput();
 		// state handeling if falling
 		if (isFalling) {
@@ -236,6 +244,8 @@ public class Tank {
 				animationCounter -= animationLimit;
 			}
 		}
+		
+
 
 		// state handeling if shooting
 		if (isShooting) {
@@ -252,6 +262,7 @@ public class Tank {
 			//if the shoot key is pushed, initilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
 				stat.addToMovement(getMovementCounter());
+				shotIndex = hud.getShotIndex();
 				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(2*direction,5));
 				setShooting(true);
 				}
@@ -268,15 +279,21 @@ public class Tank {
 					// if its facing left
 					if (direction == -1)
 						{
-						if(BarrelImage.getRotation() < 90)
-						BarrelImage.rotate(1); 
+							if(BarrelImage.getRotation() < 90){
+								BarrelImage.rotate(1);
+								barrelAng = BarrelImage.getRotation();
+								hud.setBarrelAng(barrelAng);
+							}
 						}
 									
 					// facing right
 					if (direction == 1)
 						{
-						if(BarrelImage.getRotation() > -90)
-						BarrelImage.rotate(-1);
+							if(BarrelImage.getRotation() > -90){
+								BarrelImage.rotate(-1);
+								barrelAng = BarrelImage.getRotation();
+								hud.setBarrelAng(barrelAng);
+							}
 						}
 						
 								
@@ -289,26 +306,32 @@ public class Tank {
 					// facing left
 					if (direction == -1)
 						{
-						if(BarrelImage.getRotation() > -30) // set lower limit
-							BarrelImage.rotate(-1);
+							if(BarrelImage.getRotation() > -30){ // set lower limit
+								BarrelImage.rotate(-1);
+								barrelAng = BarrelImage.getRotation();
+								hud.setBarrelAng(barrelAng);
+							}
 						}
 					// facing right
 					if (direction == 1)
 						{
 
-						if(BarrelImage.getRotation() < 30) // set lower limit
-							BarrelImage.rotate(1);
+							if(BarrelImage.getRotation() < 30){ // set lower limit
+								BarrelImage.rotate(1);
+								barrelAng = BarrelImage.getRotation();
+								hud.setBarrelAng(barrelAng);
+							}
 						}
 				}
-			
+			gas = movementLimit-movementCounter;
+			hud.setGasLength(gas);
+			hud.update(container, game);
+			barrelAng = hud.getBarrelAng();
+			BarrelImage.setRotation(barrelAng);
 		}
 
 
-
-		/*for(int i = 0; i < hud.size(); i++) {
-			hud.get(i).update();
-		}*/
-		//hud.get(0).update();
+		
 	}
 
 	/**
@@ -316,6 +339,9 @@ public class Tank {
 	 * @param input
 	 */
 	public void move(Input input) {
+		
+			
+	
 		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
 			//checks if player has used all movement alloted this turn
@@ -327,11 +353,13 @@ public class Tank {
 					isMoving = true;
 					pos = movePos(-tankMovement, 0);
 					isFalling = true;
+					gas = movementLimit-movementCounter;
 				} else if (input.isKeyDown(Input.KEY_D)) {
 					movementCounter += 1;
 					isMoving = true;
 					pos = movePos(tankMovement, 0);
 					isFalling = true;
+					gas = movementLimit-movementCounter;
 				} else {
 					isMoving = false;
 				}
@@ -339,6 +367,7 @@ public class Tank {
 				isMoving = false;
 			}
 		}
+		//gas=movementLimit-movementCounter;
 	}
 
 	
@@ -387,7 +416,7 @@ public class Tank {
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}
 		if(isTurn){
-		hud.render(container, game, g);
+			hud.render(container, game, g);
 		}
 	}
 

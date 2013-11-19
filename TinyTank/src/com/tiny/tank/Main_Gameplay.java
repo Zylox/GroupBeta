@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+
 import com.tiny.terrain.TerrainMap;
 
 public class Main_Gameplay extends BasicGameState{
@@ -61,7 +62,7 @@ public class Main_Gameplay extends BasicGameState{
 		//clears the input so we dont get unintential input
 		input.clearMousePressedRecord();
 		input.clearKeyPressedRecord();
-		int width = 5000;
+		int width = 800;
 		int height = container.getHeight()*1;
 		cam = new Camera(0,0,container.getWidth(),container.getHeight(),1);
 		
@@ -119,10 +120,11 @@ public class Main_Gameplay extends BasicGameState{
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 
-		if(input.isKeyDown(Input.KEY_Q)){
+		if(input.isKeyPressed(Input.KEY_Q)){
 			//regenerates terrain//for testing only
-			map = new TerrainMap(container.getWidth(), container.getHeight());
+			map = new TerrainMap(800, container.getHeight());
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
+		
 		}
 		/** When p is pressed, go the the pause menu*/
 		if(input.isKeyDown(Input.KEY_P)) {
@@ -149,21 +151,6 @@ public class Main_Gameplay extends BasicGameState{
 			
 			//updates players and shots
 			
-			//if not players turn, switch players
-			if(!players.get(playersTurnIndex).isTurn()){
-				
-				if(playersTurnIndex == 0){
-					playersTurnIndex = 1;
-				}else if(playersTurnIndex == 1){
-					playersTurnIndex = 0;
-				}
-				players.get(playersTurnIndex).onTurnSwitch();
-				onTurnSwitch();
-				
-			}
-			if(players.get(playersTurnIndex).getShots().size()==0) {
-				game.enterState(STATES.GAME_OVER.getId(), new FadeOutTransition(), new FadeInTransition());
-			}
 			
 			//Updates players positions
 			for(int i = 0; i < numOfPlayers; i++){
@@ -195,9 +182,26 @@ public class Main_Gameplay extends BasicGameState{
 				cam.setPos(new Vector2f(cam.getPos().x+5, cam.getPos().y));
 			}*/
 					
+			//if not players turn, switch players
+			if(!players.get(playersTurnIndex).isTurn()){
+				
+				if(playersTurnIndex == 0){
+					playersTurnIndex = 1;
+				}else if(playersTurnIndex == 1){
+					playersTurnIndex = 0;
+				}
+				players.get(playersTurnIndex).onTurnSwitch();
+				onTurnSwitch();
+				
+			}
 			//decrease time counter
 			timeCounter-=timeStep;
 		}
+
+		if(players.get(playersTurnIndex).getShots().size()==0) {
+			game.enterState(STATES.GAME_OVER.getId(), new FadeOutTransition(), new FadeInTransition());
+		}
+		
 		
 	}
 	
