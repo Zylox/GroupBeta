@@ -62,7 +62,7 @@ public class Main_Gameplay extends BasicGameState{
 		//clears the input so we dont get unintential input
 		input.clearMousePressedRecord();
 		input.clearKeyPressedRecord();
-		int width = 5000;
+		int width = 800;
 		int height = container.getHeight()*1;
 		cam = new Camera(0,0,container.getWidth(),container.getHeight(),1);
 		
@@ -122,7 +122,7 @@ public class Main_Gameplay extends BasicGameState{
 
 		if(input.isKeyPressed(Input.KEY_Q)){
 			//regenerates terrain//for testing only
-			map = new TerrainMap(container.getWidth(), container.getHeight());
+			map = new TerrainMap(800, container.getHeight());
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
 		
 		}
