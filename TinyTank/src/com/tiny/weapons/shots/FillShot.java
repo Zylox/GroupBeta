@@ -7,10 +7,10 @@ import com.tiny.tank.Main_Gameplay;
 import com.tiny.weapons.Shot;
 
 public class FillShot extends NormalShot{
-
+	
 	public FillShot(Vector2f pos, int radiusOfEffect, int initialRadius,
-			Object graphicalRep,float animationLimit, float animationStep, String shotName) {
-		super(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep, shotName);
+			Object graphicalRep,float animationLimit, float animationStep,int damage, String shotName) {
+		super(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep, damage,shotName);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -23,7 +23,7 @@ public class FillShot extends NormalShot{
 	
 	@Override
 	public Shot copy(){
-		return new FillShot(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep, shotName);
+		return new FillShot(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep,damage, shotName);
 	}
 
 }

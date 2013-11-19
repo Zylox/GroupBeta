@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
@@ -22,17 +21,20 @@ public class NormalShot extends CircularShot{
 	public final float gravity = .1f;
 	public final float terminalVelocity = 5;
 	
+	
 	/**
-	 * Creates a standard circle shot with exsplosion of given radius
+	 * Creates a standard circle shot with explosion of given radius
 	 * @param pos Position (duh)
-	 * @param radiusOfEffect Radius of final exsplosion
-	 * @param initialRadius Radius that exsplosion starts at
+	 * @param radiusOfEffect Radius of final explosion
+	 * @param initialRadius Radius that explosion starts at
 	 * @param graphicalRep Unused currently
 	 * @param shotName String identifying name of shot
 	 */
-	public NormalShot(Vector2f pos, int radiusOfEffect, int initialRadius, Object graphicalRep, float animationLimit, float animationStep, String shotName) {
+	public NormalShot(Vector2f pos, int radiusOfEffect, int initialRadius, Object graphicalRep, float animationLimit, float animationStep,int damage, String shotName) {
 		super(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep, shotName);
+		setDamage(damage);
 		// TODO Auto-generated constructor stub
+		
 		animationCounter = 0;
 	}
 
@@ -75,7 +77,12 @@ public class NormalShot extends CircularShot{
 				animationCounter+=animationStep; //increment counter
 				if(animationCounter > animationLimit){ //if limit time has been passed
 					initialRadius++; //increase radius
-					//areaOfEffect = new Circle(pos.x,pos.y, initialRadius); //and graphical rep of it
+					areaOfEffect = new Circle(pos.x,pos.y, initialRadius); //and graphical rep of it
+					for(int i=0;i<Main_Gameplay.players.size();i++) {
+						if(areaOfEffect.intersects(Main_Gameplay.players.get(i).getHitbox()) ) {
+							//do damage
+						}
+					}
 					animationCounter -= animationLimit; //decrement counter
 				}
 			}
@@ -116,7 +123,8 @@ public class NormalShot extends CircularShot{
 			//areaOfEffect.setCenterX(cam.scale*(pos.x-cam.pos.x));
 			//areaOfEffect.setCenterY(cam.scale*(pos.y-cam.pos.y));
 			areaOfEffect = new Circle(cam.transformScreenToCamX(pos.x),cam.transformScreenToCamY(pos.y),initialRadius*cam.getScale());
-			g.fill(areaOfEffect);;
+			g.fill(areaOfEffect);
+			
 			return;
 		}
 		g.setColor(Color.black);
@@ -144,7 +152,24 @@ public class NormalShot extends CircularShot{
 	@Override
 	public Shot copy() {
 		// TODO Auto-generated method stub
-		return new NormalShot(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep, shotName);
+		return new NormalShot(pos, radiusOfEffect, initialRadius, graphicalRep, animationLimit, animationStep, damage, shotName);
+	}
+
+
+	public int getDamage() {
+		return damage;
+	}
+
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+
+	@Override
+	public void doDamge(Tank tank) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
