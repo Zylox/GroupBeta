@@ -115,7 +115,7 @@ public class HUD {
 		// current graphical representation
 		//hud_background.draw();
 		Color prevCol = g.getColor();
-		g.setColor(new Color(0, 0,0, 300));
+		g.setColor(Color.darkGray);
 		g.fillRect(hudPos.x, hudPos.y, container.getWidth(), 90);
 		//g.draw(new Rectangle(0,hudY,container.getWidth(),90));
 		weapons_head.draw((int) (hudPos.x+435),(int)(hudPos.y+10));
@@ -132,7 +132,7 @@ public class HUD {
 		lpower.drawButton(g);
 		//Gas rectangle
 		g.setColor(Color.red);
-		g.fillRect(hudPos.x+10, hudPos.y+57 , gasLength, 10);
+		g.fillRect(hudPos.x+10, hudPos.y+57 , (int)(gasLength*1.87), 10);
 		g.setColor(Color.white);
 		//Angle
 		g.drawString(Float.toString(barrelAng), (int)(hudPos.x+260), (int)(hudPos.y+57));
@@ -191,14 +191,14 @@ public class HUD {
 			
 			if (rangle.isMouseOverButton(pos_X, pos_Y)) {
 				System.out.println("rangle!");
-				if(barrelAng < 180){
+				if(barrelAng < 30){
 					barrelAng++;
 				}
 			}
 			else if (langle.isMouseOverButton(pos_X, pos_Y)) {
 				System.out.println("langle!");
 
-				if(barrelAng > 0){
+				if(barrelAng > -90){
 					barrelAng--;
 				}
 			}

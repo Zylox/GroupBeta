@@ -272,8 +272,9 @@ public class Tank {
 					if (direction == -1)
 						{
 							if(BarrelImage.getRotation() < 90){
-								BarrelImage.rotate(1); 
-								hud.setBarrelAng(hud.getBarrelAng()+1);
+								BarrelImage.rotate(1);
+								barrelAng = BarrelImage.getRotation();
+								hud.setBarrelAng(barrelAng);
 							}
 						}
 									
@@ -282,7 +283,8 @@ public class Tank {
 						{
 							if(BarrelImage.getRotation() > -90){
 								BarrelImage.rotate(-1);
-								hud.setBarrelAng(hud.getBarrelAng()-1);
+								barrelAng = BarrelImage.getRotation();
+								hud.setBarrelAng(barrelAng);
 							}
 						}
 						
@@ -297,8 +299,9 @@ public class Tank {
 					if (direction == -1)
 						{
 							if(BarrelImage.getRotation() > -30){ // set lower limit
-								hud.setBarrelAng(hud.getBarrelAng()-1);
 								BarrelImage.rotate(-1);
+								barrelAng = BarrelImage.getRotation();
+								hud.setBarrelAng(barrelAng);
 							}
 						}
 					// facing right
@@ -307,13 +310,16 @@ public class Tank {
 
 							if(BarrelImage.getRotation() < 30){ // set lower limit
 								BarrelImage.rotate(1);
-								hud.setBarrelAng(hud.getBarrelAng()+1);
+								barrelAng = BarrelImage.getRotation();
+								hud.setBarrelAng(barrelAng);
 							}
 						}
 				}
 			gas = movementLimit-movementCounter;
 			hud.setGasLength(gas);
 			hud.update(container, game);
+			barrelAng = hud.getBarrelAng();
+			BarrelImage.setRotation(barrelAng);
 		}
 
 
