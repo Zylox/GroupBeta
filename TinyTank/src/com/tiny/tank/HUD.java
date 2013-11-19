@@ -161,7 +161,7 @@ public class HUD {
 			int posY = input.getMouseY();
 			
 			if (rweapons.isMouseOverButton(posX, posY)) {
-				System.out.println("rweapons!");
+				System.out.println("rweapons!" + " " + index);
 				shotIndex++;
 				if(shotIndex > shots.size()-1){
 					shotIndex=0;

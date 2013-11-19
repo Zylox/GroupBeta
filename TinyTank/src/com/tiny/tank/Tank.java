@@ -218,7 +218,7 @@ public class Tank {
 	 */
 	public void update(GameContainer container,StateBasedGame game, Camera cam) {
 
-		hud.update(container, game);
+		
 		Input input = container.getInput();
 		// state handeling if falling
 		if (isFalling) {
@@ -254,6 +254,7 @@ public class Tank {
 		{
 			//if the shoot key is pushed, initilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
+				shotIndex = hud.getShotIndex();
 				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(2*direction,5));
 				setShooting(true);
 				}
@@ -312,6 +313,7 @@ public class Tank {
 				}
 			gas = movementLimit-movementCounter;
 			hud.setGasLength(gas);
+			hud.update(container, game);
 		}
 
 
@@ -397,7 +399,7 @@ public class Tank {
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}
 		if(isTurn){
-		hud.render(container, game, g);
+			hud.render(container, game, g);
 		}
 	}
 
