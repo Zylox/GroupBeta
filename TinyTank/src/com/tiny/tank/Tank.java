@@ -265,7 +265,7 @@ public class Tank {
 				shotIndex = hud.getShotIndex();
 				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(2*direction,5));
 				setShooting(true);
-				}
+			}
 
 				
 			
