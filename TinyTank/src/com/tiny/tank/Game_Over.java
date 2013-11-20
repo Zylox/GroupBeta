@@ -49,8 +49,11 @@ public class Game_Over extends BasicGameState {
 		statsList1=Main_Gameplay.players.get(0).getStat().listOfStats();
 		statsList2=Main_Gameplay.players.get(1).getStat().listOfStats();
 		
+		
+		//display on the left if player 1 wins
+		//display on the right if player 2 wins
 		if( Integer.parseInt(statsList1.get(4)) > Integer.parseInt(statsList2.get(4))) {
-			setDisplayWinnerMessage( getNameOfPlayer1() +" Wins!");
+			setDisplayWinnerMessage( getNameOfPlayer1()+" Wins!");
 		} 
 		else if(Integer.parseInt(statsList1.get(4)) > Integer.parseInt(statsList2.get(4))) {
 			setDisplayWinnerMessage( getNameOfPlayer2() +" Wins!");
