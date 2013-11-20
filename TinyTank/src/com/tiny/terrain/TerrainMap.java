@@ -267,10 +267,13 @@ public class TerrainMap
 	
 	//gets if there is a collision of a point on the map
 	public boolean collision(Vector2f point)
-	{
+	{ 
 		
 		int x = (int)point.x;
 		int y = (int)point.y;
+		if(x > map.getWidth() || x < 0 || y > map.getHeight() || y < 0){
+			return false;
+		}
 		
 		if(map.getRGBA()[((x + (y * map.getTexWidth())) * 4)] == (byte)50)
 		{

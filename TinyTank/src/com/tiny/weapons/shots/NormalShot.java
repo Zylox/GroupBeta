@@ -63,9 +63,9 @@ public class NormalShot extends CircularShot{
 		//if collides with terrain
 		if(pointCollision()){
 			isAnimating = true;
-			while(pointCollision()){
+			/*while(pointCollision()){
 				pos.y-=1;
-			}
+			}*/
 			areaOfEffect = new Circle(pos.x,pos.y, initialRadius);
 		}
 		
@@ -124,11 +124,19 @@ public class NormalShot extends CircularShot{
 			//areaOfEffect.setCenterY(cam.scale*(pos.y-cam.pos.y));
 			areaOfEffect = new Circle(cam.transformScreenToCamX(pos.x),cam.transformScreenToCamY(pos.y),initialRadius*cam.getScale());
 			ArrayList<Tank> tanks = Main_Gameplay.players;
+			boolean didHit = false;
 			for(Tank t: tanks){
 				if(areaOfEffect.intersects(t.getHitbox())){
 					//add damage every tick
 					t.getStat().addToDamage(getDamage());
+					didHit = true;
 				}
+			}
+			
+			if(tanks.get(0).isTurn() && didHit){
+				tanks.get(0).setShotHit(true);
+			}else if(tanks.get(1).isTurn() && didHit){
+				tanks.get(1).setShotHit(true);
 			}
 			
 			g.fill(areaOfEffect);

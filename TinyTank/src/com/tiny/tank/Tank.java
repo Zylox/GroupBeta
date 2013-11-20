@@ -24,8 +24,6 @@ public class Tank {
 	//Constants of size of tank
 	private final int tankWidth = 20;
 	private final int tankHeight = 10;
-	private final int barrelWidth = 8;
-	private final int barrelHeight = 3;
 
 	//Constants of Tank
 	private final int movementLimit = 80;
@@ -72,7 +70,7 @@ public class Tank {
 	private boolean isTurn;
 	//stat objects
 	private Stat stat;
-
+	private boolean shotHit;
 	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index, HUD hud) throws SlickException {
 		TankInfo(playerX,playerY,barrelAng,health,shots,index,hud);
 	}
@@ -216,6 +214,9 @@ public class Tank {
 	 * Clean up for when turn is over.
 	 */
 	public void turnEnd(){
+		if(shotHit) {
+			getStat().setShots_hit(getStat().getShots_hit() + 1);
+		}
 		isTurn = false;
 	}
 
@@ -259,13 +260,19 @@ public class Tank {
 		//will execute if sitting essentially
 		if(!isShooting && !isFalling && !isMoving && isTurn)
 		{
-			//if the shoot key is pushed, initilize shot and start shooting
+			//if the shoot key is pushed, inilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
 				stat.addToMovement(getMovementCounter());
 				shotIndex = hud.getShotIndex();
-				getShots().get(shotIndex).init(new Vector2f(hitbox.getCenterX(),hitbox.getCenterY()),new Vector2f(2*direction,5));
+				power = hud.getPower();
+				float barrelA = Math.abs(hud.getBarrelAng());
+				float calcedPow = ((float)power)/100 * 8;
+				float xComp = (float) (calcedPow * Math.cos(Math.toRadians(barrelA)) * direction);
+				float yComp = (float) (calcedPow * Math.sin(Math.toRadians(barrelA)));
+				System.out.println(barrelA + " " + xComp + " " + yComp);				
+				getShots().get(shotIndex).init(new Vector2f(pos.x,pos.y),new Vector2f(xComp,yComp));
 				setShooting(true);
-				}
+			}
 
 				
 			
@@ -324,7 +331,6 @@ public class Tank {
 						}
 				}
 			gas = movementLimit-movementCounter;
-//			getStat().addToMovement(movementCounter);
 			hud.setGasLength(gas);
 			hud.update(container, game);
 			barrelAng = hud.getBarrelAng();
@@ -660,5 +666,15 @@ public class Tank {
 
 	public void setStat(Stat stat) {
 		this.stat = stat;
+	}
+
+
+	public boolean isShotHit() {
+		return shotHit;
+	}
+
+
+	public void setShotHit(boolean shotHit) {
+		this.shotHit = shotHit;
 	}
 }

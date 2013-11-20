@@ -15,6 +15,7 @@ public class Stat {
 	public Stat(int moves,int totalShots) {
 		setMovementLimitPerTurn(moves);
 		setShots_fired(totalShots);
+		setShots_hit(0);
 	}
 	public String[] titleOfStats() {
 		String[] stats={"","Number of hits","Number of moves","Number of Shots","Damage Taken "};

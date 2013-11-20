@@ -13,15 +13,15 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.tiny.guiComponents.Button;
 
 public class Game_Over extends BasicGameState {
-	private String nameOfPlayer1="Player 1";
-	private String nameOfPlayer2="Player 2";
+	private String nameOfPlayer1="Blue";
+	private String nameOfPlayer2="Red";
 	final int number_of_tanks=2;
 	private Button playButton;
 	private Button quitButton;
 	private Image background;
 	private int id;
 	private Input input;
-	private String winner="1";
+	private String displayWinnerMessage;
 	private int posX;
 	private int posY;
 	private String[] statTitles;
@@ -46,10 +46,22 @@ public class Game_Over extends BasicGameState {
 	}
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
-		statTitles=Main_Gameplay.players.get(0).getStat().titleOfStats();
-		
 		statsList1=Main_Gameplay.players.get(0).getStat().listOfStats();
 		statsList2=Main_Gameplay.players.get(1).getStat().listOfStats();
+		
+		if( Integer.parseInt(statsList1.get(4)) > Integer.parseInt(statsList2.get(4))) {
+			setDisplayWinnerMessage( getNameOfPlayer1() +" Wins!");
+		} 
+		else if(Integer.parseInt(statsList1.get(4)) > Integer.parseInt(statsList2.get(4))) {
+			setDisplayWinnerMessage( getNameOfPlayer2() +" Wins!");
+		}
+		else {
+			setDisplayWinnerMessage("It's a tie!");
+		}
+			
+		statTitles=Main_Gameplay.players.get(0).getStat().titleOfStats();
+		
+		
 	}
 	public void loadImages() throws SlickException{
 		
@@ -69,7 +81,7 @@ public class Game_Over extends BasicGameState {
 		quitButton.drawButton(g);
 		
 		
-		g.drawString("Player "+winner+" Wins!",100,175);
+		g.drawString(getDisplayWinnerMessage(),100,175);
 		//TODO: move score screen to be player 1 on the left and player 2 on the right
 		//have it fade out to this
 //		g.drawString("Player ",200,200);
@@ -115,6 +127,54 @@ public class Game_Over extends BasicGameState {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+
+
+	public String getWinner() {
+		return displayWinnerMessage;
+	}
+
+
+
+	public void setWinner(String winner) {
+		this.displayWinnerMessage = winner;
+	}
+
+
+
+	public String getDisplayWinnerMessage() {
+		return displayWinnerMessage;
+	}
+
+
+
+	public void setDisplayWinnerMessage(String displayWinnerMessage) {
+		this.displayWinnerMessage = displayWinnerMessage;
+	}
+
+
+
+	public String getNameOfPlayer1() {
+		return nameOfPlayer1;
+	}
+
+
+
+	public void setNameOfPlayer1(String nameOfPlayer1) {
+		this.nameOfPlayer1 = nameOfPlayer1;
+	}
+
+
+
+	public String getNameOfPlayer2() {
+		return nameOfPlayer2;
+	}
+
+
+
+	public void setNameOfPlayer2(String nameOfPlayer2) {
+		this.nameOfPlayer2 = nameOfPlayer2;
 	}
 
 	
