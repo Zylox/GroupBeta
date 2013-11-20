@@ -71,6 +71,9 @@ public class Tank {
 	//stat objects
 	private Stat stat;
 	private boolean shotHit;
+	private int damageThisTurn;
+	
+	
 	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index, HUD hud) throws SlickException {
 		TankInfo(playerX,playerY,barrelAng,health,shots,index,hud);
 	}
@@ -217,6 +220,9 @@ public class Tank {
 		if(shotHit) {
 			getStat().setShots_hit(getStat().getShots_hit() + 1);
 		}
+		//send turns total damage to Stat and then reset counter for next turn
+		getStat().addToDamage(getDamageThisTurn());
+		setDamageThisTurn(0);
 		isTurn = false;
 	}
 
@@ -502,6 +508,10 @@ public class Tank {
 		setMovementCounter(getMovementCounter()+1);
 	}
 	
+	public void addToDamage(int amount) {
+		setDamageThisTurn(amount + getDamageThisTurn() );
+	}
+	
 	/**
 	 * series of gets and sets to assign the variables of the tank
 	 * the given and calculated values
@@ -671,6 +681,16 @@ public class Tank {
 
 	public boolean isShotHit() {
 		return shotHit;
+	}
+
+
+	public int getDamageThisTurn() {
+		return damageThisTurn;
+	}
+
+
+	public void setDamageThisTurn(int damageThisTurn) {
+		this.damageThisTurn = damageThisTurn;
 	}
 
 

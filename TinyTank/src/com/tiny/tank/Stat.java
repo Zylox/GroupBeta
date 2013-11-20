@@ -20,24 +20,30 @@ public class Stat {
 		setMaxHit(0);
 	
 	}
+	//Holds title of stats. to add a new stat, just list it here and add it to the list 
 	public String[] titleOfStats() {
-		String[] stats={"","Number of hits","Number of moves","Number of Shots","Damage Taken "};
+		String[] stats={"", " Number of hits  ",
+							" Number of moves ",
+							" Number of Shots ",
+							"  Damage Taken   ", 
+							"     Max Hit     "};
 		return stats;
 	}
 	public ArrayList<String> listOfStats() {
 		ArrayList<String> stats=new ArrayList<String>();
 		stats.add("");
-		stats.add(Integer.toString(shots_hit));
+		stats.add(Integer.toString(getShots_hit()));
 		stats.add(Integer.toString(getTotalMoves()));
 		stats.add(Integer.toString(getShots_fired()));
 		stats.add(Integer.toString(getTotalDamage()));
+		stats.add(Integer.toString(getMaxHit()));
 		return stats;
 	}
 	
 	public void addToDamage(int amount) {
-//		if(amount > getMaxHit()) {
-//			setMaxHit(amount);
-//		}
+		if(amount > getMaxHit()) {
+			setMaxHit(amount);
+		}
 		setTotalDamage(getTotalDamage() + amount);
 		System.out.println(getTotalDamage());
 	}

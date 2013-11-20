@@ -128,7 +128,7 @@ public class NormalShot extends CircularShot{
 			for(Tank t: tanks){
 				if(areaOfEffect.intersects(t.getHitbox())){
 					//add damage every tick
-					t.getStat().addToDamage(getDamage());
+					t.addToDamage(getDamage());
 					didHit = true;
 				}
 			}

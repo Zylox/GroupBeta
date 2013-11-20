@@ -53,10 +53,10 @@ public class Game_Over extends BasicGameState {
 		//display on the left if player 1 wins
 		//display on the right if player 2 wins
 		if( Integer.parseInt(statsList1.get(4)) > Integer.parseInt(statsList2.get(4))) {
-			setDisplayWinnerMessage( getNameOfPlayer1()+" Wins!");
+			setDisplayWinnerMessage( getNameOfPlayer2()+" Wins!");
 		} 
 		else if(Integer.parseInt(statsList1.get(4)) > Integer.parseInt(statsList2.get(4))) {
-			setDisplayWinnerMessage( getNameOfPlayer2() +" Wins!");
+			setDisplayWinnerMessage( getNameOfPlayer1() +" Wins!");
 		}
 		else {
 			setDisplayWinnerMessage("It's a tie!");
