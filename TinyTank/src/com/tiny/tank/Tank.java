@@ -25,6 +25,9 @@ public class Tank {
 	private final int tankWidth = 20;
 	private final int tankHeight = 10;
 
+	//Constants of Tank
+	private final int movementLimit = 80;
+	
 	//animation end and the counter for it.
 	private final float animationLimit = 1;
 	private float animationCounter;
@@ -58,7 +61,6 @@ public class Tank {
 
 	//Only so much movement allowed per turn. 
 	private int movementCounter;
-	private int movementLimit;
 
 	//States
 	private boolean isMoving;
@@ -66,7 +68,9 @@ public class Tank {
 	private boolean isShooting;
 	//flag for if turn
 	private boolean isTurn;
-
+	//stat objects
+	private Stat stat;
+	private boolean shotHit;
 	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index, HUD hud) throws SlickException {
 		TankInfo(playerX,playerY,barrelAng,health,shots,index,hud);
 	}
@@ -89,14 +93,14 @@ public class Tank {
 	 *            Player number
 	 * @throws SlickException 
 	 */
-	public void TankInfo(float playerX, float playerY, float barrelAng,
-		int health, ArrayList<Shot> shots, int index, int power, int gas) throws SlickException {
+	public void TankInfo(float playerX, float playerY, float barrelAng,int health, ArrayList<Shot> shots, int index, int power, int gas) throws SlickException {
 		this.pos = new Vector2f(playerX, playerY);
 		this.barrelAng = barrelAng;
 		this.prevAng = barrelAng;
 		this.health = health;
 		this.index = index;
 		this.shots = shots;
+		this.stat = new Stat(getMovementLimit(),shots.size());
 		this.power = power;
 		this.gas = gas;
 		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
@@ -161,11 +165,14 @@ public class Tank {
 			isTurn = false;
 		}
 		//start animation over
+		resetAnimationCounter();
 		animationCounter = 0;
 		
 		setFirstPos();
 
 	}
+
+	
 
 	/**
 	 * Will set the position upon map creation. Puts it right on top of map
@@ -181,9 +188,9 @@ public class Tank {
 	 * This will allow for speed based attacks later (such as a movement booster).
 	 */
 	public void onTurnSwitch() {
-		movementCounter = 0;
+		setMovementCounter(0);;
 		animationCounter = 0;
-		movementLimit = 80;
+		
 		isTurn = true;
 		hud.onTurnSwitch(shots);
 	}
@@ -207,6 +214,9 @@ public class Tank {
 	 * Clean up for when turn is over.
 	 */
 	public void turnEnd(){
+		if(shotHit) {
+			getStat().setShots_hit(getStat().getShots_hit() + 1);
+		}
 		isTurn = false;
 	}
 
@@ -252,6 +262,7 @@ public class Tank {
 		{
 			//if the shoot key is pushed, inilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
+				stat.addToMovement(getMovementCounter());
 				shotIndex = hud.getShotIndex();
 				power = hud.getPower();
 				float barrelA = Math.abs(hud.getBarrelAng());
@@ -340,9 +351,10 @@ public class Tank {
 		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
 			//checks if player has used all movement alloted this turn
-			if (movementCounter < movementLimit) {
+			if (getMovementCounter() < getMovementLimit()) {
 				float tankMovement = .5f;
 				if (input.isKeyDown(Input.KEY_A)) {
+					incrementMovementCounter();
 					movementCounter += 1;
 					isMoving = true;
 					pos = movePos(-tankMovement, 0);
@@ -363,6 +375,8 @@ public class Tank {
 		}
 		//gas=movementLimit-movementCounter;
 	}
+
+	
 
 	/**
 	 * Does the actual movement and returns new position. 
@@ -479,6 +493,12 @@ public class Tank {
 		yRange[0] = top;
 		yRange[1] = bottom;
 		return yRange;
+	}
+	private void resetAnimationCounter() {
+		setAnimationCounter(0);
+	}
+	private void incrementMovementCounter() {
+		setMovementCounter(getMovementCounter()+1);
 	}
 	
 	/**
@@ -613,5 +633,47 @@ public class Tank {
 	
 	public void setTurn(boolean isTurn) {
 		this.isTurn = isTurn;
+	}
+
+	public int getMovementCounter() {
+		return movementCounter;
+	}
+
+	public void setMovementCounter(int movementCounter) {
+		this.movementCounter = movementCounter;
+	}
+
+	public int getMovementLimit() {
+		return movementLimit;
+	}
+
+	public float getAnimationCounter() {
+		return animationCounter;
+	}
+
+	public void setAnimationCounter(float animationCounter) {
+		this.animationCounter = animationCounter;
+	}
+
+
+
+	public Stat getStat() {
+		return stat;
+	}
+
+
+
+	public void setStat(Stat stat) {
+		this.stat = stat;
+	}
+
+
+	public boolean isShotHit() {
+		return shotHit;
+	}
+
+
+	public void setShotHit(boolean shotHit) {
+		this.shotHit = shotHit;
 	}
 }

@@ -8,6 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.tiny.tank.Camera;
 import com.tiny.tank.Main_Gameplay;
+import com.tiny.tank.Tank;
 
 public abstract class Shot {
 	
@@ -22,6 +23,7 @@ public abstract class Shot {
 	protected float animationStep;
 	protected float animationCounter;
 	protected String shotName;
+	protected int damage;
 
 
 	/**
@@ -147,6 +149,7 @@ public abstract class Shot {
 	/**
 	 * Cleanup and finishing shots.
 	 */
-	public abstract void finished();	
+	public abstract void finished();
+	public abstract void doDamge(Tank tank);
 	
 }
