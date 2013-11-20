@@ -14,8 +14,14 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.tiny.guiComponents.Button;
 
 public class Game_Over extends BasicGameState {
-	private String nameOfPlayer1="Blue";
-	private String nameOfPlayer2="Red";
+	public static final String NAME_OF_PLAYER_ONE="Blue";
+	public static final String NAME_OF_PLAYER_TWO="Red";
+	public static final String WINS=" WINS!";
+	public static final String TIE="It's a Tie!";
+	public static final int CASE_1=1;
+	public static final int CASE_2=2;
+	public static final int CASE_3=3;
+	
 	final int number_of_tanks=2;
 	private Button playButton;
 	private Button quitButton;
@@ -29,7 +35,7 @@ public class Game_Over extends BasicGameState {
 	int[] playerNumbers={1,2};//should be sent number of players and make a for loop to create array of numbers
 	private ArrayList<String> statsList1;
 	private ArrayList<String> statsList2;
-	
+	private int winner;
 	
 	
 	public Game_Over(int id) {
@@ -56,14 +62,14 @@ public class Game_Over extends BasicGameState {
 		statTitles=Main_Gameplay.players.get(0).getStat().titleOfStats();
 		
 		int index=statTitles.indexOf(Stat.DAMAGE_TAKEN);
-		if( Integer.parseInt(statsList1.get(4)) > Integer.parseInt(statsList2.get(4))) {
-			setDisplayWinnerMessage( getNameOfPlayer2()+" Wins!");
+		if( Integer.parseInt(statsList1.get(index)) > Integer.parseInt(statsList2.get(index))) {
+			setWinner(CASE_2);
 		} 
-		else if(Integer.parseInt(statsList1.get(4)) < Integer.parseInt(statsList2.get(4))) {
-			setDisplayWinnerMessage( getNameOfPlayer1() +" Wins!");
+		else if(Integer.parseInt(statsList1.get(index)) < Integer.parseInt(statsList2.get(index))) {
+			setWinner(CASE_1);
 		}
 		else {
-			setDisplayWinnerMessage("It's a tie!");
+			setWinner(CASE_3);
 		}
 			
 		
@@ -87,13 +93,25 @@ public class Game_Over extends BasicGameState {
 		playButton.drawButton(g);
 		quitButton.drawButton(g);
 		
+		switch(getWinner()){
+			case CASE_1: g.drawString(NAME_OF_PLAYER_ONE + WINS ,100,175);
+			break;
+			case CASE_2: g.drawString(NAME_OF_PLAYER_TWO + WINS ,700,175);
+			break;
+			default: g.drawString(TIE ,350,175);
+		}
 		
-		g.drawString(getDisplayWinnerMessage(),100,175);
+			
+			
+	
+		
+		
+		
 		//TODO: move score screen to be player 1 on the left and player 2 on the right
 		//have it fade out to this
 //		g.drawString("Player ",200,200);
-		g.drawString(nameOfPlayer1,100,250);
-		g.drawString(nameOfPlayer2,700,250);
+		g.drawString(NAME_OF_PLAYER_ONE,100,250);
+		g.drawString(NAME_OF_PLAYER_TWO,700,250);
 		for(i=1;i<numberOfStats;i++) {
 				g.drawString(statTitles.get(i),350,250+20*i);
 				g.drawString(statsList1.get(i),100,250+20*i);
@@ -103,6 +121,9 @@ public class Game_Over extends BasicGameState {
 		
 		
 	}
+
+
+
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame game, int arg2)
@@ -124,7 +145,15 @@ public class Game_Over extends BasicGameState {
 		return id;
 	}
 
+	public String getDisplayWinnerMessage() {
+		return displayWinnerMessage;
+	}
 
+
+
+	public void setDisplayWinnerMessage(String displayWinnerMessage) {
+		this.displayWinnerMessage = displayWinnerMessage;
+	}
 
 	public int getId() {
 		return id;
@@ -138,52 +167,14 @@ public class Game_Over extends BasicGameState {
 
 
 
-	public String getWinner() {
-		return displayWinnerMessage;
+	public int getWinner() {
+		return winner;
 	}
 
 
 
-	public void setWinner(String winner) {
-		this.displayWinnerMessage = winner;
+	public void setWinner(int winner) {
+		this.winner = winner;
 	}
-
-
-
-	public String getDisplayWinnerMessage() {
-		return displayWinnerMessage;
-	}
-
-
-
-	public void setDisplayWinnerMessage(String displayWinnerMessage) {
-		this.displayWinnerMessage = displayWinnerMessage;
-	}
-
-
-
-	public String getNameOfPlayer1() {
-		return nameOfPlayer1;
-	}
-
-
-
-	public void setNameOfPlayer1(String nameOfPlayer1) {
-		this.nameOfPlayer1 = nameOfPlayer1;
-	}
-
-
-
-	public String getNameOfPlayer2() {
-		return nameOfPlayer2;
-	}
-
-
-
-	public void setNameOfPlayer2(String nameOfPlayer2) {
-		this.nameOfPlayer2 = nameOfPlayer2;
-	}
-
-	
 	
 }
