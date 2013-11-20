@@ -74,8 +74,9 @@ public class Stat {
 		if(getShots_hit() == 0) {
 			return "0%";
 		}
-		float percentage=getShots_hit()/getShots_fired();
-		return String.valueOf(percentage) + "%";
+		System.out.println( "shots fired" + getShots_fired() + " " + getShots_hit());
+		float percentage = ((float)getShots_hit() / (float)getShots_fired());
+		return String.valueOf(percentage*100) + "%";
 	}
 	
 	public int getTotalMoves() {

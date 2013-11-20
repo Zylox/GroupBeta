@@ -135,8 +135,10 @@ public class NormalShot extends CircularShot{
 			
 			if(tanks.get(0).isTurn() && didHit){
 				tanks.get(0).setShotHit(true);
+				System.out.println("player 1 hit");
 			}else if(tanks.get(1).isTurn() && didHit){
 				tanks.get(1).setShotHit(true);
+				System.out.println("player 2 hit");
 			}
 			
 			g.fill(areaOfEffect);
