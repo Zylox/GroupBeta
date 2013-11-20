@@ -335,7 +335,7 @@ public class Tank {
 	 */
 	public void move(Input input) {
 		
-			
+
 	
 		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
