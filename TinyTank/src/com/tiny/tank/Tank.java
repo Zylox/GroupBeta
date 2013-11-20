@@ -365,7 +365,7 @@ public class Tank {
 				{ 
 					if (!barrelNoise.playing()) 
 					{ 
-						barrelNoise.loop(); 
+						barrelNoise.loop(.2f, .4f); 
 					} 
 		
 				} else 
