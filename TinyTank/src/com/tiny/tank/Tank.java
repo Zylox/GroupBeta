@@ -276,6 +276,21 @@ public class Tank {
 			
 				BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2,BarrelImage.getHeight());
 
+				
+				if(input.isKeyDown(Input.KEY_Q)){
+					if(power>0){
+						power--;
+						hud.setPower(power);
+					}
+				}
+
+				if(input.isKeyDown(Input.KEY_E)){
+					if(power < 100){
+						power++;
+						hud.setPower(power);
+					}
+				}
+				
 				// angle the barrel up	
 				if(input.isKeyDown(Input.KEY_W))
 				{
