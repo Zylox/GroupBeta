@@ -123,6 +123,14 @@ public class NormalShot extends CircularShot{
 			//areaOfEffect.setCenterX(cam.scale*(pos.x-cam.pos.x));
 			//areaOfEffect.setCenterY(cam.scale*(pos.y-cam.pos.y));
 			areaOfEffect = new Circle(cam.transformScreenToCamX(pos.x),cam.transformScreenToCamY(pos.y),initialRadius*cam.getScale());
+			ArrayList<Tank> tanks = Main_Gameplay.players;
+			for(Tank t: tanks){
+				if(areaOfEffect.intersects(t.getHitbox())){
+					//add damage every tick
+					t.getStat().addToDamage(getDamage());
+				}
+			}
+			
 			g.fill(areaOfEffect);
 			
 			return;

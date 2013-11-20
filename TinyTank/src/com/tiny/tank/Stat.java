@@ -30,7 +30,10 @@ public class Stat {
 		return stats;
 	}
 	
-	
+	public void addToDamage(int amount) {
+		setTotalDamage(getTotalDamage() + amount);
+		System.out.println(getTotalDamage());
+	}
 	public Boolean calculate_place(){
 		return true;
 	}
