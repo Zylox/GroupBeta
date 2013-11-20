@@ -7,7 +7,10 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Sound;
+
 import org.newdawn.slick.SlickException;
+
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -19,26 +22,30 @@ public class Main_Menu extends BasicGameState {
 	private Button quitButton;
 	private Image background;
 	private int id;
-
+	private Sound Click;
 	private Input input;
 
+	
 	public Main_Menu(int id) {
 		this.id = id;
+		
 	}
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		input = container.getInput();
 		
+		input = container.getInput();
+
 
 	}
 	
 	public void loadImages() throws SlickException{
 		background = new Image("res/main.png");
-
 		playButton = new Button("res/play_button.png", 290, 250);
 		quitButton = new Button("res/exit_button.png", 290, 400);
+		Click = new Sound("res/SoundFX/button-20.ogg");
+		
 	}
 
 	@Override
@@ -56,7 +63,7 @@ public class Main_Menu extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		
-
+		
 
 		container.setShowFPS(true);
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
@@ -64,9 +71,11 @@ public class Main_Menu extends BasicGameState {
 			int posY = input.getMouseY();
 			
 			if (playButton.isMouseOverButton(posX, posY)) {
+				Click.play();
 				game.enterState((STATES.SELECT_WEAPONS_MENU).getId());
 			}
 			else if (quitButton.isMouseOverButton(posX, posY)) {
+				Click.play();
 				System.exit(0);
 			}
 		}
