@@ -12,10 +12,12 @@ public class Stat {
 	private int totalDamage;
 	private int movementLimitPerTurn;
 	private int maxHit;
-	
+	private int shotsLeft;
+	private int totalShots;
 	public Stat(int moves,int totalShots) {
 		setMovementLimitPerTurn(moves);
-		setShots_fired(totalShots);
+		
+		setTotalShots(totalShots);
 		setShots_hit(0);
 		setMaxHit(0);
 	
@@ -47,8 +49,8 @@ public class Stat {
 		setTotalDamage(getTotalDamage() + amount);
 		System.out.println(getTotalDamage());
 	}
-	public Boolean calculate_place(){
-		return true;
+	public void updateShots_fired(int shotsLeft) {
+		setShots_fired(getTotalShots()-shotsLeft);
 	}
 	public void addToMovement(int turnMoves){
 		setTotalMoves(turnMoves + getTotalMoves());
@@ -117,6 +119,18 @@ public class Stat {
 	}
 	public void setMaxHit(int maxHit) {
 		this.maxHit = maxHit;
+	}
+	public int getShotsLeft() {
+		return shotsLeft;
+	}
+	public void setShotsLeft(int shotsLeft) {
+		this.shotsLeft = shotsLeft;
+	}
+	public int getTotalShots() {
+		return totalShots;
+	}
+	public void setTotalShots(int totalShots) {
+		this.totalShots = totalShots;
 	}
 	
 }
