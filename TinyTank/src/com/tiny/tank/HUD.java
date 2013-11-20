@@ -150,17 +150,26 @@ public class HUD {
 				int pos_Y = input.getMouseY();
 			
 			if (rangle.isMouseOverButton(pos_X, pos_Y)) {
-				System.out.println("rangle!");
-				if(barrelAng < 30){
+				//System.out.println("rangle!");
+				if(barrelAng < 30 && index == 1){
 					barrelAng++;
+				}
+				
+				if(barrelAng > -30 && index == 2){
+					barrelAng--;
 				}
 			}
 			else if (langle.isMouseOverButton(pos_X, pos_Y)) {
 				System.out.println("langle!");
 
-				if(barrelAng > -90){
+				if(barrelAng > -90 && index == 1){
 					barrelAng--;
 				}
+				
+				if(barrelAng < 90 && index == 2){
+					barrelAng++;
+				}
+				
 			}
 			else if (rpower.isMouseOverButton(pos_X, pos_Y)) {
 				System.out.println("rpower!");

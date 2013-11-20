@@ -106,8 +106,6 @@ public class Tank {
 		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
 		
 		// player1 looks right, player 2 looks left
-		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510), );
-		//player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
 			try {
@@ -421,11 +419,15 @@ public class Tank {
 		if(isShooting){
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}
+		/*
 		if(isTurn){
 			hud.render(container, game, g);
-		}
+		}*/
 	}
 
+	public void renderHud(GameContainer container, StateBasedGame game, Graphics g, Camera cam){
+		hud.render(container, game, g);
+	}
 	/**
 	 * Checks if tanks collide with terrain
 	 * 

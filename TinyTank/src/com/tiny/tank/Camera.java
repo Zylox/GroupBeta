@@ -14,11 +14,26 @@ public class Camera {
 	private boolean isSmoothing;
 	private Vector2f transitionRemainder;
 	private float transitionIncrement;
-	
+
+	/**
+	 * The class used to scale and move the objects on the screen in a viewport
+	 * @param x Top left corner x
+	 * @param y top left corner y
+	 * @param width width of viewport
+	 * @param height height of viewport
+	 * @param scale scale to draw to
+	 */
 	public Camera(float x, float y, float width, float height, float scale ){
 		this(new Vector2f(x,y), new Vector2f(width,height),scale);
 	}
 	
+	/**
+	 * The class used to scale and move the objects on the screen in a viewport
+	 * @param pos top left corner
+	 * @param width width of viewport
+	 * @param height height of viewport
+	 * @param scale scale to draw to
+	 */
 	public Camera(Vector2f pos, Vector2f screenSize, float scale){
 		this.pos = pos;
 		this.scale = scale;
@@ -30,24 +45,39 @@ public class Camera {
 		
 	}
 	
-	
+	/**
+	 * Does any updating that needs to be done
+	 */
 	public void update(){
 		if(isSmoothing){
 			smoothMove();
 		}
 	}
 	
+	/**
+	 * Adjusts the scale and resultant position
+	 * @param scaleChange
+	 */
 	public void adjustScale(float scaleChange){
 		scale+=scaleChange;
 		mostRecentScaleChange = scaleChange;
 		adjustPos(0,0);
 	}
 
-	
+	/**
+	 * transforms the x position based on the x position
+	 * @param x x position to transform
+	 * @return
+	 */
 	public float transformScreenToCamX(float x){
 		return (x-pos.x)*scale;
 	}
 	
+	/**
+	 * transforms the x position 
+	 * @param y y position to transform
+	 * @return
+	 */
 	public float transformScreenToCamY(float y){
 		return (y-pos.y)*scale;
 	}
@@ -93,6 +123,11 @@ public class Camera {
 		smoothTransition(new Vector2f(x,y), transitionIncrement);
 	}
 	
+	/**
+	 * 
+	 * @param transitionDis
+	 * @param transitionIncrement
+	 */
 	public void smoothTransition(Vector2f transitionDis, float transitionIncrement){
 		this.transitionIncrement = transitionIncrement;
 		this.transitionRemainder.x = transitionDis.x;
@@ -174,6 +209,9 @@ public class Camera {
 	
 	public boolean adjustPosY(float y){
 		pos.y+=y;
+		if(pos.y + screenSize.y*(1/scale) > screenSize.y){
+			pos.y = screenSize.y - (screenSize.y *(1/scale));
+		}
 		return true;
 	}
 	
