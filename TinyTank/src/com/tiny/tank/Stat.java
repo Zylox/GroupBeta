@@ -74,7 +74,7 @@ public class Stat {
 		if(getShots_hit() == 0) {
 			return "0%";
 		}
-		float percentage=getShots_fired()/getShots_hit();
+		float percentage=getShots_hit()/getShots_fired();
 		return String.valueOf(percentage) + "%";
 	}
 	
