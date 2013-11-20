@@ -9,7 +9,7 @@ public class Stat {
 	public static final String NUMBER_OF_SHOTS="Number of Shots";
 	public static final String NUMBER_OF_SHOTS_LEFT="Number of Shots Left";
 	public static final String DAMAGE_TAKEN="Damge Taken";
-	public static final String MAX_HIT="Max Hit";
+	public static final String HIT_PERCENTAGE="Hit Percentage";
 	
 	private int totalMoves;
 	private int shots_hit;
@@ -37,6 +37,7 @@ public class Stat {
 			stats.add(NUMBER_OF_SHOTS);
 			stats.add(NUMBER_OF_SHOTS_LEFT);
 			stats.add(DAMAGE_TAKEN);
+			stats.add(HIT_PERCENTAGE);
 		return stats;
 	}
 	public ArrayList<String> listOfStats() {
@@ -47,6 +48,7 @@ public class Stat {
 		stats.add(Integer.toString(getShots_fired()));
 		stats.add(Integer.toString(getShotsLeft()));
 		stats.add(Integer.toString(getTotalDamage()));
+		stats.add(hitPercentage());
 		return stats;
 	}
 	
@@ -65,7 +67,14 @@ public class Stat {
 		setTotalMoves(turnMoves + getTotalMoves());
 		System.out.print( " total Moves: " + getTotalMoves() + "\n");
 	}
-
+	public String hitPercentage(){
+		if(getShots_hit() == 0) {
+			return "0%";
+		}
+		float percentage=getShots_fired()/getShots_hit();
+		return String.valueOf(percentage) + "%";
+	}
+	
 	public int getTotalMoves() {
 		return totalMoves;
 	}
