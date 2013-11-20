@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,6 +19,7 @@ public class Pause_Menu extends BasicGameState {
 	private int id; 
 	int posX;
 	int posY;
+	private Sound click;
 
 	private Input input;
 	
@@ -49,9 +51,10 @@ public class Pause_Menu extends BasicGameState {
 		input = container.getInput();
 	}
 	
-	public void loadImages(){
+	public void loadImages() throws SlickException{
 		playButton=new Button("res/play_button.png",300,100);
 		menuButton=new Button("res/back_button.png",300,300);
+		click = new Sound("res/SoundFX/button-20.ogg");
 	}
 
 	@Override
@@ -71,9 +74,11 @@ public class Pause_Menu extends BasicGameState {
             posX = input.getMouseX();
             posY = input.getMouseY();
             if (playButton.isMouseOverButton(posX, posY)) {
+            	  	click.play();
                     game.enterState(STATES.MAIN_GAMEPLAY.getId());
             }
             if (menuButton.isMouseOverButton(posX, posY)) {
+            		click.play();
                     game.enterState(STATES.MAIN_MENU.getId());
             }
 	    }

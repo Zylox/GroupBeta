@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -28,6 +29,7 @@ public class Game_Over extends BasicGameState {
 	int[] playerNumbers={1,2};//should be sent number of players and make a for loop to create array of numbers
 	private ArrayList<String> statsList1;
 	private ArrayList<String> statsList2;
+	private Sound click;
 	
 	
 	
@@ -66,9 +68,10 @@ public class Game_Over extends BasicGameState {
 	public void loadImages() throws SlickException{
 		
 		background = new Image("res/GameOver.png");
-		
 		playButton = new Button("res/play_button.png", 500, 500);
 		quitButton = new Button("res/exit_button.png", 100, 500);
+		
+		click = new Sound("res/SoundFX/button-20.ogg");
 	}
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
@@ -104,9 +107,11 @@ public class Game_Over extends BasicGameState {
             posX = input.getMouseX();
             posY = input.getMouseY();
             if (playButton.isMouseOverButton(posX, posY)) {
+            		click.play();
                     game.enterState(STATES.SELECT_WEAPONS_MENU.getId());
             }
             if (quitButton.isMouseOverButton(posX, posY)) {
+            		click.play();
                     System.exit(0);
             }
 	    }

@@ -6,7 +6,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.Renderable;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -53,7 +52,9 @@ public class Tank {
 	private Image image;
 	private Image originalBarrel;
 	private Image BarrelImage;
-
+	private Sound ShotSound = null;
+	private Sound tankSound = null;
+	private Sound barrelNoise = null;
 	
 	// x and y ranges of numbers. Will be usefull when we get rotations
 	private float[] xRange;
@@ -103,6 +104,10 @@ public class Tank {
 		this.stat = new Stat(getMovementLimit(),shots.size());
 		this.power = power;
 		this.gas = gas;
+		ShotSound = new Sound("res/SoundFX/Tank_Shooting.ogg");
+		tankSound = new Sound("res/SoundFX/tank_tracks.ogg");
+		barrelNoise = new Sound("res/SoundFX/highPitched.ogg");
+		
 		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
 		
 		// player1 looks right, player 2 looks left
@@ -114,6 +119,7 @@ public class Tank {
 				originalImage = new Image("res/BlueTank.png");
 				originalImage.setFilter(Image.FILTER_NEAREST);
 				image = originalImage.getScaledCopy(tankWidth, tankHeight);
+				
 				
 				//barrel (separate so it can change angle)
 				originalBarrel = new Image("res/BlueBarrel.png");
@@ -261,6 +267,7 @@ public class Tank {
 			//if the shoot key is pushed, inilize shot and start shooting
 			if(input.isKeyPressed(Input.KEY_SPACE)){
 				stat.addToMovement(getMovementCounter());
+				ShotSound.play(.9f, .8f);
 				shotIndex = hud.getShotIndex();
 				power = hud.getPower();
 				float barrelA = Math.abs(hud.getBarrelAng());
@@ -269,6 +276,7 @@ public class Tank {
 				float yComp = (float) (calcedPow * Math.sin(Math.toRadians(barrelA)));
 				getShots().get(shotIndex).init(new Vector2f(pos.x,pos.y),new Vector2f(xComp,yComp));
 				setShooting(true);
+			
 			}
 
 				
@@ -322,6 +330,7 @@ public class Tank {
 					// angle the barrel Down
 				if(input.isKeyDown(Input.KEY_S))
 				{
+					
 					// facing left
 					if (direction == -1)
 						{
@@ -342,6 +351,22 @@ public class Tank {
 							}
 						}
 				}
+				
+				// play barrel moving sound 
+				if (input.isKeyDown(Input.KEY_S)||input.isKeyDown(Input.KEY_W)) 
+				{ 
+					if (!barrelNoise.playing()) 
+					{ 
+						barrelNoise.loop(); 
+					} 
+		
+				} else 
+					{ 
+						if (barrelNoise.playing()) 
+						{ 
+							barrelNoise.stop(); 
+						} 
+					} 
 			gas = movementLimit-movementCounter;
 			hud.setGasLength(gas);
 			hud.update(container, game);
@@ -358,7 +383,7 @@ public class Tank {
 	 * @param input
 	 */
 	public void move(Input input) {
-
+		
 		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
 			//checks if player has used all movement alloted this turn
@@ -378,11 +403,33 @@ public class Tank {
 					isFalling = true;
 					gas = movementLimit-movementCounter;
 				} else {
+
 					isMoving = false;
 				}
 			}else{
+				
 				isMoving = false;
 			}
+			
+			// play tank moving sound 
+			if (isMoving == true) 
+			{ 
+				if (!tankSound.playing()) 
+				{ 
+				tankSound.loop(); 
+				} 
+	
+			} else 
+				{ 
+					if (tankSound.playing()) 
+					{ 
+						tankSound.stop(); 
+					} 
+				} 
+			
+
+			
+			
 		}
 		//gas=movementLimit-movementCounter;
 	}
@@ -432,6 +479,8 @@ public class Tank {
 		if(isShooting){
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}
+		
+
 		/*
 		if(isTurn){
 			hud.render(container, game, g);
