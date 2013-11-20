@@ -11,11 +11,14 @@ public class Stat {
 	private int total_hp;
 	private int totalDamage;
 	private int movementLimitPerTurn;
+	private int maxHit;
 	
 	public Stat(int moves,int totalShots) {
 		setMovementLimitPerTurn(moves);
 		setShots_fired(totalShots);
 		setShots_hit(0);
+		setMaxHit(0);
+	
 	}
 	public String[] titleOfStats() {
 		String[] stats={"","Number of hits","Number of moves","Number of Shots","Damage Taken "};
@@ -32,6 +35,9 @@ public class Stat {
 	}
 	
 	public void addToDamage(int amount) {
+//		if(amount > getMaxHit()) {
+//			setMaxHit(amount);
+//		}
 		setTotalDamage(getTotalDamage() + amount);
 		System.out.println(getTotalDamage());
 	}
@@ -100,4 +106,11 @@ public class Stat {
 	public void setMovementLimitPerTurn(int movementLimitPerTurn) {
 		this.movementLimitPerTurn = movementLimitPerTurn;
 	}
+	public int getMaxHit() {
+		return maxHit;
+	}
+	public void setMaxHit(int maxHit) {
+		this.maxHit = maxHit;
+	}
+	
 }
