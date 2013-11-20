@@ -109,8 +109,6 @@ public class Tank {
 		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510));
 		
 		// player1 looks right, player 2 looks left
-		//this.hud = new HUD(barrelAng, power, gas, health, shots, index, new Vector2f(0,510), );
-		//player1 looks right, player 2 looks left
 		if (index == 1) {
 			direction = 1;
 			try {
@@ -286,6 +284,21 @@ public class Tank {
 			
 				BarrelImage.setCenterOfRotation(BarrelImage.getWidth()/2,BarrelImage.getHeight());
 
+				
+				if(input.isKeyDown(Input.KEY_Q)){
+					if(power>0){
+						power--;
+						hud.setPower(power);
+					}
+				}
+
+				if(input.isKeyDown(Input.KEY_E)){
+					if(power < 100){
+						power++;
+						hud.setPower(power);
+					}
+				}
+				
 				// angle the barrel up	
 				if(input.isKeyDown(Input.KEY_W))
 				{
@@ -353,9 +366,7 @@ public class Tank {
 	 * @param input
 	 */
 	public void move(Input input) {
-		
 
-	
 		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
 			//checks if player has used all movement alloted this turn
@@ -429,11 +440,15 @@ public class Tank {
 		if(isShooting){
 			getShots().get(shotIndex).render(container, game, g, cam);
 		}
+		/*
 		if(isTurn){
 			hud.render(container, game, g);
-		}
+		}*/
 	}
 
+	public void renderHud(GameContainer container, StateBasedGame game, Graphics g, Camera cam){
+		hud.render(container, game, g);
+	}
 	/**
 	 * Checks if tanks collide with terrain
 	 * 

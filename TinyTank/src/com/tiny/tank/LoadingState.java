@@ -31,8 +31,10 @@ public class LoadingState extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
+		//Turns of the fps so that it doesnt show on splash screen
 		container.setShowFPS(false);
 		splash.draw();
+		//lets the update know that the splash has been rendered;
 		rendered = true;
 		
 	}
@@ -41,6 +43,7 @@ public class LoadingState extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 		// TODO Auto-generated method stub
+		//if the splash screen is displayed, load other images
 		if (rendered) {
 			((Main_Menu) STATES.MAIN_MENU.getState()).loadImages();
 			((Pause_Menu) STATES.PAUSE_MENU.getState()).loadImages();

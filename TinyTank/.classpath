@@ -12,5 +12,7 @@
 			<attribute name="javadoc_location" value="http://slick.ninjacave.com/javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/jorbis-0.0.17-1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -109,6 +109,12 @@ public class Main_Gameplay extends BasicGameState{
 		for(int i = 0; i < numOfPlayers; i++){
 			players.get(i).render(container, game, g, cam);
 		}
+		if(players.get(0).isTurn()){
+			players.get(0).renderHud(container, game, g, cam);
+		}
+		if(players.get(1).isTurn()){
+			players.get(1).renderHud(container, game, g, cam);
+		}
 
 		
 	}
@@ -120,20 +126,21 @@ public class Main_Gameplay extends BasicGameState{
 	public void update(GameContainer container, StateBasedGame game, int delta)
 			throws SlickException {
 
+		/*
 		if(input.isKeyPressed(Input.KEY_Q)){
 			//regenerates terrain//for testing only
 			map = new TerrainMap(800, container.getHeight());
 			players = ((Select_Weapons_Menu) STATES.SELECT_WEAPONS_MENU.getState()).getTanks();
 		
-		}
+		}*/
 		/** When p is pressed, go the the pause menu*/
 		if(input.isKeyDown(Input.KEY_P)) {
 			game.enterState(STATES.PAUSE_MENU.getId());
 		}
-		
+		/*
 		if(input.isKeyDown(Input.KEY_ESCAPE)) {
 			game.enterState(STATES.GAME_OVER.getId());
-		}
+		}*/
 		//for now t will be quit game
 //		if(input.isKeyDown(KEY_T)) {
 //			game.enterState(STATES.GAME_OVER.getId());
@@ -147,6 +154,7 @@ public class Main_Gameplay extends BasicGameState{
 		//if(timeCounter>timeStep && input.isKeyPressed(Input.KEY_LSHIFT)){
 		if(timeCounter>timeStep){
 
+			//updates camera
 			cam.update();
 			
 			//updates players and shots
@@ -160,7 +168,6 @@ public class Main_Gameplay extends BasicGameState{
 			players.get(playersTurnIndex).move(input);
 
 			
-			//test click bomb
 			
 			if(input.isKeyDown(Input.KEY_UP)){
 				cam.adjustPosY(-5);
@@ -177,10 +184,6 @@ public class Main_Gameplay extends BasicGameState{
 			}
 			
 			
-			/*
-			if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)){
-				cam.setPos(new Vector2f(cam.getPos().x+5, cam.getPos().y));
-			}*/
 					
 			//if not players turn, switch players
 			if(!players.get(playersTurnIndex).isTurn()){
@@ -198,6 +201,7 @@ public class Main_Gameplay extends BasicGameState{
 			timeCounter-=timeStep;
 		}
 
+		//Game is over when the shots are 0
 		if(players.get(playersTurnIndex).getShots().size()==0) {
 			game.enterState(STATES.GAME_OVER.getId(), new FadeOutTransition(), new FadeInTransition());
 		}
