@@ -32,7 +32,7 @@ public class Game_Over extends BasicGameState {
 	private int posX;
 	private int posY;
 	private ArrayList<String> statTitles;
-	int[] playerNumbers={1,2};//should be sent number of players and make a for loop to create array of numbers
+	int[] playerNumbers={1,2};
 	private ArrayList<String> statsList1;
 	private ArrayList<String> statsList2;
 	private int winner;
@@ -49,7 +49,6 @@ public class Game_Over extends BasicGameState {
 			throws SlickException {
 		input=container.getInput();
 		
-//		Main_Gameplay.players.get(0).getStat();
 	}
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) {
@@ -57,8 +56,9 @@ public class Game_Over extends BasicGameState {
 		statsList2=Main_Gameplay.players.get(1).getStat().listOfStats();
 		
 		
-		//display on the left if player 1 wins
-		//display on the right if player 2 wins
+		/**Compares damage done
+		 * Whichever player has less damage, wins
+		 * Ties are possible */
 		statTitles=Main_Gameplay.players.get(0).getStat().titleOfStats();
 		
 		int index=statTitles.indexOf(Stat.DAMAGE_TAKEN);
@@ -72,9 +72,6 @@ public class Game_Over extends BasicGameState {
 			setWinner(CASE_3);
 		}
 			
-		
-		
-		
 	}
 	public void loadImages() throws SlickException{
 		
@@ -85,14 +82,16 @@ public class Game_Over extends BasicGameState {
 	}
 	@Override
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
-		int i;
-		int j;
 		int numberOfStats=statTitles.size();
 		
 		background.draw();
 		playButton.drawButton(g);
 		quitButton.drawButton(g);
 		
+		/**
+		 * Displays the winner or if there is a tie 
+		 * Displays above the player that won
+		 */
 		switch(getWinner()){
 			case CASE_1: g.drawString(NAME_OF_PLAYER_ONE + WINS ,100,175);
 			break;
@@ -102,17 +101,9 @@ public class Game_Over extends BasicGameState {
 		}
 		
 			
-			
-	
-		
-		
-		
-		//TODO: move score screen to be player 1 on the left and player 2 on the right
-		//have it fade out to this
-//		g.drawString("Player ",200,200);
 		g.drawString(NAME_OF_PLAYER_ONE,100,250);
 		g.drawString(NAME_OF_PLAYER_TWO,700,250);
-		for(i=1;i<numberOfStats;i++) {
+		for(int i=1;i<numberOfStats;i++) {
 				g.drawString(statTitles.get(i),350,250+20*i);
 				g.drawString(statsList1.get(i),100,250+20*i);
 				g.drawString(statsList2.get(i),700,250+20*i);
@@ -123,7 +114,9 @@ public class Game_Over extends BasicGameState {
 	}
 
 
-
+	/**
+	 * Buttons for starting a new game or exiting the game
+	 */
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame game, int arg2)

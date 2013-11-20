@@ -28,7 +28,10 @@ public class Stat {
 		setShots_hit(0);
 		setMaxHit(0);
 	}
-	//Holds title of stats. to add a new stat, just list it here and add it to the list 
+	/**
+	 * Holds title of stats. to add a new stat, just list it here and add it to the list 
+	 * 
+	 */
 	public ArrayList<String> titleOfStats() {
 		ArrayList<String> stats=new ArrayList<String>();
 			stats.add("");
