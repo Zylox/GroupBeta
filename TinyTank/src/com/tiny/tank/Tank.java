@@ -358,9 +358,7 @@ public class Tank {
 	 * @param input
 	 */
 	public void move(Input input) {
-		
 
-	
 		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
 			//checks if player has used all movement alloted this turn
