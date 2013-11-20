@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.ImageBuffer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import com.tiny.tank.Camera;
@@ -28,9 +29,11 @@ public class TerrainMap
 	private Image image;
 	private int height;
 	private int width;
-
+	
 	private int[] linearHeightmap;
 
+	
+	private Sound explosion = null;
 	
 	//////// Cloud declarations 
 	private String[] CloudArray;
@@ -75,6 +78,13 @@ public class TerrainMap
 		height = y;
 		map = generate(x,y);
 		image= map.getImage();	
+		try {
+			explosion = new Sound("res/SoundFX/explosion.ogg");
+		} catch (SlickException e1) {
+		
+			e1.printStackTrace();
+		}
+		
 		
 /////////////////////////////////////////////////////////
 ///////////// Code for clouds
@@ -139,7 +149,8 @@ public class TerrainMap
 
 
 			}	
-				
+			
+		
 /////////////
 /////////////////////////////////////////////////
 
@@ -165,6 +176,10 @@ public class TerrainMap
 		int k = 2*y/3;
 		float tolerance = 0;
 		int change = 3;
+		
+		
+		
+		
 		for(int i = 0; i<x; i++)
 		{
 			tolerance += ran.nextFloat()*randRange-randRange/2;		
@@ -259,7 +274,10 @@ public class TerrainMap
 	 */
 	public void update()
 	{
-		//TODO
+		// play explosion sound
+		explosion.play();
+		
+		
 		image = map.getImage();
 
 		

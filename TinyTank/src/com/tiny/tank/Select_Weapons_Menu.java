@@ -10,6 +10,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -43,6 +44,8 @@ public class Select_Weapons_Menu extends BasicGameState
 	private ArrayList<SimpleTempButton> buttons;
 	private ArrayList<SimpleTempButton> p1weapons;
 	private ArrayList<SimpleTempButton> p2weapons;
+	private Sound click = null;
+	
 	
 		public Select_Weapons_Menu(int id)
 			{
@@ -66,6 +69,7 @@ public class Select_Weapons_Menu extends BasicGameState
 			p1_title= new Image("res/P1.png");
 			p2_title= new Image("res/P2.png");
 			ammo_title= new Image("res/ammo.png");		
+			click = new Sound("res/SoundFX/button-20.ogg");
 			}
 
 
@@ -235,12 +239,14 @@ public class Select_Weapons_Menu extends BasicGameState
 			{
 			if (buttons.get(s).update(container.getInput(), clicked)) 
 				{
+				click.play();
 				ButtonPressed(buttons.get(s), ycord);
 				moveList = true;
 				}
 			
 			if(moveList && !playButtonActive && s<buttons.size())
 				{
+				
 				buttons.get(s).moveInY(-spacing);
 				}
 			}
@@ -253,6 +259,7 @@ public class Select_Weapons_Menu extends BasicGameState
 				{
 				if (Mouse.isButtonDown(0)) 
 					{
+					click.play();
 					game.enterState(STATES.MAIN_GAMEPLAY.getId());
 					}
 				}
@@ -264,6 +271,7 @@ public class Select_Weapons_Menu extends BasicGameState
 			{
 			if (Mouse.isButtonDown(0)) 
 				{
+				click.play();
 				game.enterState(STATES.MAIN_MENU.getId());
 				}
 			}

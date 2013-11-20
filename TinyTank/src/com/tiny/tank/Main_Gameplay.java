@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -32,7 +33,7 @@ public class Main_Gameplay extends BasicGameState{
 	//index of player whose turn it is.
 	private int playersTurnIndex;
 	public static ArrayList<Tank> players;
-	
+
 	
 	public Main_Gameplay(int id){
 		this.id = id;
@@ -53,10 +54,11 @@ public class Main_Gameplay extends BasicGameState{
 	
 	/**
 	 * Called when entering the state
+	 * @throws SlickException 
 	 * @see org.newdawn.slick.state.BasicGameState#enter(org.newdawn.slick.GameContainer, org.newdawn.slick.state.StateBasedGame)
 	 */
 	@Override
-	public void enter(GameContainer container, StateBasedGame game){
+	public void enter(GameContainer container, StateBasedGame game) throws SlickException{
 		//gets where we are coming from
 		int previousState = TinyTank.getPreviousState();
 		//clears the input so we dont get unintential input
@@ -115,6 +117,7 @@ public class Main_Gameplay extends BasicGameState{
 		if(players.get(1).isTurn()){
 			players.get(1).renderHud(container, game, g, cam);
 		}
+		
 
 		
 	}
@@ -166,7 +169,6 @@ public class Main_Gameplay extends BasicGameState{
 			}
 			//allows player whose turn it is to move.
 			players.get(playersTurnIndex).move(input);
-
 			
 			
 			if(input.isKeyDown(Input.KEY_UP)){
