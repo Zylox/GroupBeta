@@ -24,7 +24,7 @@ public class Stat {
 	public ArrayList<String> listOfStats() {
 		ArrayList<String> stats=new ArrayList<String>();
 		stats.add("");
-		stats.add("2");
+		stats.add(Integer.toString(shots_hit));
 		stats.add(Integer.toString(getTotalMoves()));
 		stats.add(Integer.toString(getShots_fired()));
 		stats.add(Integer.toString(getTotalDamage()));
