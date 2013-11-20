@@ -275,7 +275,6 @@ public class Tank {
 				float calcedPow = ((float)power)/100 * 8;
 				float xComp = (float) (calcedPow * Math.cos(Math.toRadians(barrelA)) * direction);
 				float yComp = (float) (calcedPow * Math.sin(Math.toRadians(barrelA)));
-				System.out.println(barrelA + " " + xComp + " " + yComp);				
 				getShots().get(shotIndex).init(new Vector2f(pos.x,pos.y),new Vector2f(xComp,yComp));
 				setShooting(true);
 			}
@@ -353,7 +352,7 @@ public class Tank {
 	 */
 	public void move(Input input) {
 		
-			
+
 	
 		//wont move is shooting or falling
 		if (!isShooting && !isFalling) {
