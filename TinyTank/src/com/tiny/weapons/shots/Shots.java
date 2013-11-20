@@ -7,7 +7,7 @@ import com.tiny.weapons.Shot;
 public enum Shots {
 
 	NORMAL_SHOT(new NormalShot(new Vector2f(0,0), 25, 1, null,1,.2f,20, "normal shot")),
-	BIG_SHOT(new NormalShot(new Vector2f(0,0), 50, 1, null,1,.8f,40, "big shot")),
+	BIG_SHOT(new NormalShot(new Vector2f(0,0), 40, 1, null,1,.8f,40, "big shot")),
 	//CRATER_SHOT(new CraterShot(new Vector2f(0,0), 30,1,null,"crater shot")), doesn't work yet
 	FILL_SHOT(new FillShot(new Vector2f(0,0), 30,1,null,1,.8f,0,"fill shot"));
 
