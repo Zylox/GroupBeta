@@ -4,6 +4,13 @@ import java.util.ArrayList;
 
 public class Stat {
 	
+	public static final String NUMBER_OF_HITS="Number of Hits";
+	public static final String NUMBER_OF_MOVES="Number of Moves";
+	public static final String NUMBER_OF_SHOTS="Number of Shots";
+	public static final String NUMBER_OF_SHOTS_LEFT="Number of Shots Left";
+	public static final String DAMAGE_TAKEN="Damge Taken";
+	public static final String MAX_HIT="Max Hit";
+	
 	private int totalMoves;
 	private int shots_hit;
 	private int shots_fired;
@@ -22,13 +29,14 @@ public class Stat {
 		setMaxHit(0);
 	}
 	//Holds title of stats. to add a new stat, just list it here and add it to the list 
-	public String[] titleOfStats() {
-		String[] stats={"", " Number of hits  ",
-							" Number of moves ",
-							" Number of Shots ",
-						   "Number of Shots Left",
-							"  Damage Taken   ", 
-							"     Max Hit     "};
+	public ArrayList<String> titleOfStats() {
+		ArrayList<String> stats=new ArrayList<String>();
+			stats.add("");
+			stats.add(NUMBER_OF_HITS);
+			stats.add(NUMBER_OF_MOVES);
+			stats.add(NUMBER_OF_SHOTS);
+			stats.add(NUMBER_OF_SHOTS_LEFT);
+			stats.add(DAMAGE_TAKEN);
 		return stats;
 	}
 	public ArrayList<String> listOfStats() {
@@ -39,7 +47,6 @@ public class Stat {
 		stats.add(Integer.toString(getShots_fired()));
 		stats.add(Integer.toString(getShotsLeft()));
 		stats.add(Integer.toString(getTotalDamage()));
-		stats.add(Integer.toString(getMaxHit()));
 		return stats;
 	}
 	

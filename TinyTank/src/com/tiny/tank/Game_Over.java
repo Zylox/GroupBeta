@@ -1,5 +1,6 @@
 package com.tiny.tank;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
@@ -24,7 +25,7 @@ public class Game_Over extends BasicGameState {
 	private String displayWinnerMessage;
 	private int posX;
 	private int posY;
-	private String[] statTitles;
+	private ArrayList<String> statTitles;
 	int[] playerNumbers={1,2};//should be sent number of players and make a for loop to create array of numbers
 	private ArrayList<String> statsList1;
 	private ArrayList<String> statsList2;
@@ -52,17 +53,20 @@ public class Game_Over extends BasicGameState {
 		
 		//display on the left if player 1 wins
 		//display on the right if player 2 wins
+		statTitles=Main_Gameplay.players.get(0).getStat().titleOfStats();
+		
+		int index=statTitles.indexOf(Stat.DAMAGE_TAKEN);
 		if( Integer.parseInt(statsList1.get(4)) > Integer.parseInt(statsList2.get(4))) {
 			setDisplayWinnerMessage( getNameOfPlayer2()+" Wins!");
 		} 
-		else if(Integer.parseInt(statsList1.get(4)) > Integer.parseInt(statsList2.get(4))) {
+		else if(Integer.parseInt(statsList1.get(4)) < Integer.parseInt(statsList2.get(4))) {
 			setDisplayWinnerMessage( getNameOfPlayer1() +" Wins!");
 		}
 		else {
 			setDisplayWinnerMessage("It's a tie!");
 		}
 			
-		statTitles=Main_Gameplay.players.get(0).getStat().titleOfStats();
+		
 		
 		
 	}
@@ -77,7 +81,7 @@ public class Game_Over extends BasicGameState {
 	public void render(GameContainer arg0, StateBasedGame arg1, Graphics g) throws SlickException {
 		int i;
 		int j;
-		int numberOfStats=statTitles.length;
+		int numberOfStats=statTitles.size();
 		
 		background.draw();
 		playButton.drawButton(g);
@@ -91,7 +95,7 @@ public class Game_Over extends BasicGameState {
 		g.drawString(nameOfPlayer1,100,250);
 		g.drawString(nameOfPlayer2,700,250);
 		for(i=1;i<numberOfStats;i++) {
-				g.drawString(statTitles[i],350,250+20*i);
+				g.drawString(statTitles.get(i),350,250+20*i);
 				g.drawString(statsList1.get(i),100,250+20*i);
 				g.drawString(statsList2.get(i),700,250+20*i);
 			
