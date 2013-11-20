@@ -16,17 +16,17 @@ public class Stat {
 	private int totalShots;
 	public Stat(int moves,int totalShots) {
 		setMovementLimitPerTurn(moves);
-		
 		setTotalShots(totalShots);
+		setShotsLeft(totalShots);
 		setShots_hit(0);
 		setMaxHit(0);
-	
 	}
 	//Holds title of stats. to add a new stat, just list it here and add it to the list 
 	public String[] titleOfStats() {
 		String[] stats={"", " Number of hits  ",
 							" Number of moves ",
 							" Number of Shots ",
+						   "Number of Shots Left",
 							"  Damage Taken   ", 
 							"     Max Hit     "};
 		return stats;
@@ -37,6 +37,7 @@ public class Stat {
 		stats.add(Integer.toString(getShots_hit()));
 		stats.add(Integer.toString(getTotalMoves()));
 		stats.add(Integer.toString(getShots_fired()));
+		stats.add(Integer.toString(getShotsLeft()));
 		stats.add(Integer.toString(getTotalDamage()));
 		stats.add(Integer.toString(getMaxHit()));
 		return stats;
@@ -49,8 +50,9 @@ public class Stat {
 		setTotalDamage(getTotalDamage() + amount);
 		System.out.println(getTotalDamage());
 	}
-	public void updateShots_fired(int shotsLeft) {
+	public void updateShots(int shotsLeft) {
 		setShots_fired(getTotalShots()-shotsLeft);
+		setShotsLeft(shotsLeft);
 	}
 	public void addToMovement(int turnMoves){
 		setTotalMoves(turnMoves + getTotalMoves());

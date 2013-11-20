@@ -212,7 +212,7 @@ public class Tank {
 			isFalling = true;
 		}
 		System.out.println("shot length" + shots.size());
-		getStat().updateShots_fired(shots.size());
+		getStat().updateShots(shots.size());
 	}
 	
 	/**
